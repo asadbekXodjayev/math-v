@@ -1,0 +1,244 @@
+﻿
+============================================================
+MathGen Training  |  device=cuda
+GPU: NVIDIA GeForce RTX 3050 Laptop GPU
+VRAM: 4.3 GB
+============================================================
+
+=== Building dataset ===
+Generating synthetic [GEN] samples...
+  Synthetic [GEN]: 45000
+  Total [GEN]: 45000  (HuggingFace datasets skipped for offline training)
+Generating [GRADE] samples...
+  [GRADE]: 22500
+Generating [ASSESS] samples...
+  [ASSESS]: 2000
+
+Total training samples: 69500
+
+=== Tokenizer ===
+Training BPE on 63940 texts -> vocab 16384...
+  vocab: 1000
+Tokenizer ready: 1302 tokens
+
+=== Model ===
+MathGen v2: 34.2M params | 8L x d512 | RTX 3050 target
+Gradient checkpointing: ON
+torch.compile() skipped (RTX 3050 SM count too low for inductor)
+Tokenizing dataset...
+Tokenizing dataset...
+
+Steps: 19376  |  Warmup: 1937  |  Accum: 11
+Effective batch: 66
+
+E1 step 25 | loss=6.9126 | lr=3.72e-06 | 16.8k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 50 | loss=6.6563 | lr=7.59e-06 | 17.2k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 75 | loss=6.5053 | lr=1.15e-05 | 17.3k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 100 | loss=6.3685 | lr=1.53e-05 | 17.4k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 125 | loss=6.2159 | lr=1.92e-05 | 17.3k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 150 | loss=6.0520 | lr=2.31e-05 | 17.2k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 175 | loss=5.8795 | lr=2.69e-05 | 17.3k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 200 | loss=5.6969 | lr=3.08e-05 | 17.2k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 225 | loss=5.5082 | lr=3.47e-05 | 16.9k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 250 | loss=5.3161 | lr=3.86e-05 | 16.6k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 275 | loss=5.1216 | lr=4.24e-05 | 16.1k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 300 | loss=4.9262 | lr=4.63e-05 | 15.9k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 325 | loss=4.7308 | lr=5.02e-05 | 15.9k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 350 | loss=4.5378 | lr=5.41e-05 | 16.0k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 375 | loss=4.3497 | lr=5.79e-05 | 16.0k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 400 | loss=4.1676 | lr=6.18e-05 | 16.0k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 425 | loss=3.9947 | lr=6.57e-05 | 15.9k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 450 | loss=3.8305 | lr=6.95e-05 | 16.0k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 475 | loss=3.6759 | lr=7.34e-05 | 16.1k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 500 | loss=3.5307 | lr=7.73e-05 | 16.2k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 525 | loss=3.3949 | lr=8.12e-05 | 16.1k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 550 | loss=3.2676 | lr=8.50e-05 | 16.1k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 575 | loss=3.1486 | lr=8.89e-05 | 16.1k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 600 | loss=3.0373 | lr=9.28e-05 | 16.1k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 625 | loss=2.9332 | lr=9.66e-05 | 16.2k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 650 | loss=2.8353 | lr=1.01e-04 | 16.2k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 675 | loss=2.7431 | lr=1.04e-04 | 16.3k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 700 | loss=2.6563 | lr=1.08e-04 | 16.3k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 725 | loss=2.5745 | lr=1.12e-04 | 16.4k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 750 | loss=2.4977 | lr=1.16e-04 | 16.4k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 775 | loss=2.4256 | lr=1.20e-04 | 16.4k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 800 | loss=2.3576 | lr=1.24e-04 | 16.3k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 825 | loss=2.2935 | lr=1.28e-04 | 16.3k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 850 | loss=2.2330 | lr=1.31e-04 | 16.3k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 875 | loss=2.1757 | lr=1.35e-04 | 16.3k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 900 | loss=2.1214 | lr=1.39e-04 | 16.3k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 925 | loss=2.0698 | lr=1.43e-04 | 16.3k tok/s
+           VRAM: 0.44/4.29 GB
+E1 step 950 | loss=2.0212 | lr=1.47e-04 | 16.3k tok/s
+           VRAM: 0.44/4.29 GB
+
+───────────────────────────────────────────────────────
+Epoch 1/20  train=1.9876  val=0.2037  lr=1.50e-04
+───────────────────────────────────────────────────────
+
+  ✓ New best saved  (val=0.2037)
+
+E2 step 975 | loss=0.0015 | lr=1.51e-04 | 2235.5k tok/s
+           VRAM: 0.44/4.29 GB
+E2 step 1000 | loss=0.0068 | lr=1.55e-04 | 512.3k tok/s
+           VRAM: 0.44/4.29 GB
+E2 step 1025 | loss=0.0115 | lr=1.59e-04 | 282.6k tok/s
+           VRAM: 0.44/4.29 GB
+E2 step 1050 | loss=0.0161 | lr=1.62e-04 | 171.3k tok/s
+           VRAM: 0.44/4.29 GB
+E2 step 1075 | loss=0.0205 | lr=1.66e-04 | 127.9k tok/s
+           VRAM: 0.44/4.29 GB
+E2 step 1100 | loss=0.0247 | lr=1.70e-04 | 108.9k tok/s
+           VRAM: 0.44/4.29 GB
+E2 step 1125 | loss=0.0284 | lr=1.74e-04 | 95.1k tok/s
+           VRAM: 0.44/4.29 GB
+E2 step 1150 | loss=0.0320 | lr=1.78e-04 | 82.7k tok/s
+           VRAM: 0.44/4.29 GB
+E2 step 1175 | loss=0.0354 | lr=1.82e-04 | 76.0k tok/s
+           VRAM: 0.44/4.29 GB
+E2 step 1200 | loss=0.0386 | lr=1.86e-04 | 70.3k tok/s
+           VRAM: 0.44/4.29 GB
+E2 step 1225 | loss=0.0417 | lr=1.90e-04 | 61.7k tok/s
+           VRAM: 0.44/4.29 GB
+python.exe : Traceback (most recent call last):
+At line:4 char:1
++ & ".\.venv\Scripts\python.exe" src\train.py --fresh --epochs 20 --bat ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\random.py", line 230, in fork_rng
+    yield
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\utils\checkpoint.py", line 1634, in recompute_fn
+    fn(*args, **kwargs)
+    ~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\src\model.py", line 108, in forward
+    x = x + self.ff(self.n2(x))
+                    ~~~~~~~^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\src\model.py", line 38, in forward
+    return x * torch.rsqrt(x.pow(2).mean(-1, keepdim=True) + self.eps) * self.g
+                           ~~~~~^^^
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\src\train.py", line 252, in <module>
+    train(args)
+    ~~~~~^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\src\train.py", line 152, in train
+    scaler.scale(loss).backward()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\_tensor.py", line 631, in backward
+    torch.autograd.backward(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        self, gradient, retain_graph, create_graph, inputs=inputs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\autograd\__init__.py", line 379, in backward
+    _engine_run_backward(
+    ~~~~~~~~~~~~~~~~~~~~^
+        tensors,
+        ^^^^^^^^
+    ...<5 lines>...
+        accumulate_grad=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\autograd\graph.py", line 882, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        t_outputs, *args, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )  # Calls into the C++ engine to run the backward pass
+    ^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\utils\checkpoint.py", line 1167, in unpack_hook
+    _run_fn_with_dynamo_disabled(frame.recompute_fn, *args)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\_compile.py", line 54, in inner
+    return disable_fn(*args, **kwargs)
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\_dynamo\eval_frame.py", line 1298, in _fn
+    return fn(*args, **kwargs)
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\utils\checkpoint.py", line 1134, in _run_fn_with_dynamo_disabl
+ed
+    return fn(*args, **kwargs)
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\utils\checkpoint.py", line 1609, in recompute_fn
+    with torch.random.fork_rng(
+         ~~~~~~~~~~~~~~~~~~~~~^
+        devices=rng_devices, enabled=preserve_rng_state, device_type=device_type
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "C:\Users\hp\AppData\Local\Python\pythoncore-3.14-64\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\random.py", line 234, in fork_rng
+    device_mod.set_rng_state(device_rng_state, device)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\cuda\random.py", line 76, in set_rng_state
+    _lazy_call(cb)
+    ~~~~~~~~~~^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\cuda\__init__.py", line 422, in _lazy_call
+    callable()
+    ~~~~~~~~^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\cuda\random.py", line 74, in cb
+    default_generator.set_state(new_state)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

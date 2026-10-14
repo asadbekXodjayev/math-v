@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mathvis-model — System Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/elkjs@0.9.3/lib/elk.bundled.js"></script>
+<style>
+  :root{--bg:#fafafa;--panel:#fff;--navb:#ddd;--accent:#2a6099;--ts:#999;--seclabel:#666}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);font-family:'IBM Plex Sans',sans-serif;color:#333}
+  nav.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;background:var(--panel);border-bottom:1px solid var(--navb);padding:0 22px;height:50px}
+  nav.topbar .proj{font-size:14px;font-weight:600}
+  nav.topbar .links{display:flex;gap:20px}
+  nav.topbar .links a{font-size:13px;color:#444;text-decoration:none}
+  nav.topbar .links a.active{color:var(--accent);text-decoration:underline}
+  nav.topbar .ts{font-size:11px;color:var(--ts);font-family:'IBM Plex Mono',monospace}
+  main{padding:18px 22px 40px}
+  h1{font-size:20px;font-weight:600;margin:6px 0 2px}
+  .desc{font-size:12.5px;color:var(--seclabel);margin-bottom:14px}
+  .diagram-wrap{position:relative;background:var(--panel);border:1px solid var(--navb);border-radius:8px}
+  .zoombar{position:absolute;top:10px;left:10px;z-index:10;display:flex;gap:4px;background:#fff;border:1px solid var(--navb);border-radius:6px;padding:3px}
+  .zoombar button{font-family:'IBM Plex Mono',monospace;font-size:11px;border:1px solid var(--navb);background:#fff;border-radius:4px;padding:3px 7px;cursor:pointer;color:#333}
+  .zoombar button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .exportbtn{position:absolute;top:10px;right:10px;z-index:10;font-family:'IBM Plex Mono',monospace;font-size:11px;border:1px solid var(--navb);background:#fff;border-radius:6px;padding:5px 10px;cursor:pointer;color:#333}
+  .scroll{overflow:auto;max-height:760px;border-radius:8px}
+  .scaler{transform-origin:0 0}
+  aside.panel{position:fixed;top:50px;right:0;width:300px;height:calc(100vh - 50px);background:#fff;border-left:1px solid var(--navb);box-shadow:-4px 0 14px rgba(0,0,0,0.06);transform:translateX(100%);transition:transform .2s;z-index:60;overflow:auto;padding:18px}
+  aside.panel.open{transform:translateX(0)}
+  aside.panel h3{font-size:14px;margin:0 0 8px}
+  aside.panel .k{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#999;margin-top:12px}
+  aside.panel .v{font-size:12px;margin-top:3px;line-height:1.5}
+  aside.panel .v.mono{font-family:'IBM Plex Mono',monospace;font-size:11px;word-break:break-all}
+  aside.panel .close{position:absolute;top:12px;right:14px;cursor:pointer;font-size:18px;color:#999;border:none;background:none}
+  .footnotes{margin-top:20px;font-size:12px;color:#555}
+  .footnotes h2{font-size:14px;border-bottom:1px solid var(--navb);padding-bottom:6px}
+  .footnotes li{margin:5px 0;line-height:1.5}
+  .footnotes code{font-family:'IBM Plex Mono',monospace;font-size:11px;background:#f3f3f3;padding:1px 4px;border-radius:3px}
+  #tooltip{position:fixed;z-index:80;background:#222;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 8px;border-radius:4px;pointer-events:none;display:none}
+  svg text{font-family:'IBM Plex Sans',sans-serif}
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <span class="proj">mathvis-model</span>
+  <span class="links">
+    <a href="index.html">Overview</a>
+    <a href="file-architecture.html">File Architecture</a>
+    <a href="system-design.html" class="active">System Design</a>
+    <a href="flow-graph.html">Flow Graph</a>
+  </span>
+  <span class="ts">Generated 2026-06-12T09:50:00Z</span>
+</nav>
+
+<main>
+  <h1>System Architecture</h1>
+  <div class="desc">Runtime topology mapped to the frozen Desktop/CLI zones. This is a local ML pipeline: edges are honest in-process calls, file I/O, and tensor flows — the only real network port is the FastAPI server on :8787.</div>
+  <div class="diagram-wrap">
+    <div class="zoombar" id="zb">
+      <button data-z="0.75">75%</button>
+      <button data-z="1" class="on">100%</button>
+      <button data-z="1.25">125%</button>
+      <button data-z="fit">Fit</button>
+    </div>
+    <button class="exportbtn" id="exportSvg">Export as SVG</button>
+    <div class="scroll" id="scroll">
+      <div class="scaler" id="scaler"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    </div>
+  </div>
+
+  <div class="footnotes">
+    <h2>Inferred components &amp; notes</h2>
+    <ul id="fnlist"></ul>
+  </div>
+</main>
+
+<aside class="panel" id="panel">
+  <button class="close" id="closeP">&times;</button>
+  <h3 id="pName"></h3>
+  <div id="pBody"></div>
+</aside>
+<div id="tooltip"></div>
+
+<script type="application/json" id="graph-data">
+{
+  "schema": "sys-design/v2",
+  "kind": "system-design",
+  "zones": [
+    { "id": "z1", "label": "External / Client" },
+    { "id": "z2", "label": "Edge — CPython runtime" },
+    { "id": "z3", "label": "Application — modules" },
+    { "id": "z4", "label": "Data — checkpoint files" },
+    { "id": "z5", "label": "External Services — OS / CUDA" }
+  ],
+  "nodes": [
+    { "id": "operator", "label": "Operator / CLI", "tech": "argparse · shell", "zone": 0, "shape": "external",
+      "detail": { "files": ["src/train.py __main__", "src/server.py __main__", "src/eval_model.py main"], "config": ["--epochs", "--batch-size", "--grad-accum", "--lr", "--vocab-size", "--n-per-topic", "--resume", "--cpu"], "env": [], "version": "—" } },
+    { "id": "httpclient", "label": "HTTP client / mathvis-app", "tech": "fetch · curl", "zone": 0, "shape": "external", "inferred": true,
+      "detail": { "files": ["README.md Step 4"], "config": ["MATHGEN_API_URL"], "env": ["MATHGEN_API_URL (consumer side)"], "version": "—" } },
+    { "id": "cpython", "label": "CPython process", "tech": "Python 3 · torch runtime", "zone": 1, "shape": "standard",
+      "detail": { "files": ["src/train.py", "src/server.py", "src/eval_model.py"], "config": ["PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True", "CUDA_VISIBLE_DEVICES"], "env": ["PYTORCH_CUDA_ALLOC_CONF", "CUDA_VISIBLE_DEVICES"], "version": "torch>=2.2.0" } },
+    { "id": "uvicorn", "label": "Uvicorn ASGI", "tech": "uvicorn :8787", "zone": 1, "shape": "lb",
+      "detail": { "files": ["src/server.py uvicorn.run(\"server:app\")"], "config": ["host 0.0.0.0", "port MATHGEN_PORT default 8787", "workers 1", "CORS localhost:3000/3001"], "env": ["MATHGEN_PORT"], "version": "uvicorn>=0.29.0" } },
+    { "id": "dataset", "label": "dataset module", "tech": "build_all_samples · TopicGenerators", "zone": 2, "shape": "standard",
+      "detail": { "files": ["src/dataset.py"], "config": ["10 topics × 3 difficulties", "n_synthetic_per_topic", "0.92 train split"], "env": [], "version": "—" } },
+    { "id": "tokenizer", "label": "BPETokenizer", "tech": "custom BPE · 6031 vocab", "zone": 2, "shape": "standard",
+      "detail": { "files": ["src/tokenizer.py"], "config": ["SPECIAL_TOKENS (8)", "MATH_TOKENS", "vocab_size 16384 target → 6031 trained"], "env": [], "version": "—" } },
+    { "id": "loader", "label": "DataLoader", "tech": "MathDataset · batch=32", "zone": 2, "shape": "queue",
+      "detail": { "files": ["src/dataset.py build_dataloader / MathDataset"], "config": ["context_len 256", "batch_size 32", "num_workers 0", "pad → (x,y) next-token pairs"], "env": [], "version": "—" } },
+    { "id": "model", "label": "MathGen", "tech": "decoder-only · ~44M params", "zone": 2, "shape": "standard",
+      "detail": { "files": ["src/model.py MathGen / Block / CausalSelfAttention / SwiGLU / RMSNorm / RotaryEmbedding"], "config": ["n_layers 8", "d_model 512", "n_heads 8", "d_ff 2048", "context_len 256", "weight-tied head"], "env": [], "version": "—" } },
+    { "id": "trainer", "label": "train() loop", "tech": "AdamW · fp16 AMP · grad-accum 2", "zone": 2, "shape": "standard",
+      "detail": { "files": ["src/train.py train()"], "config": ["epochs 40 (default)", "lr 3e-4 cosine-warmup", "grad_accum 2 → eff batch 64", "clip_grad_norm 1.0", "GradScaler/autocast"], "env": [], "version": "—" } },
+    { "id": "evalmod", "label": "eval_model", "tech": "JSON-validity check", "zone": 2, "shape": "standard",
+      "detail": { "files": ["src/eval_model.py main()"], "config": ["n samples per topic×difficulty", "--cuda flag (CPU default)"], "env": [], "version": "—" } },
+    { "id": "bestpt", "label": "best.pt", "tech": "torch checkpoint", "zone": 3, "shape": "db",
+      "detail": { "files": ["checkpoints/best.pt"], "config": ["model state_dict", "cfg vars", "val_loss", "epoch"], "env": [], "version": "—" } },
+    { "id": "lastpt", "label": "latest.pt", "tech": "torch checkpoint", "zone": 3, "shape": "db",
+      "detail": { "files": ["checkpoints/latest.pt"], "config": ["state_dict", "epoch", "best_val", "global_step"], "env": [], "version": "—" } },
+    { "id": "tokjson", "label": "tokenizer.json", "tech": "vocab + merges", "zone": 3, "shape": "db",
+      "detail": { "files": ["checkpoints/tokenizer.json"], "config": ["vocab (6031)", "merges (5686)"], "env": [], "version": "—" } },
+    { "id": "trainlog", "label": "train_log.jsonl", "tech": "JSONL metrics", "zone": 3, "shape": "db",
+      "detail": { "files": ["checkpoints/train_log.jsonl"], "config": ["{epoch, train_loss, val_loss, lr}"], "env": [], "version": "—" } },
+    { "id": "cuda", "label": "CUDA / CPU device", "tech": "torch.cuda · GradScaler", "zone": 4, "shape": "external",
+      "detail": { "files": ["src/train.py", "src/model.py F.scaled_dot_product_attention"], "config": ["device cuda|cpu", "fp16 autocast", "SDPA causal kernel"], "env": ["CUDA_VISIBLE_DEVICES"], "version": "—" } },
+    { "id": "fs", "label": "Filesystem API", "tech": "torch.save/load · pathlib", "zone": 4, "shape": "external",
+      "detail": { "files": ["src/train.py torch.save", "src/server.py torch.load", "src/tokenizer.py save/load"], "config": ["checkpoints/ dir", "mkdir exist_ok"], "env": [], "version": "—" } },
+    { "id": "hf", "label": "HuggingFace datasets", "tech": "GSM8K · MATH (optional)", "zone": 4, "shape": "external", "inferred": true,
+      "detail": { "files": ["src/dataset.py load_gsm8k", "src/dataset.py load_math_dataset"], "config": ["load_dataset(\"gsm8k\")", "load_dataset(\"lighteval/MATH\")", "skipped for offline training"], "env": [], "version": "datasets>=2.19.0" } }
+  ],
+  "edges": [
+    { "source": "operator", "target": "cpython", "label": "process spawn (python src/…)" },
+    { "source": "httpclient", "target": "uvicorn", "label": "HTTP :8787 JSON", "bidirectional": true },
+    { "source": "uvicorn", "target": "cpython", "label": "ASGI in-proc" },
+    { "source": "cpython", "target": "dataset", "label": "import · build_all_samples()" },
+    { "source": "dataset", "target": "tokenizer", "label": "tok.train(samples)" },
+    { "source": "dataset", "target": "loader", "label": "list[str] samples" },
+    { "source": "tokenizer", "target": "loader", "label": "encode() token IDs" },
+    { "source": "loader", "target": "trainer", "label": "tensor batch (x,y)" },
+    { "source": "model", "target": "trainer", "label": "forward → logits, loss", "bidirectional": true },
+    { "source": "trainer", "target": "bestpt", "label": "File I/O torch.save (.pt)" },
+    { "source": "trainer", "target": "lastpt", "label": "File I/O torch.save (.pt)" },
+    { "source": "tokenizer", "target": "tokjson", "label": "File I/O save (.json)" },
+    { "source": "trainer", "target": "trainlog", "label": "append JSONL" },
+    { "source": "cpython", "target": "model", "label": "build_model()" },
+    { "source": "bestpt", "target": "model", "label": "load_state_dict (server/eval)" },
+    { "source": "tokjson", "target": "tokenizer", "label": "tok.load()" },
+    { "source": "lastpt", "target": "trainer", "label": "resume state_dict" },
+    { "source": "cpython", "target": "evalmod", "label": "import · main()" },
+    { "source": "evalmod", "target": "model", "label": "generate() inference", "bidirectional": true },
+    { "source": "trainer", "target": "cuda", "label": "fp16 autocast · SDPA", "bidirectional": true },
+    { "source": "trainer", "target": "fs", "label": "filesystem syscalls" },
+    { "source": "dataset", "target": "hf", "label": "load_dataset() (optional)" }
+  ],
+  "footnotes": [
+    "HTTP client / mathvis-app (Zone 1) is INFERRED: src/ exposes the API but no consumer is in this repo. Evidence: README.md Step 4 references a Next.js app reading MATHGEN_API_URL and server.py CORS allow_origins http://localhost:3000/3001.",
+    "HuggingFace datasets (Zone 5) is INFERRED-optional: src/dataset.py defines load_gsm8k() and load_math_dataset() but build_all_samples() never calls them ('HuggingFace datasets skipped for offline training'); the import is lazy inside each function.",
+    "MathGen parameter count ~44M is the model.py docstring target; build_model() prints the exact runtime count. Trained tokenizer.json carries 6031 tokens (5686 merges), below the 16384 vocab target because the BPE merge loop exhausts available pairs.",
+    "tiktoken and tqdm appear in requirements.txt but are not imported anywhere under src/ — declared dependencies only.",
+    "Uvicorn is modelled as the Edge dispatcher (LB shape) because it is the only real network listener; all other inter-module edges are in-process Python calls, tensor batches, or file I/O."
+  ]
+}
+</script>
+
+<script>
+const ELK_CFG = {
+  "algorithm":"org.eclipse.elk.layered",
+  "elk.direction":"DOWN",
+  "elk.spacing.nodeNode":"40",
+  "elk.layered.spacing.nodeNodeBetweenLayers":"70",
+  "elk.edgeRouting":"ORTHOGONAL",
+  "elk.layered.edgeLabels.sideSelection":"ALWAYS_DOWN",
+  "elk.layered.considerModelOrder.strategy":"NODES_AND_EDGES",
+  "elk.spacing.edgeLabel":"6",
+  "elk.spacing.edgeNode":"24",
+  "elk.partitioning.activate":"true",
+  "elk.separateConnectedComponents":"false"
+};
+const DATA=JSON.parse(document.getElementById('graph-data').textContent);
+const byId={};DATA.nodes.forEach(n=>byId[n.id]=n);
+const SANS='13px "IBM Plex Sans"',ITAL='italic 11px "IBM Plex Sans"';
+let _ctx;function measure(t,f){if(!_ctx)_ctx=document.createElement('canvas').getContext('2d');_ctx.font=f;return _ctx.measureText(t).width;}
+function nodeSize(n){const w=Math.max(120,Math.max(measure(n.label,SANS),measure(n.tech||'',ITAL))+34);return {w,h:58};}
+const SVGNS="http://www.w3.org/2000/svg";
+function el(t,a){const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+const MONO='10px "IBM Plex Mono"';
+
+async function render(){
+  await document.fonts.ready;
+  const elk=new ELK();
+  const children=DATA.nodes.map(n=>{const s=nodeSize(n);return {id:n.id,width:s.w,height:s.h,layoutOptions:{"elk.partitioning.partition":String(n.zone)}};});
+  const edges=DATA.edges.map((e,i)=>{const lw=measure(e.label,MONO)+8;return {id:"e"+i,sources:[e.source],targets:[e.target],labels:[{text:e.label,width:lw,height:14}]};});
+  const res=await elk.layout({id:"root",layoutOptions:ELK_CFG,children,edges});
+  draw(res);
+}
+function draw(res){
+  const svg=document.getElementById('svg');while(svg.firstChild)svg.removeChild(svg.firstChild);
+  const PAD=40,W=res.width+PAD*2,H=res.height+PAD*2;
+  svg.setAttribute('width',W);svg.setAttribute('height',H);svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const defs=el('defs',{});
+  const mk=el('marker',{id:'arr',markerWidth:'8',markerHeight:'8',refX:'7',refY:'3',orient:'auto',markerUnits:'strokeWidth'});
+  mk.appendChild(el('path',{d:'M0,0 L7,3 L0,6 Z',fill:'#444'}));defs.appendChild(mk);
+  const mks=el('marker',{id:'arrs',markerWidth:'8',markerHeight:'8',refX:'1',refY:'3',orient:'auto',markerUnits:'strokeWidth'});
+  mks.appendChild(el('path',{d:'M7,0 L0,3 L7,6 Z',fill:'#444'}));defs.appendChild(mks);
+  const dots=el('pattern',{id:'cachedots',width:'6',height:'6',patternUnits:'userSpaceOnUse'});
+  dots.appendChild(el('rect',{width:'6',height:'6',fill:'#cde4f5'}));dots.appendChild(el('circle',{cx:'2',cy:'2',r:'1',fill:'#7aaecc'}));defs.appendChild(dots);
+  svg.appendChild(defs);
+  const root=el('g',{transform:`translate(${PAD},${PAD})`});svg.appendChild(root);
+
+  // zone bands
+  const pos={};res.children.forEach(c=>pos[c.id]=c);
+  const zones={};DATA.nodes.forEach(n=>{const c=pos[n.id];if(!c)return;(zones[n.zone]=zones[n.zone]||[]).push(c);});
+  const zlabels=DATA.zones.map(z=>z.label);
+  Object.keys(zones).sort((a,b)=>a-b).forEach(zi=>{
+    const cs=zones[zi];let minY=Infinity,maxY=-Infinity;
+    cs.forEach(c=>{minY=Math.min(minY,c.y);maxY=Math.max(maxY,c.y+c.height);});
+    const x=-24,w=res.width+48,y=minY-16,h=(maxY-minY)+32;
+    root.appendChild(el('rect',{x,y,width:w,height:h,rx:6,fill:'rgba(0,0,0,0.02)',stroke:'#aaa','stroke-width':'1','stroke-dasharray':'4 3'}));
+    const zt=el('text',{x:x+10,y:y+16,'font-family':'IBM Plex Sans','font-size':'13',fill:'#666','font-variant':'small-caps'});
+    zt.textContent='Zone '+(parseInt(zi)+1)+' — '+zlabels[zi];root.appendChild(zt);
+  });
+
+  // edges
+  res.edges.forEach((e,i)=>{
+    const ed=DATA.edges[i];
+    (e.sections||[]).forEach(sec=>{
+      let d=`M ${sec.startPoint.x} ${sec.startPoint.y}`;(sec.bendPoints||[]).forEach(bp=>d+=` L ${bp.x} ${bp.y}`);d+=` L ${sec.endPoint.x} ${sec.endPoint.y}`;
+      const p=el('path',{d,fill:'none',stroke:'#444','stroke-width':'1.5','marker-end':'url(#arr)',style:'cursor:pointer'});
+      if(ed.bidirectional)p.setAttribute('marker-start','url(#arrs)');
+      p.addEventListener('mousemove',ev=>showTip(ev,ed.label));
+      p.addEventListener('mouseleave',hideTip);
+      root.appendChild(p);
+    });
+  });
+  // edge labels
+  res.edges.forEach(e=>(e.labels||[]).forEach(lb=>{
+    const w=measure(lb.text,MONO)+6;const g=el('g',{transform:`translate(${lb.x},${lb.y})`});
+    g.appendChild(el('rect',{x:-3,y:0,width:w,height:14,rx:3,fill:'#fff',stroke:'#eee'}));
+    const t=el('text',{x:0,y:11,fill:'#555','font-family':'IBM Plex Mono','font-size':'10'});t.textContent=lb.text;g.appendChild(t);root.appendChild(g);
+  }));
+  // nodes
+  res.children.forEach(c=>{
+    const n=byId[c.id];const g=el('g',{transform:`translate(${c.x},${c.y})`,style:'cursor:pointer'});
+    let fill='#cde4f5',stroke='#7aaecc';
+    if(n.shape==='cache')fill='url(#cachedots)';
+    if(n.shape==='lb'||n.shape==='external'){fill='#b8d0e8';stroke='#5f86a8';}
+    const rect=el('rect',{x:0,y:0,width:c.width,height:c.height,rx:4,fill,stroke,'stroke-width':'1'});
+    if(n.shape==='external'||n.inferred)rect.setAttribute('stroke-dasharray','5 3');
+    g.appendChild(rect);
+    const ports=el('g',{opacity:'0.22'});for(let i=1;i<=6;i++){const yy=c.height*i/7;ports.appendChild(el('line',{x1:6,y1:yy,x2:c.width-10,y2:yy,stroke,'stroke-width':'1'}));}g.appendChild(ports);
+    if(n.shape==='lb'){g.appendChild(el('line',{x1:8,y1:c.height*0.22,x2:c.width-8,y2:c.height*0.22,stroke:'#5f86a8','stroke-width':'1.5'}));g.appendChild(el('line',{x1:8,y1:c.height*0.33,x2:c.width-8,y2:c.height*0.33,stroke:'#5f86a8','stroke-width':'1.5'}));}
+    if(n.shape==='db'){g.appendChild(el('line',{x1:0,y1:c.height-3,x2:c.width,y2:c.height-3,stroke,'stroke-width':'2'}));}
+    if(n.shape==='queue'){g.appendChild(el('path',{d:`M ${c.width-30} 10 l 16 0 l -6 14 l -16 0 z`,fill:'none',stroke:'#5f86a8','stroke-width':'1'}));}
+    g.appendChild(el('rect',{x:c.width-6,y:c.height/2-7,width:4,height:14,fill:stroke}));
+    const t1=el('text',{x:c.width/2,y:c.height/2-5,'text-anchor':'middle','font-family':'IBM Plex Sans','font-size':'13',fill:'#333'});t1.textContent=n.label;g.appendChild(t1);
+    const t2=el('text',{x:c.width/2,y:c.height/2+12,'text-anchor':'middle','font-family':'IBM Plex Sans','font-size':'11',fill:'#666','font-style':'italic'});t2.textContent=n.tech||'';g.appendChild(t2);
+    g.addEventListener('click',()=>openPanel(n));
+    root.appendChild(g);
+  });
+  setupZoom(W,H);
+}
+function openPanel(n){
+  document.getElementById('panel').classList.add('open');
+  document.getElementById('pName').textContent=n.label+(n.inferred?'  (inferred)':'');
+  const d=n.detail||{};const ins=DATA.edges.filter(e=>e.target===n.id).map(e=>byId[e.source].label+' → ('+e.label+')');
+  const outs=DATA.edges.filter(e=>e.source===n.id).map(e=>'('+e.label+') → '+byId[e.target].label);
+  document.getElementById('pBody').innerHTML=
+    `<div class="k">Technology</div><div class="v">${n.tech||'—'} ${d.version&&d.version!=='—'?'· '+d.version:''}</div>`+
+    `<div class="k">Implementing files</div><div class="v mono">${(d.files||[]).join('<br>')||'—'}</div>`+
+    `<div class="k">Config keys</div><div class="v mono">${(d.config||[]).join('<br>')||'—'}</div>`+
+    `<div class="k">Env vars</div><div class="v mono">${(d.env||[]).join('<br>')||'—'}</div>`+
+    `<div class="k">Inbound</div><div class="v mono">${ins.join('<br>')||'—'}</div>`+
+    `<div class="k">Outbound</div><div class="v mono">${outs.join('<br>')||'—'}</div>`;
+}
+document.getElementById('closeP').onclick=()=>document.getElementById('panel').classList.remove('open');
+const tip=document.getElementById('tooltip');
+function showTip(ev,txt){tip.style.display='block';tip.style.left=(ev.clientX+12)+'px';tip.style.top=(ev.clientY+12)+'px';tip.textContent=txt;}
+function hideTip(){tip.style.display='none';}
+
+function setupZoom(W,H){
+  const scaler=document.getElementById('scaler'),scroll=document.getElementById('scroll');
+  function apply(z){if(z==='fit'){const avail=scroll.clientWidth-4;z=Math.min(1.25,Math.max(0.35,avail/W));}
+    scaler.style.transform=`scale(${z})`;scaler.style.width=(W*z)+'px';scaler.style.height=(H*z)+'px';}
+  document.querySelectorAll('#zb button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#zb button').forEach(x=>x.classList.remove('on'));b.classList.add('on');apply(b.dataset.z==='fit'?'fit':parseFloat(b.dataset.z));});
+  apply(1);
+}
+document.getElementById('exportSvg').onclick=()=>{
+  const svg=document.getElementById('svg');const xml=new XMLSerializer().serializeToString(svg);
+  const blob=new Blob(['<?xml version="1.0"?>\n'+xml],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='mathvis-model-system-design.svg';a.click();URL.revokeObjectURL(url);
+};
+const fl=document.getElementById('fnlist');DATA.footnotes.forEach(f=>{const li=document.createElement('li');li.textContent=f;fl.appendChild(li);});
+render();
+</script>
+</body>
+</html>

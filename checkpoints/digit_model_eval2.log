@@ -1,0 +1,42 @@
+﻿
+Building model source (device=cpu, max_new=256)...
+Loaded best.pt | val_loss=0.1331 | device=cpu
+
+==============================================================================
+ANSWER ACCURACY  —  source = model (best.pt, under test)
+==============================================================================
+topic                                        acc    ok/seen  badJSON unparse
+basic-math/arithmetic                      83.3%  25/30        0       0  #################
+basic-math/algebra-basics                  93.3%  28/30        0       0  ###################
+basic-math/functions                       63.3%  19/30        0       0  #############
+linear-algebra/vectors                     63.3%  19/30        0       0  #############
+linear-algebra/matrices                    90.0%  27/30        0       0  ##################
+linear-algebra/matrix-multiplication       43.3%  13/30        0       0  #########
+linear-algebra/linear-transformations      63.3%  19/30        0       0  #############
+calculus/limits                            93.3%  28/30        0       0  ###################
+calculus/derivatives                      100.0%  30/30        0       0  ####################
+calculus/integrals                        100.0%  30/30        0       0  ####################
+------------------------------------------------------------------------------
+OVERALL                                    79.3% 238/300       0       0
+
+  total 300 | badJSON 0 | unverifiable 0 | verified 300 -> 238 correct, 62 wrong
+
+  sample WRONG (model vs true):
+    [arithmetic] Compute 24 * 14.
+        model:          '306'   true: '336'
+    [arithmetic] Compute 23 + 27.
+        model:           '40'   true: '50'
+    [algebra-basics] Solve for x: 7x + 11 = 72
+        model:            '9'   true: '8'
+    [algebra-basics] Solve for x: 2x + 15 = 31
+        model:            '9'   true: '8'
+    [functions] Given f(x) = 2x² + 6x + 7, find f(2).
+        model:           '29'   true: '27'
+    [functions] Given f(x) = 4x² + 5x + 8, find f(3).
+        model:           '61'   true: '59'
+    [vectors] Compute u·v for u = [11, 12] and v = [5, 8].
+        model:          '141'   true: '151'
+    [vectors] Compute u·v for u = [11, 11] and v = [11, 1].
+        model:          '232'   true: '132'
+
+Saved summary -> C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\checkpoints\accuracy_report.json

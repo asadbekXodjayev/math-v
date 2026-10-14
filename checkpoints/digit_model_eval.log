@@ -1,0 +1,42 @@
+﻿
+Building model source (device=cpu, max_new=160)...
+Loaded best.pt | val_loss=0.1525 | device=cpu
+
+==============================================================================
+ANSWER ACCURACY  —  source = model (best.pt, under test)
+==============================================================================
+topic                                        acc    ok/seen  badJSON unparse
+basic-math/arithmetic                      54.2%  13/24        0       0  ###########
+basic-math/algebra-basics                  50.0%  12/24        0       0  ##########
+basic-math/functions                       29.2%   7/24        0       0  ######
+linear-algebra/vectors                     29.2%   7/24        0       0  ######
+linear-algebra/matrices                    83.3%  20/24        0       0  #################
+linear-algebra/matrix-multiplication       66.7%   6/9        15       0  #############
+linear-algebra/linear-transformations      84.2%  16/19        5       0  #################
+calculus/limits                            50.0%  12/24        0       0  ##########
+calculus/derivatives                       91.7%  22/24        0       0  ##################
+calculus/integrals                        100.0%  24/24        0       0  ####################
+------------------------------------------------------------------------------
+OVERALL                                    63.2% 139/220      20       0
+
+  total 240 | badJSON 20 | unverifiable 0 | verified 220 -> 139 correct, 81 wrong
+
+  sample WRONG (model vs true):
+    [arithmetic] Compute 18 * 16.
+        model:          '248'   true: '288'
+    [arithmetic] Compute 26 - 22.
+        model:            '0'   true: '4'
+    [algebra-basics] Solve for x: 2x + 14 = 28
+        model:            '9'   true: '7'
+    [algebra-basics] Solve for x: 4x + 8 = 32
+        model:            '5'   true: '6'
+    [functions] Given f(x) = 4x² + 8x + 3, find f(1).
+        model:           '16'   true: '15'
+    [functions] Given f(x) = 4x² + 5x + 7, find f(-1).
+        model:           '11'   true: '6'
+    [vectors] Compute u·v for u = [4, 6] and v = [12, 8].
+        model:          '106'   true: '96'
+    [vectors] Find ||v|| for v = [4, 1].
+        model:     'sqrt(25)'   true: 'sqrt(17)'
+
+Saved summary -> C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\checkpoints\accuracy_report.json

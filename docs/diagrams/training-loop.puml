@@ -1,0 +1,143 @@
+' =====================================================================
+'  MathGen training  -  beginner-friendly "simulation" of the loop
+'  Source of truth: src/train.py
+'  Two diagrams in one file:
+'    A) Activity   -  ONE optimizer step (the inner micro-batch cycle)
+'    B) Sequence   -  the higher-level epoch loop + actors
+'  Render:
+'    java -jar plantuml.jar -tpng training-loop.puml
+'    java -jar plantuml.jar -tsvg training-loop.puml
+' =====================================================================
+
+' ---------------------------------------------------------------------
+' DIAGRAM A  -  ACTIVITY: one optimizer step (inner training loop)
+' ---------------------------------------------------------------------
+@startuml training-loop-activity
+title MathGen  -  Inner Training Loop (how ONE weight update happens)
+
+skinparam backgroundColor #FDFDFD
+skinparam ActivityBorderColor #2C3E50
+skinparam ActivityBackgroundColor #EAF2F8
+skinparam ActivityDiamondBackgroundColor #FCF3CF
+skinparam noteBackgroundColor #FEF9E7
+skinparam defaultFontName "Segoe UI"
+
+start
+
+note right
+  A "batch" = 32 example problems.
+  The model tries to guess each
+  next token; we measure how wrong
+  it is, then nudge the weights.
+end note
+
+:Get a batch (32 examples) from DataLoader\n(x = the text so far,  y = the correct next token);
+
+partition "fp16 AMP wraps forward + backward\n(autocast saves VRAM, GradScaler keeps math stable)" #F4ECF7 {
+  :Forward pass:  model(x)  ->  logits\n(the model's guess for the next token);
+  :Compute cross-entropy LOSS\n(compare logits vs target next-token y);
+  :loss = loss / grad_accum (2)\n(we sum 2 micro-batches, so scale each down);
+  :Backward pass:  loss.backward()  ->  gradients\n(for every weight: which direction reduces the loss?);
+}
+
+note left
+  WHAT JUST HAPPENED:
+  * LOSS  = HOW WRONG the model is (one number).
+  * BACKPROP = WHICH DIRECTION to adjust each of
+    the ~35M weights (a gradient per weight).
+  * The OPTIMIZER then takes the actual step.
+end note
+
+if (Accumulated 2 micro-batches?) then (no)
+  ->  not yet  -  keep collecting gradients;
+  :(gradients add up, no weight change yet);
+  detach
+else (yes)
+endif
+
+:Clip gradients to max norm 1.0\n(stops one giant update from blowing things up);
+:Optimizer step:  AdamW updates ALL weights\n(takes the actual step downhill);
+:Cosine-warmup scheduler sets the learning rate\n(small at first, then smoothly decays);
+:Zero the gradients\n(wipe the slate clean for the next step);
+
+note right
+  One full pass through here = ONE optimizer step
+  (= 1 effective batch of 64 examples).
+  Then we loop back to "Get a batch".
+end note
+
+:loop back to "Get a batch">
+
+stop
+@enduml
+
+
+' ---------------------------------------------------------------------
+' DIAGRAM B  -  SEQUENCE: the epoch loop + actors
+' ---------------------------------------------------------------------
+@startuml training-loop-sequence
+title MathGen  -  Epoch Loop (the big picture over 10 epochs)
+
+skinparam backgroundColor #FDFDFD
+skinparam defaultFontName "Segoe UI"
+skinparam sequenceArrowColor #2C3E50
+skinparam sequenceLifeLineBorderColor #5D6D7E
+skinparam participantBackgroundColor #EAF2F8
+skinparam actorBackgroundColor #D5F5E3
+skinparam noteBackgroundColor #FEF9E7
+
+actor "train.py" as T
+participant "DataLoader"            as DL
+participant "MathGen model"         as M
+participant "Loss\n(cross-entropy)" as L
+participant "AdamW optimizer"       as O
+participant "Validation set"        as V
+participant "Checkpoint\n(best.pt)" as C
+
+note over T
+  We repeat the whole thing 10 times.
+  Each repeat = 1 "epoch" = the model
+  sees the entire training set once.
+end note
+
+loop 10 epochs
+  note over T, O
+    Train on every batch, learning a little each step.
+  end note
+
+  loop over batches (the inner loop from Diagram A)
+    T  -> DL : ask for next batch (32 examples)
+    DL --> T : x (input),  y (correct next token)
+    T  -> M  : forward pass  model(x)
+    M  --> T : logits (the guess)
+    T  -> L  : cross-entropy(logits, y)
+    L  --> T : loss  (how wrong)
+    T  -> M  : loss.backward()  -> gradients
+    note right of M : gradients = which way\nto nudge each weight
+    T  -> O  : every 2 micro-batches: step() + zero_grad()
+    O  --> M : updated weights
+  end
+
+  == End of epoch: check progress on UNSEEN data ==
+
+  T -> V  : run model on the validation set
+  V -> M  : forward only (no learning here)
+  M --> V : predictions
+  V --> T : val_loss  (how wrong on data it never trained on)
+
+  alt val_loss < best_val  (we improved!)
+    T -> C : save best.pt  (this is our best model so far)
+    C --> T : saved
+  else not better
+    T -> T : keep the previous best.pt
+  end
+end
+
+note over T, C
+  After training, eval_model.py loads best.pt and checks the model
+  actually generates VALID JSON.
+  Low loss alone does NOT prove the model is good  - 
+  a real test is whether its output is usable.
+end note
+
+@enduml

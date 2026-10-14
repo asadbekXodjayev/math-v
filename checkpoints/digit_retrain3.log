@@ -1,0 +1,141 @@
+﻿
+============================================================
+MathGen Training  |  device=cuda
+GPU: NVIDIA GeForce RTX 3050 Laptop GPU
+VRAM: 4.3 GB
+============================================================
+
+=== Building dataset ===
+Generating synthetic [GEN] samples...
+  Synthetic [GEN]: 45000
+  Total [GEN]: 45000  (HuggingFace datasets skipped for offline training)
+Generating [GRADE] samples...
+  [GRADE]: 22500
+Generating [ASSESS] samples...
+  [ASSESS]: 2000
+
+Total training samples: 69500
+
+=== Tokenizer ===
+Training BPE on 63940 texts -> vocab 16384...
+  vocab: 1000
+Tokenizer ready: 1302 tokens
+
+=== Model ===
+MathGen v2: 34.2M params | 8L x d512 | RTX 3050 target
+Gradient checkpointing: ON
+torch.compile() skipped (RTX 3050 SM count too low for inductor)
+Tokenizing dataset...
+Tokenizing dataset...
+
+Steps: 21313  |  Warmup: 2131  |  Accum: 12
+Effective batch: 48
+
+E1 step 25 | loss=6.9405 | lr=3.38e-06 | 7.1k tok/s
+           VRAM: 0.44/4.29 GB
+python.exe : Traceback (most recent call last):
+At line:4 char:1
++ & ".\.venv\Scripts\python.exe" src\train.py --fresh --epochs 16 --bat ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\random.py", line 230, in fork_rng
+    yield
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\utils\checkpoint.py", line 1634, in recompute_fn
+    fn(*args, **kwargs)
+    ~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\src\model.py", line 107, in forward
+    x = x + self.attn(self.n1(x))
+                      ~~~~~~~^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\src\model.py", line 38, in forward
+    return x * torch.rsqrt(x.pow(2).mean(-1, keepdim=True) + self.eps) * self.g
+               ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\src\train.py", line 254, in <module>
+    train(args)
+    ~~~~~^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\src\train.py", line 152, in train
+    scaler.scale(loss).backward()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\_tensor.py", line 631, in backward
+    torch.autograd.backward(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        self, gradient, retain_graph, create_graph, inputs=inputs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\autograd\__init__.py", line 379, in backward
+    _engine_run_backward(
+    ~~~~~~~~~~~~~~~~~~~~^
+        tensors,
+        ^^^^^^^^
+    ...<5 lines>...
+        accumulate_grad=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\autograd\graph.py", line 882, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        t_outputs, *args, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )  # Calls into the C++ engine to run the backward pass
+    ^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\utils\checkpoint.py", line 1167, in unpack_hook
+    _run_fn_with_dynamo_disabled(frame.recompute_fn, *args)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\_compile.py", line 54, in inner
+    return disable_fn(*args, **kwargs)
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\_dynamo\eval_frame.py", line 1298, in _fn
+    return fn(*args, **kwargs)
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\utils\checkpoint.py", line 1134, in _run_fn_with_dynamo_disabl
+ed
+    return fn(*args, **kwargs)
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\utils\checkpoint.py", line 1609, in recompute_fn
+    with torch.random.fork_rng(
+         ~~~~~~~~~~~~~~~~~~~~~^
+        devices=rng_devices, enabled=preserve_rng_state, device_type=device_type
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "C:\Users\hp\AppData\Local\Python\pythoncore-3.14-64\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\random.py", line 234, in fork_rng
+    device_mod.set_rng_state(device_rng_state, device)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\cuda\random.py", line 76, in set_rng_state
+    _lazy_call(cb)
+    ~~~~~~~~~~^^^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\cuda\__init__.py", line 422, in _lazy_call
+    callable()
+    ~~~~~~~~^^
+  File "C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\cuda\random.py", line 74, in cb
+    default_generator.set_state(new_state)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

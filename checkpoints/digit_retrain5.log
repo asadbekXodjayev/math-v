@@ -1,0 +1,828 @@
+﻿
+============================================================
+MathGen Training  |  device=cuda
+GPU: NVIDIA GeForce RTX 3050 Laptop GPU
+VRAM: 4.3 GB
+============================================================
+
+=== Building dataset ===
+Generating synthetic [GEN] samples...
+  Synthetic [GEN]: 30000
+  Total [GEN]: 30000  (HuggingFace datasets skipped for offline training)
+Generating [GRADE] samples...
+  [GRADE]: 15000
+Generating [ASSESS] samples...
+  [ASSESS]: 2000
+
+Total training samples: 47000
+
+=== Tokenizer ===
+Training BPE on 43240 texts -> vocab 16384...
+  vocab: 1000
+Tokenizer ready: 1299 tokens
+
+=== Model ===
+MathGen v2: 34.2M params | 8L x d512 | RTX 3050 target
+Gradient checkpointing: OFF (faster, uses more VRAM)
+torch.compile() skipped (RTX 3050 SM count too low for inductor)
+Tokenizing dataset...
+Tokenizing dataset...
+
+Steps: 9010  |  Warmup: 901  |  Accum: 4
+Effective batch: 48
+
+E1 step 25 | loss=6.8293 | lr=7.99e-06 | 20.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 50 | loss=6.5644 | lr=1.63e-05 | 22.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 75 | loss=6.3704 | lr=2.46e-05 | 23.1k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 100 | loss=6.1476 | lr=3.30e-05 | 23.7k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 125 | loss=5.8968 | lr=4.13e-05 | 24.0k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 150 | loss=5.6312 | lr=4.96e-05 | 24.1k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 175 | loss=5.3564 | lr=5.79e-05 | 24.1k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 200 | loss=5.0792 | lr=6.63e-05 | 24.2k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 225 | loss=4.8052 | lr=7.46e-05 | 24.2k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 250 | loss=4.5355 | lr=8.29e-05 | 24.2k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 275 | loss=4.2770 | lr=9.12e-05 | 24.2k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 300 | loss=4.0336 | lr=9.96e-05 | 24.2k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 325 | loss=3.8081 | lr=1.08e-04 | 24.1k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 350 | loss=3.6015 | lr=1.16e-04 | 24.1k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 375 | loss=3.4119 | lr=1.25e-04 | 24.0k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 400 | loss=3.2390 | lr=1.33e-04 | 24.0k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 425 | loss=3.0817 | lr=1.41e-04 | 24.0k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 450 | loss=2.9384 | lr=1.50e-04 | 24.0k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 475 | loss=2.8073 | lr=1.58e-04 | 23.9k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 500 | loss=2.6873 | lr=1.66e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 525 | loss=2.5767 | lr=1.74e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 550 | loss=2.4745 | lr=1.83e-04 | 23.9k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 575 | loss=2.3801 | lr=1.91e-04 | 23.9k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 600 | loss=2.2927 | lr=1.99e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 625 | loss=2.2117 | lr=2.08e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 650 | loss=2.1366 | lr=2.16e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 675 | loss=2.0669 | lr=2.24e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 700 | loss=2.0021 | lr=2.33e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 725 | loss=1.9415 | lr=2.41e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 750 | loss=1.8846 | lr=2.49e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 775 | loss=1.8314 | lr=2.58e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 800 | loss=1.7815 | lr=2.66e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 825 | loss=1.7343 | lr=2.74e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 850 | loss=1.6902 | lr=2.83e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 875 | loss=1.6485 | lr=2.91e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+E1 step 900 | loss=1.6089 | lr=2.99e-04 | 23.8k tok/s
+           VRAM: 0.45/4.29 GB
+
+───────────────────────────────────────────────────────
+Epoch 1/10  train=1.6074  val=0.2129  lr=3.00e-04
+───────────────────────────────────────────────────────
+
+  ✓ New best saved  (val=0.2129)
+
+E2 step 925 | loss=0.0059 | lr=3.00e-04 | 918.5k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 950 | loss=0.0116 | lr=3.00e-04 | 462.6k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 975 | loss=0.0169 | lr=3.00e-04 | 313.0k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1000 | loss=0.0219 | lr=3.00e-04 | 240.9k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1025 | loss=0.0267 | lr=3.00e-04 | 197.6k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1050 | loss=0.0310 | lr=3.00e-04 | 168.9k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1075 | loss=0.0351 | lr=3.00e-04 | 148.4k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1100 | loss=0.0391 | lr=3.00e-04 | 133.1k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1125 | loss=0.0428 | lr=2.99e-04 | 121.3k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1150 | loss=0.0463 | lr=2.99e-04 | 111.6k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1175 | loss=0.0498 | lr=2.99e-04 | 103.8k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1200 | loss=0.0529 | lr=2.99e-04 | 97.1k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1225 | loss=0.0559 | lr=2.99e-04 | 91.3k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1250 | loss=0.0588 | lr=2.99e-04 | 86.6k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1275 | loss=0.0615 | lr=2.99e-04 | 82.4k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1300 | loss=0.0641 | lr=2.98e-04 | 78.6k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1325 | loss=0.0666 | lr=2.98e-04 | 75.3k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1350 | loss=0.0690 | lr=2.98e-04 | 72.4k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1375 | loss=0.0713 | lr=2.98e-04 | 69.8k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1400 | loss=0.0735 | lr=2.97e-04 | 67.5k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1425 | loss=0.0756 | lr=2.97e-04 | 65.5k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1450 | loss=0.0776 | lr=2.97e-04 | 63.7k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1475 | loss=0.0794 | lr=2.97e-04 | 62.0k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1500 | loss=0.0813 | lr=2.96e-04 | 60.5k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1525 | loss=0.0831 | lr=2.96e-04 | 59.0k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1550 | loss=0.0847 | lr=2.96e-04 | 57.5k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1575 | loss=0.0864 | lr=2.95e-04 | 56.2k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1600 | loss=0.0879 | lr=2.95e-04 | 55.0k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1625 | loss=0.0894 | lr=2.94e-04 | 53.9k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1650 | loss=0.0909 | lr=2.94e-04 | 52.9k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1675 | loss=0.0923 | lr=2.94e-04 | 52.0k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1700 | loss=0.0936 | lr=2.93e-04 | 51.1k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1725 | loss=0.0949 | lr=2.93e-04 | 50.2k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1750 | loss=0.0962 | lr=2.92e-04 | 49.4k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1775 | loss=0.0975 | lr=2.92e-04 | 48.7k tok/s
+           VRAM: 0.45/4.29 GB
+E2 step 1800 | loss=0.0987 | lr=2.91e-04 | 48.1k tok/s
+           VRAM: 0.45/4.29 GB
+
+───────────────────────────────────────────────────────
+Epoch 2/10  train=0.0988  val=0.1752  lr=2.91e-04
+───────────────────────────────────────────────────────
+
+  ✓ New best saved  (val=0.1752)
+
+E3 step 1825 | loss=0.0023 | lr=2.91e-04 | 1949.3k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 1850 | loss=0.0047 | lr=2.90e-04 | 936.5k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 1875 | loss=0.0070 | lr=2.90e-04 | 626.3k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 1900 | loss=0.0093 | lr=2.89e-04 | 470.9k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 1925 | loss=0.0115 | lr=2.89e-04 | 379.1k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 1950 | loss=0.0136 | lr=2.88e-04 | 318.5k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 1975 | loss=0.0157 | lr=2.88e-04 | 275.9k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2000 | loss=0.0178 | lr=2.87e-04 | 244.3k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2025 | loss=0.0198 | lr=2.87e-04 | 219.6k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2050 | loss=0.0217 | lr=2.86e-04 | 200.2k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2075 | loss=0.0236 | lr=2.86e-04 | 184.4k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2100 | loss=0.0254 | lr=2.85e-04 | 171.2k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2125 | loss=0.0272 | lr=2.84e-04 | 159.6k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2150 | loss=0.0290 | lr=2.84e-04 | 149.5k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2175 | loss=0.0306 | lr=2.83e-04 | 141.0k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2200 | loss=0.0322 | lr=2.82e-04 | 133.8k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2225 | loss=0.0338 | lr=2.82e-04 | 126.8k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2250 | loss=0.0354 | lr=2.81e-04 | 121.1k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2275 | loss=0.0369 | lr=2.80e-04 | 115.9k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2300 | loss=0.0384 | lr=2.80e-04 | 111.3k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2325 | loss=0.0398 | lr=2.79e-04 | 107.1k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2350 | loss=0.0412 | lr=2.78e-04 | 103.4k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2375 | loss=0.0426 | lr=2.77e-04 | 100.0k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2400 | loss=0.0439 | lr=2.77e-04 | 96.7k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2425 | loss=0.0452 | lr=2.76e-04 | 93.8k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2450 | loss=0.0465 | lr=2.75e-04 | 91.0k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2475 | loss=0.0478 | lr=2.74e-04 | 88.5k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2500 | loss=0.0490 | lr=2.74e-04 | 86.2k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2525 | loss=0.0501 | lr=2.73e-04 | 84.0k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2550 | loss=0.0513 | lr=2.72e-04 | 82.0k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2575 | loss=0.0524 | lr=2.71e-04 | 80.1k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2600 | loss=0.0536 | lr=2.70e-04 | 78.4k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2625 | loss=0.0547 | lr=2.69e-04 | 76.8k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2650 | loss=0.0557 | lr=2.69e-04 | 75.2k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2675 | loss=0.0568 | lr=2.68e-04 | 73.7k tok/s
+           VRAM: 0.45/4.29 GB
+E3 step 2700 | loss=0.0578 | lr=2.67e-04 | 72.3k tok/s
+           VRAM: 0.45/4.29 GB
+
+───────────────────────────────────────────────────────
+Epoch 3/10  train=0.0579  val=0.1619  lr=2.67e-04
+───────────────────────────────────────────────────────
+
+  ✓ New best saved  (val=0.1619)
+
+E4 step 2725 | loss=0.0013 | lr=2.66e-04 | 3043.2k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 2750 | loss=0.0028 | lr=2.65e-04 | 1439.2k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 2775 | loss=0.0043 | lr=2.64e-04 | 943.2k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 2800 | loss=0.0057 | lr=2.63e-04 | 705.5k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 2825 | loss=0.0071 | lr=2.62e-04 | 565.8k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 2850 | loss=0.0085 | lr=2.61e-04 | 472.3k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 2875 | loss=0.0099 | lr=2.60e-04 | 406.5k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 2900 | loss=0.0112 | lr=2.59e-04 | 357.8k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 2925 | loss=0.0125 | lr=2.58e-04 | 320.1k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 2950 | loss=0.0138 | lr=2.57e-04 | 290.1k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 2975 | loss=0.0150 | lr=2.56e-04 | 265.7k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3000 | loss=0.0163 | lr=2.55e-04 | 245.4k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3025 | loss=0.0175 | lr=2.54e-04 | 228.3k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3050 | loss=0.0187 | lr=2.53e-04 | 213.5k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3075 | loss=0.0199 | lr=2.52e-04 | 200.7k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3100 | loss=0.0210 | lr=2.51e-04 | 189.6k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3125 | loss=0.0222 | lr=2.50e-04 | 179.8k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3150 | loss=0.0233 | lr=2.49e-04 | 171.0k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3175 | loss=0.0243 | lr=2.48e-04 | 163.0k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3200 | loss=0.0254 | lr=2.47e-04 | 155.7k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3225 | loss=0.0264 | lr=2.46e-04 | 149.2k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3250 | loss=0.0275 | lr=2.45e-04 | 143.2k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3275 | loss=0.0285 | lr=2.44e-04 | 137.8k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3300 | loss=0.0295 | lr=2.43e-04 | 133.1k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3325 | loss=0.0305 | lr=2.42e-04 | 128.7k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3350 | loss=0.0315 | lr=2.41e-04 | 124.7k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3375 | loss=0.0324 | lr=2.39e-04 | 120.9k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3400 | loss=0.0334 | lr=2.38e-04 | 117.4k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3425 | loss=0.0343 | lr=2.37e-04 | 114.1k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3450 | loss=0.0352 | lr=2.36e-04 | 111.0k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3475 | loss=0.0361 | lr=2.35e-04 | 108.2k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3500 | loss=0.0370 | lr=2.34e-04 | 105.6k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3525 | loss=0.0378 | lr=2.33e-04 | 103.2k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3550 | loss=0.0387 | lr=2.31e-04 | 100.9k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3575 | loss=0.0395 | lr=2.30e-04 | 98.7k tok/s
+           VRAM: 0.45/4.29 GB
+E4 step 3600 | loss=0.0403 | lr=2.29e-04 | 96.7k tok/s
+           VRAM: 0.45/4.29 GB
+
+───────────────────────────────────────────────────────
+Epoch 4/10  train=0.0405  val=0.1538  lr=2.29e-04
+───────────────────────────────────────────────────────
+
+  ✓ New best saved  (val=0.1538)
+
+E5 step 3625 | loss=0.0009 | lr=2.28e-04 | 4207.2k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3650 | loss=0.0020 | lr=2.27e-04 | 1888.6k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3675 | loss=0.0030 | lr=2.25e-04 | 1239.8k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3700 | loss=0.0041 | lr=2.24e-04 | 925.9k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3725 | loss=0.0051 | lr=2.23e-04 | 741.7k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3750 | loss=0.0061 | lr=2.22e-04 | 621.1k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3775 | loss=0.0071 | lr=2.20e-04 | 534.8k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3800 | loss=0.0081 | lr=2.19e-04 | 469.9k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3825 | loss=0.0090 | lr=2.18e-04 | 419.5k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3850 | loss=0.0100 | lr=2.17e-04 | 379.7k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3875 | loss=0.0109 | lr=2.15e-04 | 347.0k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3900 | loss=0.0118 | lr=2.14e-04 | 319.6k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3925 | loss=0.0128 | lr=2.13e-04 | 296.6k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3950 | loss=0.0137 | lr=2.12e-04 | 276.9k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 3975 | loss=0.0145 | lr=2.10e-04 | 259.8k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4000 | loss=0.0154 | lr=2.09e-04 | 245.0k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4025 | loss=0.0163 | lr=2.08e-04 | 231.9k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4050 | loss=0.0171 | lr=2.07e-04 | 220.4k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4075 | loss=0.0180 | lr=2.05e-04 | 210.1k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4100 | loss=0.0188 | lr=2.04e-04 | 200.6k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4125 | loss=0.0196 | lr=2.03e-04 | 192.3k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4150 | loss=0.0204 | lr=2.01e-04 | 184.5k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4175 | loss=0.0212 | lr=2.00e-04 | 177.5k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4200 | loss=0.0220 | lr=1.99e-04 | 171.0k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4225 | loss=0.0228 | lr=1.97e-04 | 164.7k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4250 | loss=0.0235 | lr=1.96e-04 | 159.2k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4275 | loss=0.0243 | lr=1.95e-04 | 154.1k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4300 | loss=0.0250 | lr=1.93e-04 | 149.4k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4325 | loss=0.0258 | lr=1.92e-04 | 145.1k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4350 | loss=0.0265 | lr=1.91e-04 | 140.9k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4375 | loss=0.0272 | lr=1.89e-04 | 137.0k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4400 | loss=0.0279 | lr=1.88e-04 | 133.4k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4425 | loss=0.0286 | lr=1.87e-04 | 130.1k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4450 | loss=0.0293 | lr=1.85e-04 | 126.9k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4475 | loss=0.0300 | lr=1.84e-04 | 123.9k tok/s
+           VRAM: 0.45/4.29 GB
+E5 step 4500 | loss=0.0307 | lr=1.83e-04 | 121.1k tok/s
+           VRAM: 0.45/4.29 GB
+
+───────────────────────────────────────────────────────
+Epoch 5/10  train=0.0308  val=0.1474  lr=1.82e-04
+───────────────────────────────────────────────────────
+
+  ✓ New best saved  (val=0.1474)
+
+E6 step 4525 | loss=0.0007 | lr=1.81e-04 | 5324.4k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4550 | loss=0.0015 | lr=1.80e-04 | 2412.2k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4575 | loss=0.0023 | lr=1.78e-04 | 1570.7k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4600 | loss=0.0031 | lr=1.77e-04 | 1170.2k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4625 | loss=0.0039 | lr=1.76e-04 | 937.3k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4650 | loss=0.0047 | lr=1.74e-04 | 782.9k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4675 | loss=0.0055 | lr=1.73e-04 | 674.3k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4700 | loss=0.0063 | lr=1.72e-04 | 593.2k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4725 | loss=0.0070 | lr=1.70e-04 | 530.1k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4750 | loss=0.0077 | lr=1.69e-04 | 479.7k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4775 | loss=0.0085 | lr=1.68e-04 | 438.2k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4800 | loss=0.0092 | lr=1.66e-04 | 403.7k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4825 | loss=0.0099 | lr=1.65e-04 | 374.6k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4850 | loss=0.0106 | lr=1.63e-04 | 349.7k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4875 | loss=0.0113 | lr=1.62e-04 | 328.0k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4900 | loss=0.0120 | lr=1.61e-04 | 309.1k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4925 | loss=0.0127 | lr=1.59e-04 | 292.6k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4950 | loss=0.0134 | lr=1.58e-04 | 277.8k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 4975 | loss=0.0141 | lr=1.56e-04 | 264.5k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5000 | loss=0.0148 | lr=1.55e-04 | 252.1k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5025 | loss=0.0154 | lr=1.54e-04 | 240.8k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5050 | loss=0.0161 | lr=1.52e-04 | 230.8k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5075 | loss=0.0167 | lr=1.51e-04 | 221.4k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5100 | loss=0.0173 | lr=1.50e-04 | 212.6k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5125 | loss=0.0180 | lr=1.48e-04 | 204.6k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5150 | loss=0.0186 | lr=1.47e-04 | 197.4k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5175 | loss=0.0192 | lr=1.45e-04 | 190.7k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5200 | loss=0.0198 | lr=1.44e-04 | 184.6k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5225 | loss=0.0204 | lr=1.43e-04 | 179.0k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5250 | loss=0.0210 | lr=1.41e-04 | 173.7k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5275 | loss=0.0216 | lr=1.40e-04 | 168.9k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5300 | loss=0.0222 | lr=1.39e-04 | 164.2k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5325 | loss=0.0228 | lr=1.37e-04 | 159.9k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5350 | loss=0.0234 | lr=1.36e-04 | 155.8k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5375 | loss=0.0239 | lr=1.34e-04 | 151.9k tok/s
+           VRAM: 0.45/4.29 GB
+E6 step 5400 | loss=0.0245 | lr=1.33e-04 | 148.2k tok/s
+           VRAM: 0.45/4.29 GB
+
+───────────────────────────────────────────────────────
+Epoch 6/10  train=0.0246  val=0.1431  lr=1.33e-04
+───────────────────────────────────────────────────────
+
+  ✓ New best saved  (val=0.1431)
+
+E7 step 5425 | loss=0.0005 | lr=1.32e-04 | 6762.0k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5450 | loss=0.0012 | lr=1.30e-04 | 2979.9k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5475 | loss=0.0018 | lr=1.29e-04 | 1912.6k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5500 | loss=0.0025 | lr=1.28e-04 | 1407.9k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5525 | loss=0.0031 | lr=1.26e-04 | 1116.0k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5550 | loss=0.0038 | lr=1.25e-04 | 927.1k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5575 | loss=0.0044 | lr=1.24e-04 | 793.2k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5600 | loss=0.0050 | lr=1.22e-04 | 694.2k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5625 | loss=0.0056 | lr=1.21e-04 | 618.1k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5650 | loss=0.0063 | lr=1.20e-04 | 549.7k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5675 | loss=0.0069 | lr=1.18e-04 | 500.3k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5700 | loss=0.0075 | lr=1.17e-04 | 460.6k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5725 | loss=0.0081 | lr=1.16e-04 | 427.3k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5750 | loss=0.0086 | lr=1.14e-04 | 399.8k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5775 | loss=0.0092 | lr=1.13e-04 | 375.7k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5800 | loss=0.0098 | lr=1.12e-04 | 354.6k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5825 | loss=0.0104 | lr=1.10e-04 | 335.8k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5850 | loss=0.0109 | lr=1.09e-04 | 319.2k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5875 | loss=0.0115 | lr=1.08e-04 | 304.1k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5900 | loss=0.0120 | lr=1.07e-04 | 290.6k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5925 | loss=0.0126 | lr=1.05e-04 | 278.3k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5950 | loss=0.0131 | lr=1.04e-04 | 267.1k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 5975 | loss=0.0137 | lr=1.03e-04 | 256.7k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 6000 | loss=0.0142 | lr=1.01e-04 | 247.0k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 6025 | loss=0.0147 | lr=1.00e-04 | 238.2k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 6050 | loss=0.0152 | lr=9.89e-05 | 229.8k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 6075 | loss=0.0158 | lr=9.77e-05 | 222.0k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 6100 | loss=0.0163 | lr=9.64e-05 | 214.8k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 6125 | loss=0.0168 | lr=9.52e-05 | 208.1k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 6150 | loss=0.0173 | lr=9.39e-05 | 201.9k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 6175 | loss=0.0178 | lr=9.27e-05 | 196.1k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 6200 | loss=0.0183 | lr=9.15e-05 | 190.7k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 6225 | loss=0.0188 | lr=9.03e-05 | 185.6k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 6250 | loss=0.0193 | lr=8.90e-05 | 180.9k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 6275 | loss=0.0198 | lr=8.78e-05 | 176.2k tok/s
+           VRAM: 0.45/4.29 GB
+E7 step 6300 | loss=0.0203 | lr=8.66e-05 | 171.9k tok/s
+           VRAM: 0.45/4.29 GB
+
+───────────────────────────────────────────────────────
+Epoch 7/10  train=0.0204  val=0.1394  lr=8.63e-05
+───────────────────────────────────────────────────────
+
+  ✓ New best saved  (val=0.1394)
+
+E8 step 6325 | loss=0.0004 | lr=8.54e-05 | 8442.5k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6350 | loss=0.0009 | lr=8.43e-05 | 3539.6k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6375 | loss=0.0015 | lr=8.31e-05 | 2245.5k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6400 | loss=0.0020 | lr=8.19e-05 | 1649.9k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6425 | loss=0.0026 | lr=8.07e-05 | 1301.3k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6450 | loss=0.0031 | lr=7.96e-05 | 1075.7k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6475 | loss=0.0036 | lr=7.84e-05 | 918.5k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6500 | loss=0.0041 | lr=7.73e-05 | 803.8k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6525 | loss=0.0046 | lr=7.61e-05 | 714.9k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6550 | loss=0.0052 | lr=7.50e-05 | 645.0k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6575 | loss=0.0057 | lr=7.39e-05 | 588.5k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6600 | loss=0.0062 | lr=7.28e-05 | 541.6k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6625 | loss=0.0067 | lr=7.17e-05 | 501.2k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6650 | loss=0.0072 | lr=7.06e-05 | 466.7k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6675 | loss=0.0077 | lr=6.95e-05 | 437.0k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6700 | loss=0.0081 | lr=6.84e-05 | 411.3k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6725 | loss=0.0086 | lr=6.73e-05 | 388.7k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6750 | loss=0.0091 | lr=6.63e-05 | 368.4k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6775 | loss=0.0096 | lr=6.52e-05 | 350.2k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6800 | loss=0.0100 | lr=6.42e-05 | 333.9k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6825 | loss=0.0105 | lr=6.31e-05 | 318.6k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6850 | loss=0.0110 | lr=6.21e-05 | 305.1k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6875 | loss=0.0114 | lr=6.11e-05 | 293.0k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6900 | loss=0.0119 | lr=6.01e-05 | 281.8k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6925 | loss=0.0124 | lr=5.91e-05 | 270.5k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6950 | loss=0.0128 | lr=5.81e-05 | 260.9k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 6975 | loss=0.0133 | lr=5.71e-05 | 252.1k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 7000 | loss=0.0137 | lr=5.61e-05 | 243.9k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 7025 | loss=0.0142 | lr=5.51e-05 | 236.2k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 7050 | loss=0.0146 | lr=5.42e-05 | 228.9k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 7075 | loss=0.0150 | lr=5.32e-05 | 222.2k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 7100 | loss=0.0154 | lr=5.23e-05 | 216.0k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 7125 | loss=0.0159 | lr=5.14e-05 | 210.3k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 7150 | loss=0.0163 | lr=5.05e-05 | 204.9k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 7175 | loss=0.0167 | lr=4.96e-05 | 199.8k tok/s
+           VRAM: 0.45/4.29 GB
+E8 step 7200 | loss=0.0171 | lr=4.87e-05 | 194.9k tok/s
+           VRAM: 0.45/4.29 GB
+
+───────────────────────────────────────────────────────
+Epoch 8/10  train=0.0173  val=0.1357  lr=4.84e-05
+───────────────────────────────────────────────────────
+
+  ✓ New best saved  (val=0.1357)
+
+E9 step 7225 | loss=0.0003 | lr=4.78e-05 | 10267.2k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7250 | loss=0.0008 | lr=4.69e-05 | 4172.6k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7275 | loss=0.0012 | lr=4.60e-05 | 2612.2k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7300 | loss=0.0017 | lr=4.52e-05 | 1910.8k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7325 | loss=0.0022 | lr=4.43e-05 | 1510.3k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7350 | loss=0.0026 | lr=4.35e-05 | 1249.8k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7375 | loss=0.0031 | lr=4.27e-05 | 1065.2k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7400 | loss=0.0035 | lr=4.19e-05 | 930.7k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7425 | loss=0.0040 | lr=4.11e-05 | 825.6k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7450 | loss=0.0044 | lr=4.03e-05 | 741.8k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7475 | loss=0.0048 | lr=3.95e-05 | 673.7k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7500 | loss=0.0053 | lr=3.87e-05 | 617.8k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7525 | loss=0.0057 | lr=3.80e-05 | 570.8k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7550 | loss=0.0061 | lr=3.72e-05 | 530.2k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7575 | loss=0.0066 | lr=3.65e-05 | 495.9k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7600 | loss=0.0070 | lr=3.58e-05 | 466.4k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7625 | loss=0.0074 | lr=3.51e-05 | 439.9k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7650 | loss=0.0078 | lr=3.44e-05 | 416.4k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7675 | loss=0.0082 | lr=3.37e-05 | 395.7k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7700 | loss=0.0086 | lr=3.30e-05 | 376.9k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7725 | loss=0.0090 | lr=3.23e-05 | 359.8k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7750 | loss=0.0094 | lr=3.17e-05 | 344.1k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7775 | loss=0.0098 | lr=3.10e-05 | 329.5k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7800 | loss=0.0102 | lr=3.04e-05 | 316.1k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7825 | loss=0.0106 | lr=2.98e-05 | 304.1k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7850 | loss=0.0110 | lr=2.92e-05 | 293.1k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7875 | loss=0.0114 | lr=2.86e-05 | 283.0k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7900 | loss=0.0118 | lr=2.80e-05 | 273.6k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7925 | loss=0.0122 | lr=2.74e-05 | 264.7k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7950 | loss=0.0126 | lr=2.69e-05 | 256.5k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 7975 | loss=0.0130 | lr=2.63e-05 | 249.0k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 8000 | loss=0.0133 | lr=2.58e-05 | 242.0k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 8025 | loss=0.0137 | lr=2.53e-05 | 235.4k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 8050 | loss=0.0141 | lr=2.48e-05 | 229.2k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 8075 | loss=0.0145 | lr=2.43e-05 | 223.3k tok/s
+           VRAM: 0.45/4.29 GB
+E9 step 8100 | loss=0.0148 | lr=2.38e-05 | 217.6k tok/s
+           VRAM: 0.45/4.29 GB
+
+───────────────────────────────────────────────────────
+Epoch 9/10  train=0.0150  val=0.1338  lr=2.36e-05
+───────────────────────────────────────────────────────
+
+  ✓ New best saved  (val=0.1338)
+
+E10 step 8125 | loss=0.0003 | lr=2.33e-05 | 11906.1k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8150 | loss=0.0007 | lr=2.29e-05 | 4686.7k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8175 | loss=0.0011 | lr=2.24e-05 | 2909.3k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8200 | loss=0.0015 | lr=2.20e-05 | 2123.2k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8225 | loss=0.0019 | lr=2.16e-05 | 1672.5k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8250 | loss=0.0023 | lr=2.11e-05 | 1384.8k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8275 | loss=0.0027 | lr=2.08e-05 | 1178.7k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8300 | loss=0.0031 | lr=2.04e-05 | 1030.7k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8325 | loss=0.0035 | lr=2.00e-05 | 906.3k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8350 | loss=0.0039 | lr=1.96e-05 | 815.6k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8375 | loss=0.0042 | lr=1.93e-05 | 742.4k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8400 | loss=0.0046 | lr=1.90e-05 | 682.4k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8425 | loss=0.0050 | lr=1.87e-05 | 631.4k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8450 | loss=0.0054 | lr=1.84e-05 | 587.8k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8475 | loss=0.0058 | lr=1.81e-05 | 550.1k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8500 | loss=0.0061 | lr=1.78e-05 | 516.8k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8525 | loss=0.0065 | lr=1.75e-05 | 487.7k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8550 | loss=0.0069 | lr=1.73e-05 | 462.1k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8575 | loss=0.0072 | lr=1.70e-05 | 438.9k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8600 | loss=0.0076 | lr=1.68e-05 | 418.1k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8625 | loss=0.0080 | lr=1.66e-05 | 399.3k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8650 | loss=0.0083 | lr=1.64e-05 | 382.1k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8675 | loss=0.0087 | lr=1.62e-05 | 366.5k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8700 | loss=0.0090 | lr=1.60e-05 | 349.9k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8725 | loss=0.0094 | lr=1.59e-05 | 336.9k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8750 | loss=0.0097 | lr=1.57e-05 | 324.8k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8775 | loss=0.0101 | lr=1.56e-05 | 313.4k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8800 | loss=0.0104 | lr=1.55e-05 | 303.1k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8825 | loss=0.0108 | lr=1.54e-05 | 293.5k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8850 | loss=0.0111 | lr=1.53e-05 | 284.4k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8875 | loss=0.0115 | lr=1.52e-05 | 276.1k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8900 | loss=0.0118 | lr=1.51e-05 | 268.3k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8925 | loss=0.0121 | lr=1.51e-05 | 261.0k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8950 | loss=0.0125 | lr=1.50e-05 | 254.0k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 8975 | loss=0.0128 | lr=1.50e-05 | 247.5k tok/s
+           VRAM: 0.45/4.29 GB
+E10 step 9000 | loss=0.0132 | lr=1.50e-05 | 241.4k tok/s
+           VRAM: 0.45/4.29 GB
+
+───────────────────────────────────────────────────────
+Epoch 10/10  train=0.0133  val=0.1331  lr=1.50e-05
+───────────────────────────────────────────────────────
+
+  ✓ New best saved  (val=0.1331)
+
+
+Training complete — best val_loss=0.1331
+Model: C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\checkpoints\best.pt
+
+Next step: python src/server.py

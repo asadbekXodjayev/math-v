@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mathvis-model — Flow Graph</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#fafafa;--panel:#fff;--navb:#ddd;--accent:#2a6099;--ts:#999;--seclabel:#666;--error:#8b1a1a}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);font-family:'IBM Plex Sans',sans-serif;color:#333}
+  nav.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;background:var(--panel);border-bottom:1px solid var(--navb);padding:0 22px;height:50px}
+  nav.topbar .proj{font-size:14px;font-weight:600}
+  nav.topbar .links{display:flex;gap:20px}
+  nav.topbar .links a{font-size:13px;color:#444;text-decoration:none}
+  nav.topbar .links a.active{color:var(--accent);text-decoration:underline}
+  nav.topbar .ts{font-size:11px;color:var(--ts);font-family:'IBM Plex Mono',monospace}
+  main{padding:18px 22px 40px}
+  h1{font-size:20px;font-weight:600;margin:6px 0 2px}
+  .desc{font-size:12.5px;color:var(--seclabel);margin-bottom:14px}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+  .tabs button{font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;border:1px solid var(--navb);background:#fff;border-radius:6px 6px 0 0;padding:7px 13px;cursor:pointer;color:#444}
+  .tabs button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .tabs button .ct{font-family:'IBM Plex Mono',monospace;font-size:10px;opacity:.75;margin-left:5px}
+  .diagram-wrap{position:relative;background:var(--panel);border:1px solid var(--navb);border-radius:8px}
+  .zoombar{position:absolute;top:10px;left:10px;z-index:10;display:flex;gap:4px;background:#fff;border:1px solid var(--navb);border-radius:6px;padding:3px}
+  .zoombar button{font-family:'IBM Plex Mono',monospace;font-size:11px;border:1px solid var(--navb);background:#fff;border-radius:4px;padding:3px 7px;cursor:pointer;color:#333}
+  .zoombar button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .scroll{overflow:auto;max-height:680px;border-radius:8px}
+  .scaler{transform-origin:0 0}
+  table.steps{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:18px}
+  table.steps th,table.steps td{text-align:left;padding:7px 10px;border-bottom:1px solid #eee;vertical-align:top}
+  table.steps th{font-weight:600;border-bottom:1px solid #ccc}
+  table.steps td.mono{font-family:'IBM Plex Mono',monospace;font-size:11px}
+  .srcToggle{margin-top:14px;font-size:12px;color:var(--accent);cursor:pointer;user-select:none}
+  pre.src{display:none;background:#1c1c1c;color:#d8d8d8;font-family:'IBM Plex Mono',monospace;font-size:10.5px;padding:14px;border-radius:8px;overflow:auto;max-height:340px;margin-top:8px}
+  .legend{font-size:11px;color:#666;margin:8px 0 0;font-family:'IBM Plex Mono',monospace}
+  .legend span{margin-right:14px}
+  svg text{font-family:'IBM Plex Sans',sans-serif}
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <span class="proj">mathvis-model</span>
+  <span class="links">
+    <a href="index.html">Overview</a>
+    <a href="file-architecture.html">File Architecture</a>
+    <a href="system-design.html">System Design</a>
+    <a href="flow-graph.html" class="active">Flow Graph</a>
+  </span>
+  <span class="ts">Generated 2026-06-12T09:50:00Z</span>
+</nav>
+
+<main>
+  <h1>Application Flow Diagrams</h1>
+  <div class="desc">Five operationally significant flows. Slots 2 and 4–5 are SUBSTITUTED because this is a local ML pipeline with no auth and no DB: (1) startup/init, (2) <em>substituted</em> — tokenizer encode pipeline (stands in for authentication), (3) training step (primary write path), (4) server inference (primary read path), (5) error / recovery — checkpoint resume &amp; eval validation failure.</div>
+  <div class="tabs" id="tabs"></div>
+  <div class="legend"><span>&#9632; happy path #444</span><span style="color:#8b1a1a">&#9632; error path #8b1a1a</span><span>&#9633; process</span><span>&#9670; decision</span><span style="color:#2a6099">&#9632; start/end</span><span>&#11198; data object</span></div>
+  <div class="diagram-wrap">
+    <div class="zoombar" id="zb">
+      <button data-z="0.75">75%</button>
+      <button data-z="1" class="on">100%</button>
+      <button data-z="1.25">125%</button>
+      <button data-z="fit">Fit</button>
+    </div>
+    <div class="scroll" id="scroll">
+      <div class="scaler" id="scaler"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    </div>
+  </div>
+  <table class="steps"><thead><tr><th>Step</th><th>Function</th><th>File</th><th>Role in flow</th></tr></thead><tbody id="stepbody"></tbody></table>
+  <div class="srcToggle" id="srcToggle">&#9656; View SVG Source</div>
+  <pre class="src" id="srcPre"></pre>
+</main>
+
+<script type="application/json" id="graph-data">
+{
+  "schema": "sys-design/v2",
+  "kind": "flow-graph",
+  "flows": [
+    {
+      "id": "startup",
+      "name": "Startup / Initialization",
+      "nodes": [
+        { "id": "s0", "label": "python src/train.py", "sub": "src/train.py __main__", "kind": "startEnd" },
+        { "id": "s1", "label": "parse args", "sub": "argparse (epochs, batch, grad_accum…)", "kind": "process" },
+        { "id": "s2", "label": "select device", "sub": "torch.cuda.is_available()", "kind": "decision" },
+        { "id": "s3", "label": "build_all_samples()", "sub": "src/dataset.py", "kind": "process" },
+        { "id": "s4", "label": "samples (92k str)", "sub": "[GEN]/[GRADE]/[ASSESS]", "kind": "data" },
+        { "id": "s5", "label": "0.92 train / val split", "sub": "src/train.py", "kind": "process" },
+        { "id": "s6", "label": "tokenizer exists?", "sub": "checkpoints/tokenizer.json", "kind": "decision" },
+        { "id": "s7", "label": "tok.train(vocab_size)", "sub": "src/tokenizer.py BPETokenizer", "kind": "process" },
+        { "id": "s8", "label": "tok.load()", "sub": "src/tokenizer.py", "kind": "process" },
+        { "id": "s9", "label": "build_model()", "sub": "src/model.py MathGen ~44M", "kind": "process" },
+        { "id": "s10", "label": "build_dataloader()", "sub": "src/dataset.py", "kind": "process" },
+        { "id": "s11", "label": "enter training loop", "sub": "src/train.py train()", "kind": "startEnd" }
+      ],
+      "edges": [
+        { "source": "s0", "target": "s1" },
+        { "source": "s1", "target": "s2" },
+        { "source": "s2", "target": "s3", "label": "cuda | cpu" },
+        { "source": "s3", "target": "s4", "kind": "data" },
+        { "source": "s4", "target": "s5", "kind": "data" },
+        { "source": "s5", "target": "s6" },
+        { "source": "s6", "target": "s8", "label": "exists & not --fresh" },
+        { "source": "s6", "target": "s7", "label": "missing" },
+        { "source": "s7", "target": "s9" },
+        { "source": "s8", "target": "s9" },
+        { "source": "s9", "target": "s10" },
+        { "source": "s10", "target": "s11" }
+      ],
+      "steps": [
+        { "num": 1, "fn": "train.__main__", "file": "src/train.py", "role": "Parse CLI args, force CPU mode if --cpu" },
+        { "num": 2, "fn": "train()", "file": "src/train.py", "role": "Select cuda/cpu device, print GPU/VRAM" },
+        { "num": 3, "fn": "build_all_samples()", "file": "src/dataset.py", "role": "Synthesize ~92k multi-task samples from TopicGenerators" },
+        { "num": 4, "fn": "—", "file": "src/dataset.py", "role": "0.92/0.08 train/val split" },
+        { "num": 5, "fn": "BPETokenizer.train / .load", "file": "src/tokenizer.py", "role": "Train fresh BPE or load checkpoints/tokenizer.json (6031 tokens)" },
+        { "num": 6, "fn": "build_model()", "file": "src/model.py", "role": "Instantiate MathGen on device, vocab=len(tok)" },
+        { "num": 7, "fn": "build_dataloader()", "file": "src/dataset.py", "role": "Tokenize, pad to ctx 256, batch=32 (x,y) pairs" }
+      ]
+    },
+    {
+      "id": "encode",
+      "name": "Tokenizer Encode (substituted for Auth)",
+      "nodes": [
+        { "id": "e0", "label": "encode(text)", "sub": "src/tokenizer.py BPETokenizer.encode", "kind": "startEnd" },
+        { "id": "e1", "label": "build matchers (longest-first)", "sub": "SPECIAL_TOKENS + MATH_TOKENS", "kind": "process" },
+        { "id": "e2", "label": "scan left→right at i", "sub": "while i < len(text)", "kind": "process" },
+        { "id": "e3", "label": "starts with special/math token?", "sub": "text.startswith(tok,i)", "kind": "decision" },
+        { "id": "e4", "label": "flush word; append token id", "sub": "ids.append(vocab[matched])", "kind": "process" },
+        { "id": "e5", "label": "char == space?", "sub": "text[i] == ' '", "kind": "decision" },
+        { "id": "e6", "label": "flush; append space id", "sub": "ids.append(space_id)", "kind": "process" },
+        { "id": "e7", "label": "accumulate into word", "sub": "word += text[i]", "kind": "process" },
+        { "id": "e8", "label": "_encode_word(word)", "sub": "apply BPE merges + cache", "kind": "process" },
+        { "id": "e9", "label": "token id list", "sub": "list[int]", "kind": "data" },
+        { "id": "e10", "label": "ids ready", "sub": "decode(encode(x)) == x", "kind": "startEnd" }
+      ],
+      "edges": [
+        { "source": "e0", "target": "e1" },
+        { "source": "e1", "target": "e2" },
+        { "source": "e2", "target": "e3" },
+        { "source": "e3", "target": "e4", "label": "true" },
+        { "source": "e3", "target": "e5", "label": "false" },
+        { "source": "e5", "target": "e6", "label": "true" },
+        { "source": "e5", "target": "e7", "label": "false" },
+        { "source": "e7", "target": "e8", "label": "on flush" },
+        { "source": "e4", "target": "e9", "kind": "data" },
+        { "source": "e6", "target": "e9", "kind": "data" },
+        { "source": "e8", "target": "e9", "kind": "data" },
+        { "source": "e9", "target": "e10" }
+      ],
+      "steps": [
+        { "num": 1, "fn": "encode()", "file": "src/tokenizer.py", "role": "Single left-to-right pass over the prompt string" },
+        { "num": 2, "fn": "_matchers build", "file": "src/tokenizer.py", "role": "Sort special + math tokens longest-first for greedy match" },
+        { "num": 3, "fn": "encode() match branch", "file": "src/tokenizer.py", "role": "Emit reserved token id when a special/math token matches" },
+        { "num": 4, "fn": "flush() / space", "file": "src/tokenizer.py", "role": "Emit space id and flush the pending word" },
+        { "num": 5, "fn": "_encode_word()", "file": "src/tokenizer.py", "role": "Apply BPE merges to remaining chars; cache result; <UNK> fallback" }
+      ]
+    },
+    {
+      "id": "trainstep",
+      "name": "Training Step (primary write path)",
+      "nodes": [
+        { "id": "t0", "label": "next (x,y) batch", "sub": "DataLoader iterator", "kind": "startEnd" },
+        { "id": "t1", "label": "x,y → device", "sub": ".to(device, non_blocking)", "kind": "process" },
+        { "id": "t2", "label": "cosine_warmup_lr(step)", "sub": "src/train.py", "kind": "process" },
+        { "id": "t3", "label": "autocast fp16 forward", "sub": "model(x,y) → logits, loss", "kind": "process" },
+        { "id": "t4", "label": "loss / grad_accum", "sub": "cross_entropy ignore_index=-1", "kind": "data" },
+        { "id": "t5", "label": "scaler.scale(loss).backward()", "sub": "GradScaler", "kind": "process" },
+        { "id": "t6", "label": "(step+1) % grad_accum == 0?", "sub": "accumulate 2 → eff batch 64", "kind": "decision" },
+        { "id": "t7", "label": "unscale + clip_grad_norm 1.0", "sub": "nn.utils.clip_grad_norm_", "kind": "process" },
+        { "id": "t8", "label": "scaler.step + update; zero_grad", "sub": "AdamW step", "kind": "process" },
+        { "id": "t9", "label": "epoch end → validation", "sub": "model.eval(); val_loss", "kind": "process" },
+        { "id": "t10", "label": "val_loss < best_val?", "sub": "src/train.py", "kind": "decision" },
+        { "id": "t11", "label": "torch.save(best.pt)", "sub": "checkpoints/best.pt", "kind": "process" },
+        { "id": "t12", "label": "torch.save(latest.pt) + log", "sub": "checkpoints/latest.pt + train_log.jsonl", "kind": "process" },
+        { "id": "t13", "label": "checkpoint written", "sub": "best/latest .pt persisted", "kind": "startEnd" }
+      ],
+      "edges": [
+        { "source": "t0", "target": "t1" },
+        { "source": "t1", "target": "t2" },
+        { "source": "t2", "target": "t3" },
+        { "source": "t3", "target": "t4", "kind": "data" },
+        { "source": "t4", "target": "t5", "kind": "data" },
+        { "source": "t5", "target": "t6" },
+        { "source": "t6", "target": "t0", "label": "false — next batch" },
+        { "source": "t6", "target": "t7", "label": "true" },
+        { "source": "t7", "target": "t8" },
+        { "source": "t8", "target": "t9" },
+        { "source": "t9", "target": "t10" },
+        { "source": "t10", "target": "t11", "label": "true — new best" },
+        { "source": "t10", "target": "t12", "label": "false" },
+        { "source": "t11", "target": "t12" },
+        { "source": "t12", "target": "t13" }
+      ],
+      "steps": [
+        { "num": 1, "fn": "train() loop", "file": "src/train.py", "role": "Iterate DataLoader, move (x,y) to device" },
+        { "num": 2, "fn": "cosine_warmup_lr()", "file": "src/train.py", "role": "Per-step LR with linear warmup + cosine decay" },
+        { "num": 3, "fn": "MathGen.forward()", "file": "src/model.py", "role": "fp16 autocast forward → logits + cross-entropy loss" },
+        { "num": 4, "fn": "GradScaler.backward", "file": "src/train.py", "role": "Scale loss/grad_accum, backprop" },
+        { "num": 5, "fn": "clip_grad_norm_ / scaler.step", "file": "src/train.py", "role": "Unscale, clip to 1.0, AdamW step every 2 micro-batches" },
+        { "num": 6, "fn": "validation block", "file": "src/train.py", "role": "Per-epoch val_loss under no_grad + autocast" },
+        { "num": 7, "fn": "torch.save()", "file": "src/train.py", "role": "Write latest.pt always; best.pt when val_loss improves; append train_log.jsonl" }
+      ]
+    },
+    {
+      "id": "inference",
+      "name": "Server Inference (primary read path)",
+      "nodes": [
+        { "id": "i0", "label": "POST /generate", "sub": "client → src/server.py :8787", "kind": "external" },
+        { "id": "i1", "label": "model loaded?", "sub": "startup load() set globals", "kind": "decision" },
+        { "id": "i2", "label": "503 Model not loaded", "sub": "HTTPException(503)", "kind": "error" },
+        { "id": "i3", "label": "build prompt", "sub": "[GEN] topic:… difficulty:… <SEP><JSON>", "kind": "process" },
+        { "id": "i4", "label": "tokenizer.encode(prompt)", "sub": "src/tokenizer.py", "kind": "process" },
+        { "id": "i5", "label": "model.generate()", "sub": "src/model.py top-k/top-p, RoPE, SDPA", "kind": "process" },
+        { "id": "i6", "label": "decode(gen_ids)", "sub": "tokenizer.decode", "kind": "process" },
+        { "id": "i7", "label": "_extract_json(text)", "sub": "re.search {…}", "kind": "process" },
+        { "id": "i8", "label": "valid JSON?", "sub": "json.loads", "kind": "decision" },
+        { "id": "i9", "label": "500 No/!valid JSON", "sub": "HTTPException(500)", "kind": "error" },
+        { "id": "i10", "label": "GenerateRes", "sub": "questionText/hints/answerKey", "kind": "data" },
+        { "id": "i11", "label": "200 JSON response", "sub": "FastAPI → client", "kind": "startEnd" }
+      ],
+      "edges": [
+        { "source": "i0", "target": "i1" },
+        { "source": "i1", "target": "i2", "label": "no", "kind": "error" },
+        { "source": "i1", "target": "i3", "label": "yes" },
+        { "source": "i3", "target": "i4" },
+        { "source": "i4", "target": "i5" },
+        { "source": "i5", "target": "i6" },
+        { "source": "i6", "target": "i7" },
+        { "source": "i7", "target": "i8" },
+        { "source": "i8", "target": "i9", "label": "no", "kind": "error" },
+        { "source": "i8", "target": "i10", "label": "yes", "kind": "data" },
+        { "source": "i10", "target": "i11", "kind": "data" }
+      ],
+      "steps": [
+        { "num": 1, "fn": "generate() / grade() / assess()", "file": "src/server.py", "role": "FastAPI endpoint receives validated Pydantic request" },
+        { "num": 2, "fn": "_infer()", "file": "src/server.py", "role": "Guard model!=None (else 503), encode prompt to ids" },
+        { "num": 3, "fn": "MathGen.generate()", "file": "src/model.py", "role": "Autoregressive decode with temperature, top-k=50, top-p=0.92" },
+        { "num": 4, "fn": "tokenizer.decode()", "file": "src/tokenizer.py", "role": "Map generated ids back to text" },
+        { "num": 5, "fn": "_extract_json()", "file": "src/server.py", "role": "Regex-extract JSON object; 500 on parse failure" },
+        { "num": 6, "fn": "GenerateRes / GradeRes / AssessRes", "file": "src/server.py", "role": "Coerce fields into Pydantic response model, return 200" }
+      ]
+    },
+    {
+      "id": "recovery",
+      "name": "Resume / Eval Recovery (error path)",
+      "nodes": [
+        { "id": "r0", "label": "python src/train.py --resume", "sub": "src/train.py", "kind": "startEnd" },
+        { "id": "r1", "label": "latest.pt exists & not --fresh?", "sub": "checkpoints/latest.pt", "kind": "decision" },
+        { "id": "r2", "label": "fresh start epoch 0", "sub": "best_val = inf", "kind": "process" },
+        { "id": "r3", "label": "torch.load(latest.pt)", "sub": "map_location=device", "kind": "process" },
+        { "id": "r4", "label": "load_state_dict; restore step", "sub": "start_epoch, best_val, global_step", "kind": "process" },
+        { "id": "r5", "label": "continue training loop", "sub": "src/train.py train()", "kind": "startEnd" },
+        { "id": "r6", "label": "python src/eval_model.py", "sub": "src/eval_model.py main()", "kind": "external" },
+        { "id": "r7", "label": "load best.pt + run [GEN]", "sub": "infer() per topic×difficulty", "kind": "process" },
+        { "id": "r8", "label": "extract_json + is_valid?", "sub": "src/eval_model.py", "kind": "decision" },
+        { "id": "r9", "label": "mark BAD / ERROR; XX flag", "sub": "valid-JSON rate < 0.6", "kind": "error" },
+        { "id": "r10", "label": "count OK; report %", "sub": "OVERALL valid JSON %", "kind": "process" }
+      ],
+      "edges": [
+        { "source": "r0", "target": "r1" },
+        { "source": "r1", "target": "r2", "label": "no" },
+        { "source": "r1", "target": "r3", "label": "yes" },
+        { "source": "r3", "target": "r4" },
+        { "source": "r2", "target": "r5" },
+        { "source": "r4", "target": "r5" },
+        { "source": "r6", "target": "r7" },
+        { "source": "r7", "target": "r8" },
+        { "source": "r8", "target": "r9", "label": "invalid", "kind": "error" },
+        { "source": "r8", "target": "r10", "label": "valid" },
+        { "source": "r9", "target": "r10", "kind": "error" }
+      ],
+      "steps": [
+        { "num": 1, "fn": "train() resume block", "file": "src/train.py", "role": "If latest.pt present and not --fresh, reload model + step state" },
+        { "num": 2, "fn": "torch.load / load_state_dict", "file": "src/train.py", "role": "Restore weights, start_epoch, best_val, global_step" },
+        { "num": 3, "fn": "eval_model.load()", "file": "src/eval_model.py", "role": "Load best.pt + tokenizer.json on CPU by default" },
+        { "num": 4, "fn": "infer() + extract_json()", "file": "src/eval_model.py", "role": "Run real [GEN] path per topic×difficulty" },
+        { "num": 5, "fn": "is_valid()", "file": "src/eval_model.py", "role": "Flag BAD/ERROR outputs; compute per-topic and overall valid-JSON rate" }
+      ]
+    }
+  ]
+}
+</script>
+
+<script>
+const DATA=JSON.parse(document.getElementById('graph-data').textContent);
+const SANS='13px "IBM Plex Sans"',MONO='10px "IBM Plex Mono"';
+let _ctx;function measure(t,f){if(!_ctx)_ctx=document.createElement('canvas').getContext('2d');_ctx.font=f;return _ctx.measureText(t).width;}
+const SVGNS="http://www.w3.org/2000/svg";
+function el(t,a){const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+
+let cur=0;
+function nodeW(n){return Math.max(150,Math.max(measure(n.label,SANS),measure(n.sub||'',MONO))+40);}
+
+// Deterministic hand layout: each node on its own row; decision branches offset to a side column.
+function layout(flow){
+  const nodes=flow.nodes, edges=flow.edges;
+  const idx={};nodes.forEach((n,i)=>idx[n.id]=i);
+  const incoming={};edges.forEach(e=>{(incoming[e.target]=incoming[e.target]||[]).push(e.source);});
+  const ROWH=92, baseX=300;
+  const pos={};
+  // assign rows top-to-bottom in declaration order
+  nodes.forEach((n,i)=>{ pos[n.id]={row:i, col:0}; });
+  // error nodes & secondary decision targets pushed to right column
+  nodes.forEach((n)=>{
+    if(n.kind==='error'){ pos[n.id].col=1; }
+  });
+  // compute coords
+  const W=baseX*2+60, coords={};
+  nodes.forEach(n=>{
+    const w=nodeW(n);
+    const cx = baseX + (pos[n.id].col? 260 : 0);
+    coords[n.id]={x:cx - w/2, y:40 + pos[n.id].row*ROWH, w, h:(n.sub?54:42), node:n};
+  });
+  const H=40 + nodes.length*ROWH + 20;
+  return {coords,W,H,edges,nodes};
+}
+
+function drawFlow(flow){
+  const svg=document.getElementById('svg');while(svg.firstChild)svg.removeChild(svg.firstChild);
+  const L=layout(flow);
+  const W=L.W,H=L.H;
+  svg.setAttribute('width',W);svg.setAttribute('height',H);svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const defs=el('defs',{});
+  [['arr','#444'],['arre','#8b1a1a'],['arrd','#666']].forEach(([id,col])=>{
+    const m=el('marker',{id,markerWidth:'9',markerHeight:'9',refX:'7',refY:'3',orient:'auto',markerUnits:'strokeWidth'});
+    m.appendChild(el('path',{d:'M0,0 L7,3 L0,6 Z',fill:col}));defs.appendChild(m);
+  });
+  svg.appendChild(defs);
+  const root=el('g',{});svg.appendChild(root);
+  const C=L.coords;
+
+  // edges first
+  L.edges.forEach(e=>{
+    const a=C[e.source],b=C[e.target];if(!a||!b)return;
+    const isErr=e.kind==='error', isData=e.kind==='data';
+    const col=isErr?'#8b1a1a':(isData?'#666':'#444');
+    const mk=isErr?'url(#arre)':(isData?'url(#arrd)':'url(#arr)');
+    const ax=a.x+a.w/2, ay=a.y+a.h, bx=b.x+b.w/2, by=b.y;
+    let d;
+    if(Math.abs(ax-bx)<1){ d=`M ${ax} ${ay} L ${bx} ${by}`; }
+    else if(by>ay){ const my=ay+(by-ay)/2; d=`M ${ax} ${ay} L ${ax} ${my} L ${bx} ${my} L ${bx} ${by}`; }
+    else { // back-edge (loop) route around the right
+      const off=Math.max(a.x+a.w,b.x+b.w)+70;
+      d=`M ${a.x+a.w} ${a.y+a.h/2} L ${off} ${a.y+a.h/2} L ${off} ${b.y+b.h/2} L ${b.x+b.w} ${b.y+b.h/2}`;
+    }
+    const p=el('path',{d,fill:'none',stroke:col,'stroke-width':'1.5','marker-end':mk});
+    if(isData)p.setAttribute('stroke-dasharray','5 4');
+    root.appendChild(p);
+    if(e.label){
+      // place label near midpoint
+      let lx,ly;
+      if(by>ay){lx=(ax+bx)/2;ly=ay+(by-ay)/2;}else{lx=Math.max(a.x+a.w,b.x+b.w)+70;ly=(a.y+b.y)/2+a.h/2;}
+      const lw=measure(e.label,MONO)+6;
+      const g=el('g',{transform:`translate(${lx-lw/2},${ly-7})`});
+      g.appendChild(el('rect',{x:0,y:0,width:lw,height:14,rx:3,fill:'#fff',stroke:'#eee'}));
+      const t=el('text',{x:lw/2,y:11,'text-anchor':'middle','font-family':'IBM Plex Mono','font-size':'10',fill:isErr?'#8b1a1a':'#555'});t.textContent=e.label;g.appendChild(t);
+      root.appendChild(g);
+    }
+  });
+
+  // nodes
+  L.nodes.forEach(n=>{
+    const c=C[n.id];const g=el('g',{transform:`translate(${c.x},${c.y})`});
+    let fill='#cde4f5',stroke='#7aaecc',txtcol='#333',subcol='#666';
+    if(n.kind==='startEnd'){fill='#2a6099';stroke='#1f4a78';txtcol='#fff';subcol='#cfe0f0';}
+    if(n.kind==='error'){fill='#8b1a1a';stroke='#5e1212';txtcol='#fff';subcol='#e7c4c4';}
+    if(n.kind==='decision'){fill='#cde4f5';stroke='#7aaecc';}
+    if(n.kind==='data'){fill='#eef4ea';stroke='#5a7a3a';}
+    if(n.kind==='external'){fill='#b8d0e8';stroke='#5f86a8';}
+
+    if(n.kind==='decision'){
+      const w=c.w,h=c.h+8;const cx=w/2,cy=h/2;
+      g.appendChild(el('polygon',{points:`${cx},0 ${w},${cy} ${cx},${h} 0,${cy}`,fill,stroke,'stroke-width':'1'}));
+      addText(g,n,w,h,txtcol,subcol,true);
+    } else if(n.kind==='startEnd'){
+      const w=c.w,h=c.h;g.appendChild(el('rect',{x:0,y:0,width:w,height:h,rx:h/2,fill,stroke,'stroke-width':'1'}));
+      addText(g,n,w,h,txtcol,subcol,false);
+    } else if(n.kind==='data'){
+      const w=c.w,h=c.h,sk=14;
+      g.appendChild(el('polygon',{points:`${sk},0 ${w},0 ${w-sk},${h} 0,${h}`,fill,stroke,'stroke-width':'1'}));
+      addText(g,n,w,h,txtcol,subcol,false);
+    } else {
+      const w=c.w,h=c.h;const rect=el('rect',{x:0,y:0,width:w,height:h,rx:4,fill,stroke,'stroke-width':'1'});
+      if(n.kind==='external')rect.setAttribute('stroke-dasharray','5 3');
+      g.appendChild(rect);
+      const ports=el('g',{opacity:'0.2'});for(let i=1;i<=4;i++){const yy=h*i/5;ports.appendChild(el('line',{x1:6,y1:yy,x2:w-8,y2:yy,stroke,'stroke-width':'1'}));}g.appendChild(ports);
+      addText(g,n,w,h,txtcol,subcol,false);
+    }
+    root.appendChild(g);
+  });
+  setupZoom(W,H);
+  document.getElementById('srcPre').textContent=svg.outerHTML;
+}
+function addText(g,n,w,h,txtcol,subcol,diamond){
+  const cy=n.sub?(diamond?h/2-4:h/2-5):(diamond?h/2+4:h/2+4);
+  const t1=el('text',{x:w/2,y:cy,'text-anchor':'middle','font-family':'IBM Plex Sans','font-size':'13',fill:txtcol});t1.textContent=n.label;g.appendChild(t1);
+  if(n.sub){const t2=el('text',{x:w/2,y:(diamond?h/2+11:h/2+11),'text-anchor':'middle','font-family':'IBM Plex Mono','font-size':'10',fill:subcol});t2.textContent=n.sub;g.appendChild(t2);}
+}
+
+function setupZoom(W,H){
+  const scaler=document.getElementById('scaler'),scroll=document.getElementById('scroll');
+  function apply(z){if(z==='fit'){const avail=scroll.clientWidth-4;z=Math.min(1.25,Math.max(0.4,avail/W));}
+    scaler.style.transform=`scale(${z})`;scaler.style.width=(W*z)+'px';scaler.style.height=(H*z)+'px';}
+  document.querySelectorAll('#zb button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#zb button').forEach(x=>x.classList.remove('on'));b.classList.add('on');apply(b.dataset.z==='fit'?'fit':parseFloat(b.dataset.z));});
+  document.querySelector('#zb button[data-z="1"]').classList.add('on');
+  apply(1);
+}
+
+function buildTabs(){
+  const tb=document.getElementById('tabs');
+  DATA.flows.forEach((f,i)=>{
+    const b=document.createElement('button');if(i===0)b.classList.add('on');
+    b.innerHTML=`${f.name}<span class="ct">${f.steps.length} steps</span>`;
+    b.onclick=()=>{cur=i;document.querySelectorAll('#tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');show();};
+    tb.appendChild(b);
+  });
+}
+function show(){
+  const f=DATA.flows[cur];
+  drawFlow(f);
+  const sb=document.getElementById('stepbody');sb.innerHTML='';
+  f.steps.forEach(s=>{const tr=document.createElement('tr');tr.innerHTML=`<td class="mono">${s.num}</td><td class="mono">${s.fn}</td><td class="mono">${s.file}</td><td>${s.role}</td>`;sb.appendChild(tr);});
+}
+document.getElementById('srcToggle').onclick=function(){
+  const pre=document.getElementById('srcPre');const open=pre.style.display==='block';
+  pre.style.display=open?'none':'block';this.innerHTML=(open?'&#9656;':'&#9662;')+' View SVG Source';
+};
+document.fonts.ready.then(()=>{buildTabs();show();});
+</script>
+</body>
+</html>

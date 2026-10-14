@@ -1,0 +1,95 @@
+C:\Users\hp\Desktop\ai-edu\mathvis-model\src\server.py:57: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+INFO:     Started server process [24208]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8787 (Press CTRL+C to quit)
+MathGen API starting on :8787
+MathGen loaded | 36.7M params | cpu | val=0.1835
+INFO:     127.0.0.1:58966 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58968 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58966 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58968 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58966 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58968 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58966 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58968 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58966 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58968 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58966 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58968 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58977 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64464 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56174 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56182 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56184 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56186 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56188 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57083 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62296 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58640 - "POST /generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54500 - "POST /generate HTTP/1.1" 200 OK

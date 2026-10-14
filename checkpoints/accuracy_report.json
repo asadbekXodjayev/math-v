@@ -1,0 +1,10 @@
+{
+  "model": {
+    "overall_acc": 79.33333333333333,
+    "total": 300,
+    "badjson": 0,
+    "unparse": 0,
+    "correct": 238,
+    "wrong": 62
+  }
+}

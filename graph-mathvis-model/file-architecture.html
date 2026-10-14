@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mathvis-model — File Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/elkjs@0.9.3/lib/elk.bundled.js"></script>
+<style>
+  :root{--bg:#fafafa;--panel:#fff;--navb:#ddd;--accent:#2a6099;--ts:#999;--seclabel:#666}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);font-family:'IBM Plex Sans',sans-serif;color:#333}
+  nav.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    background:var(--panel);border-bottom:1px solid var(--navb);padding:0 22px;height:50px}
+  nav.topbar .proj{font-size:14px;font-weight:600}
+  nav.topbar .links{display:flex;gap:20px}
+  nav.topbar .links a{font-size:13px;color:#444;text-decoration:none}
+  nav.topbar .links a.active{color:var(--accent);text-decoration:underline}
+  nav.topbar .ts{font-size:11px;color:var(--ts);font-family:'IBM Plex Mono',monospace}
+  main{padding:18px 22px 40px}
+  h1{font-size:20px;font-weight:600;margin:6px 0 2px}
+  .desc{font-size:12.5px;color:var(--seclabel);margin-bottom:14px}
+  .toolbar{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+  .toolbar input{font-family:'IBM Plex Mono',monospace;font-size:12px;padding:5px 9px;border:1px solid var(--navb);border-radius:6px;width:240px}
+  .diagram-wrap{position:relative;background:var(--panel);border:1px solid var(--navb);border-radius:8px}
+  .zoombar{position:absolute;top:10px;left:10px;z-index:10;display:flex;gap:4px;background:#fff;border:1px solid var(--navb);border-radius:6px;padding:3px}
+  .zoombar button{font-family:'IBM Plex Mono',monospace;font-size:11px;border:1px solid var(--navb);background:#fff;border-radius:4px;padding:3px 7px;cursor:pointer;color:#333}
+  .zoombar button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .legend{position:absolute;top:10px;right:10px;z-index:10;background:#fff;border:1px solid var(--navb);border-radius:6px;padding:9px 11px;font-size:11px;max-width:230px}
+  .legend h4{margin:0 0 6px;font-size:11px;font-weight:600}
+  .legend .row{display:flex;align-items:center;gap:6px;margin:3px 0;font-family:'IBM Plex Mono',monospace;font-size:10px}
+  .legend .sw{width:26px;height:13px;border-radius:2px;display:inline-block}
+  .scroll{overflow:auto;max-height:720px;border-radius:8px}
+  .scaler{transform-origin:0 0}
+  aside.panel{position:fixed;top:50px;right:0;width:300px;height:calc(100vh - 50px);background:#fff;border-left:1px solid var(--navb);
+    box-shadow:-4px 0 14px rgba(0,0,0,0.06);transform:translateX(100%);transition:transform .2s;z-index:60;overflow:auto;padding:18px}
+  aside.panel.open{transform:translateX(0)}
+  aside.panel h3{font-size:14px;margin:0 0 4px}
+  aside.panel .path{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#555;word-break:break-all;margin-bottom:12px}
+  aside.panel .k{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#999;margin-top:12px}
+  aside.panel .v{font-size:12px;margin-top:3px;line-height:1.5}
+  aside.panel .v.mono{font-family:'IBM Plex Mono',monospace;font-size:11px}
+  aside.panel .close{position:absolute;top:12px;right:14px;cursor:pointer;font-size:18px;color:#999;border:none;background:none}
+  svg text{font-family:'IBM Plex Sans',sans-serif}
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <span class="proj">mathvis-model</span>
+  <span class="links">
+    <a href="index.html">Overview</a>
+    <a href="file-architecture.html" class="active">File Architecture</a>
+    <a href="system-design.html">System Design</a>
+    <a href="flow-graph.html">Flow Graph</a>
+  </span>
+  <span class="ts">Generated 2026-06-12T09:50:00Z</span>
+</nav>
+
+<main>
+  <h1>File System Architecture</h1>
+  <div class="desc">Project tree laid out left-to-right by ELK.js. Entry-point modules (train.py, server.py, eval_model.py) carry an accent dot; generated artefacts under checkpoints/ are greyed.</div>
+  <div class="toolbar">
+    <input id="search" placeholder="search files…" autocomplete="off">
+  </div>
+  <div class="diagram-wrap">
+    <div class="zoombar" id="zb">
+      <button data-z="0.75">75%</button>
+      <button data-z="1" class="on">100%</button>
+      <button data-z="1.25">125%</button>
+      <button data-z="fit">Fit</button>
+    </div>
+    <div class="legend">
+      <h4>Legend</h4>
+      <div class="row"><span class="sw" style="background:#3a7a4a"></span> PY source</div>
+      <div class="row"><span class="sw" style="background:#5a7a3a"></span> JSON</div>
+      <div class="row"><span class="sw" style="background:#4a6a8a"></span> MD docs</div>
+      <div class="row"><span class="sw" style="background:#999"></span> TXT</div>
+      <div class="row"><span class="sw" style="border:1px solid #7aaecc;background:#fff"></span>&#9679; entry point (accent dot)</div>
+      <div class="row"><span class="sw" style="background:#f5f5f5;border:1px solid #ccc"></span> generated (.pt / json)</div>
+    </div>
+    <div class="scroll" id="scroll">
+      <div class="scaler" id="scaler"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    </div>
+  </div>
+</main>
+
+<aside class="panel" id="panel">
+  <button class="close" id="closeP">&times;</button>
+  <h3 id="pName"></h3>
+  <div class="path" id="pPath"></div>
+  <div id="pBody"></div>
+</aside>
+
+<script type="application/json" id="graph-data">
+{
+  "schema": "sys-design/v2",
+  "kind": "file-architecture",
+  "nodes": [
+    { "id": "root", "label": "mathvis-model", "dir": true,
+      "meta": { "role": "Project Root", "imp": "—", "exp": "—", "lines": 0, "rev": "—" } },
+    { "id": "readme", "label": "README.md", "tag": "MD",
+      "meta": { "role": "Documentation", "imp": "—", "exp": "—", "lines": 121, "rev": "—" } },
+    { "id": "reqs", "label": "requirements.txt", "tag": "TXT",
+      "meta": { "role": "Configuration", "imp": "—", "exp": "torch, numpy, fastapi, uvicorn, pydantic, tiktoken, datasets, tqdm", "lines": 8, "rev": "—" } },
+    { "id": "src", "label": "src", "dir": true,
+      "meta": { "role": "Source Package", "imp": "—", "exp": "—", "lines": 0, "rev": "—" } },
+    { "id": "model", "label": "model.py", "tag": "PY",
+      "meta": { "role": "Data Model — transformer definition", "imp": "math, torch, torch.nn, torch.nn.functional, dataclasses, torch.utils.checkpoint", "exp": "MathGenConfig, RMSNorm, RotaryEmbedding, CausalSelfAttention, SwiGLU, Block, MathGen, build_model", "lines": 203, "rev": "train.py, server.py, eval_model.py" } },
+    { "id": "tokenizer", "label": "tokenizer.py", "tag": "PY",
+      "meta": { "role": "Service — BPE tokenizer", "imp": "json, os, re, collections.Counter, pathlib", "exp": "SPECIAL_TOKENS, MATH_TOKENS, BPETokenizer", "lines": 217, "rev": "train.py, server.py, eval_model.py" } },
+    { "id": "dataset", "label": "dataset.py", "tag": "PY",
+      "meta": { "role": "Service — synthetic data + DataLoader", "imp": "json, math, random, pathlib, collections, typing, torch, torch.utils.data", "exp": "TopicGenerators, TOPIC_GENERATORS, build_all_samples, format_generate, format_grade, format_assess, _gen_problem, MathDataset, build_dataloader, load_gsm8k, load_math_dataset", "lines": 719, "rev": "train.py, server.py, eval_model.py" } },
+    { "id": "train", "label": "train.py", "entry": true, "tag": "PY",
+      "meta": { "role": "Build Script — training loop (entry point)", "imp": "argparse, json, os, time, pathlib, torch, torch.nn, torch.optim, torch.amp, model, tokenizer, dataset", "exp": "cosine_warmup_lr, log_line, train, __main__", "lines": 245, "rev": "— (CLI entry)" } },
+    { "id": "server", "label": "server.py", "entry": true, "tag": "PY",
+      "meta": { "role": "Route Handler — FastAPI inference server (entry point)", "imp": "json, os, re, pathlib, torch, fastapi, fastapi.middleware.cors, pydantic, torch.cuda.amp, model, tokenizer, dataset", "exp": "app, load, _infer, _extract_json, GenerateReq/Res, GradeReq/Res, AssessReq/Res, health, generate, grade, assess", "lines": 177, "rev": "— (CLI entry)" } },
+    { "id": "eval", "label": "eval_model.py", "entry": true, "tag": "PY",
+      "meta": { "role": "Test Suite — JSON-validity eval (entry point)", "imp": "argparse, json, re, sys, pathlib, torch, model, tokenizer, dataset", "exp": "load, infer, extract_json, is_valid, main", "lines": 141, "rev": "— (CLI entry)" } },
+    { "id": "ckptdir", "label": "checkpoints", "dir": true,
+      "meta": { "role": "Generated Artefact Store", "imp": "—", "exp": "—", "lines": 0, "rev": "written by train.py, read by server.py / eval_model.py" } },
+    { "id": "bestpt", "label": "best.pt", "gen": true, "tag": "PT",
+      "meta": { "role": "Generated — best checkpoint (lowest val_loss)", "imp": "—", "exp": "model state_dict, cfg, epoch, val_loss", "lines": 0, "rev": "server.py, eval_model.py" } },
+    { "id": "lastpt", "label": "latest.pt", "gen": true, "tag": "PT",
+      "meta": { "role": "Generated — latest-epoch checkpoint (resume)", "imp": "—", "exp": "model state_dict, cfg, epoch, best_val, global_step", "lines": 0, "rev": "train.py --resume" } },
+    { "id": "tokjson", "label": "tokenizer.json", "gen": true, "tag": "JSON",
+      "meta": { "role": "Generated — trained BPE vocab + merges (6031 tokens)", "imp": "—", "exp": "vocab, merges", "lines": 0, "rev": "server.py, eval_model.py" } },
+    { "id": "trainlog", "label": "train_log.jsonl", "gen": true, "tag": "JSON",
+      "meta": { "role": "Generated — per-epoch metrics log", "imp": "—", "exp": "{epoch, train_loss, val_loss, lr}", "lines": 0, "rev": "—" } },
+    { "id": "datadir", "label": "data", "dir": true,
+      "meta": { "role": "Data Directory (empty)", "imp": "—", "exp": "—", "lines": 0, "rev": "—" } }
+  ],
+  "edges": [
+    { "source": "root", "target": "readme" },
+    { "source": "root", "target": "reqs" },
+    { "source": "root", "target": "src" },
+    { "source": "root", "target": "ckptdir" },
+    { "source": "root", "target": "datadir" },
+    { "source": "src", "target": "model" },
+    { "source": "src", "target": "tokenizer" },
+    { "source": "src", "target": "dataset" },
+    { "source": "src", "target": "train" },
+    { "source": "src", "target": "server" },
+    { "source": "src", "target": "eval" },
+    { "source": "ckptdir", "target": "bestpt" },
+    { "source": "ckptdir", "target": "lastpt" },
+    { "source": "ckptdir", "target": "tokjson" },
+    { "source": "ckptdir", "target": "trainlog" }
+  ]
+}
+</script>
+
+<script>
+const ELK_CFG = {
+  "algorithm":"org.eclipse.elk.layered",
+  "elk.direction":"RIGHT",
+  "elk.spacing.nodeNode":"40",
+  "elk.layered.spacing.nodeNodeBetweenLayers":"70",
+  "elk.edgeRouting":"ORTHOGONAL",
+  "elk.layered.edgeLabels.sideSelection":"ALWAYS_DOWN",
+  "elk.layered.considerModelOrder.strategy":"NODES_AND_EDGES",
+  "elk.spacing.edgeLabel":"6",
+  "elk.spacing.edgeNode":"24"
+};
+const TAG_COLORS={TS:"#2a6099",JS:"#b08c2a",PY:"#3a7a4a",CS:"#6a4a8a",CPP:"#8a4a4a",H:"#b8763a",SQL:"#4a7a8a",YML:"#7a6a3a",JSON:"#5a7a3a",ENV:"#888888",MD:"#4a6a8a",CFG:"#777777",RESX:"#9a7a5a",TXT:"#999999",HTML:"#a05a2a",CSS:"#2a7a9a",PT:"#7a7a7a"};
+
+const DATA=JSON.parse(document.getElementById('graph-data').textContent);
+const SANS='13px "IBM Plex Sans"';
+let _ctx; function measure(t,f){if(!_ctx)_ctx=document.createElement('canvas').getContext('2d');_ctx.font=f;return _ctx.measureText(t).width;}
+function nodeSize(n){const w=Math.max(120,measure(n.label,SANS)+38);return {w,h:44};}
+const SVGNS="http://www.w3.org/2000/svg";
+function el(t,a){const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+const byId={}; DATA.nodes.forEach(n=>byId[n.id]=n);
+
+let DIM=new Set();
+async function render(){
+  await document.fonts.ready;
+  const elk=new ELK();
+  const children=DATA.nodes.map(n=>{const s=nodeSize(n);return {id:n.id,width:s.w,height:s.h};});
+  const edges=DATA.edges.map((e,i)=>({id:"e"+i,sources:[e.source],targets:[e.target]}));
+  const res=await elk.layout({id:"root",layoutOptions:ELK_CFG,children,edges});
+  draw(res);
+}
+function draw(res){
+  const svg=document.getElementById('svg');while(svg.firstChild)svg.removeChild(svg.firstChild);
+  const PAD=30,W=res.width+PAD*2,H=res.height+PAD*2;
+  svg.setAttribute('width',W);svg.setAttribute('height',H);svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const defs=el('defs',{});const mk=el('marker',{id:'arr',markerWidth:'8',markerHeight:'8',refX:'7',refY:'3',orient:'auto',markerUnits:'strokeWidth'});
+  mk.appendChild(el('path',{d:'M0,0 L7,3 L0,6 Z',fill:'#444'}));defs.appendChild(mk);svg.appendChild(defs);
+  const root=el('g',{transform:`translate(${PAD},${PAD})`});svg.appendChild(root);
+  res.edges.forEach(e=>(e.sections||[]).forEach(sec=>{
+    let d=`M ${sec.startPoint.x} ${sec.startPoint.y}`;(sec.bendPoints||[]).forEach(bp=>d+=` L ${bp.x} ${bp.y}`);d+=` L ${sec.endPoint.x} ${sec.endPoint.y}`;
+    root.appendChild(el('path',{d,fill:'none',stroke:'#444','stroke-width':'1.5','marker-end':'url(#arr)'}));
+  }));
+  res.children.forEach(c=>{
+    const n=byId[c.id];const g=el('g',{transform:`translate(${c.x},${c.y})`,'data-id':c.id,style:'cursor:pointer'});
+    const fill=n.gen?'#f5f5f5':'#cde4f5',stroke=n.gen?'#bbb':'#7aaecc';
+    const rect=el('rect',{x:0,y:0,width:c.width,height:c.height,rx:4,fill,stroke,'stroke-width':'1'});
+    if(n.test)rect.setAttribute('stroke-dasharray','4 3');
+    g.appendChild(rect);
+    if(n.dir){g.appendChild(el('line',{x1:0,y1:3,x2:c.width,y2:3,stroke,'stroke-width':'1.5'}));}
+    const ports=el('g',{opacity:'0.22'});for(let i=1;i<=5;i++){const yy=c.height*i/6;ports.appendChild(el('line',{x1:6,y1:yy,x2:c.width-8,y2:yy,stroke,'stroke-width':'1'}));}g.appendChild(ports);
+    if(n.entry)g.appendChild(el('circle',{cx:8,cy:8,r:4,fill:'#2a6099'}));
+    if(n.tag){const tw=28,th=14;g.appendChild(el('rect',{x:c.width-tw-2,y:2,width:tw,height:th,rx:2,fill:TAG_COLORS[n.tag]||'#7a7a7a'}));
+      const tt=el('text',{x:c.width-tw/2-2,y:12,'text-anchor':'middle','font-family':'IBM Plex Mono','font-size':'8',fill:'#fff'});tt.textContent=n.tag;g.appendChild(tt);}
+    const t1=el('text',{x:c.width/2,y:c.height/2+4,'text-anchor':'middle','font-family':'IBM Plex Sans','font-size':'13',fill:n.gen?'#999':'#333'});
+    t1.textContent=n.label;g.appendChild(t1);
+    g.addEventListener('click',()=>openPanel(n));
+    root.appendChild(g);
+  });
+  setupZoom(W,H);
+}
+function openPanel(n){
+  document.getElementById('panel').classList.add('open');
+  document.getElementById('pName').textContent=n.label;
+  document.getElementById('pPath').textContent=pathFor(n.id);
+  const m=n.meta||{};
+  document.getElementById('pBody').innerHTML=
+    `<div class="k">Type / Role</div><div class="v">${m.role||'—'}</div>`+
+    `<div class="k">Detected Imports</div><div class="v mono">${m.imp||'—'}</div>`+
+    `<div class="k">Detected Exports</div><div class="v mono">${m.exp||'—'}</div>`+
+    `<div class="k">Approx. Lines</div><div class="v mono">${m.lines||0}</div>`+
+    `<div class="k">Reverse Dependencies</div><div class="v mono">${m.rev||'—'}</div>`;
+}
+function pathFor(id){
+  const map={root:"mathvis-model/",readme:"mathvis-model/README.md",reqs:"mathvis-model/requirements.txt",
+    src:"mathvis-model/src/",model:"mathvis-model/src/model.py",tokenizer:"mathvis-model/src/tokenizer.py",
+    dataset:"mathvis-model/src/dataset.py",train:"mathvis-model/src/train.py",server:"mathvis-model/src/server.py",
+    eval:"mathvis-model/src/eval_model.py",ckptdir:"mathvis-model/checkpoints/",bestpt:"mathvis-model/checkpoints/best.pt",
+    lastpt:"mathvis-model/checkpoints/latest.pt",tokjson:"mathvis-model/checkpoints/tokenizer.json",
+    trainlog:"mathvis-model/checkpoints/train_log.jsonl",datadir:"mathvis-model/data/"};
+  return map[id]||id;
+}
+document.getElementById('closeP').onclick=()=>document.getElementById('panel').classList.remove('open');
+
+function setupZoom(W,H){
+  const scaler=document.getElementById('scaler'),scroll=document.getElementById('scroll');
+  function apply(z){if(z==='fit'){const avail=scroll.clientWidth-4;z=Math.min(1.25,Math.max(0.4,avail/W));}
+    scaler.style.transform=`scale(${z})`;scaler.style.width=(W*z)+'px';scaler.style.height=(H*z)+'px';}
+  document.querySelectorAll('#zb button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#zb button').forEach(x=>x.classList.remove('on'));b.classList.add('on');apply(b.dataset.z==='fit'?'fit':parseFloat(b.dataset.z));});
+  apply(1);
+}
+document.getElementById('search').addEventListener('input',e=>{
+  const q=e.target.value.trim().toLowerCase();
+  document.querySelectorAll('#svg g[data-id]').forEach(g=>{
+    const n=byId[g.getAttribute('data-id')];const hit=q&&n.label.toLowerCase().includes(q);
+    g.style.opacity=(!q||hit)?'1':'0.2';
+    g.querySelectorAll('rect').forEach(r=>{if(hit)r.setAttribute('stroke','#d4a017');});
+  });
+});
+render();
+</script>
+</body>
+</html>

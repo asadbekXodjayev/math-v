@@ -1,0 +1,18 @@
+# Large binary artifacts — tracked by sha256 in research/artifacts/CHECKPOINTS.sha256, never committed
+*.pt
+*.pth
+*.safetensors
+
+# Environments / caches
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Regenerable experiment outputs (deterministic scripts + committed manifests reproduce them)
+runs/
+data/*
+!data/manifests/
+!data/README.md
+!data/dataset_card.md

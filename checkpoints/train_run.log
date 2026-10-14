@@ -1,0 +1,45 @@
+
+============================================================
+MathGen Training  |  device=cuda
+GPU: NVIDIA GeForce RTX 3050 Laptop GPU
+VRAM: 4.3 GB
+============================================================
+
+=== Building dataset ===
+Generating synthetic [GEN] samples...
+  Synthetic [GEN]: 60000
+  Total [GEN]: 60000  (HuggingFace datasets skipped for offline training)
+Generating [GRADE] samples...
+  [GRADE]: 30000
+Generating [ASSESS] samples...
+  [ASSESS]: 2000
+
+Total training samples: 92000
+
+=== Tokenizer ===
+Training BPE on 84640 texts -> vocab 16384...
+  vocab: 1000
+  vocab: 2000
+  vocab: 3000
+  vocab: 4000
+  vocab: 5000
+  vocab: 6000
+Tokenizer ready: 6009 tokens
+
+=== Model ===
+C:\Users\hp\Desktop\ai-edu\mathvis-model\.venv\Lib\site-packages\torch\nn\modules\module.py:1369: UserWarning: expandable_segments not supported on this platform (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\c10/cuda/CUDAAllocatorConfig.h:40.)
+  return t.to(
+Traceback (most recent call last):
+  File "C:\Users\hp\Desktop\ai-edu\mathvis-model\src\train.py", line 244, in <module>
+    train(args)
+    ~~~~~^^^^^^
+  File "C:\Users\hp\Desktop\ai-edu\mathvis-model\src\train.py", line 86, in train
+    model, cfg = build_model(vocab_size=len(tok), device=str(device))
+                 ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Desktop\ai-edu\mathvis-model\src\model.py", line 201, in build_model
+    print(f"MathGen v2: {n/1e6:.1f}M params | {cfg.n_layers}L \xd7 d{cfg.d_model} | RTX 3050 target")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1251.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\xd7' in position 30: character maps to <undefined>

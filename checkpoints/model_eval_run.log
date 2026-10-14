@@ -1,0 +1,45 @@
+﻿
+Building model source (device=cpu, max_new=180)...
+Loaded best.pt | val_loss=0.1835 | device=cpu
+
+==============================================================================
+ANSWER ACCURACY  —  source = model (best.pt, under test)
+==============================================================================
+topic                                        acc    ok/seen  badJSON unparse
+basic-math/arithmetic                      61.1%  11/18        0       0  ############
+basic-math/algebra-basics                  61.1%  11/18        0       0  ############
+basic-math/functions                       61.1%  11/18        0       0  ############
+linear-algebra/vectors                     33.3%   6/18        0       0  #######
+linear-algebra/matrices                   100.0%  18/18        0       0  ####################
+linear-algebra/matrix-multiplication      100.0%  18/18        0       0  ####################
+linear-algebra/linear-transformations     100.0%  18/18        0       0  ####################
+calculus/limits                           100.0%  18/18        0       0  ####################
+calculus/derivatives                      100.0%  18/18        0       0  ####################
+calculus/integrals                        100.0%  18/18        0       0  ####################
+------------------------------------------------------------------------------
+OVERALL                                    81.7% 147/180       0       0
+
+  total samples : 180
+  bad JSON      : 0  (model didn't emit valid JSON)
+  unverifiable  : 0  (question didn't match any verifier)
+  verified seen : 180  -> 147 correct, 33 wrong
+
+  sample WRONG answers (model_ans  vs  true):
+    [arithmetic] Compute 25 - 29.
+        model:            '0'   true: '-4'
+    [arithmetic] Compute 2 * 29.
+        model:           '46'   true: '58'
+    [algebra-basics] Solve for x: 3x + 7 = 8
+        model:            '1'   true: '0'
+    [algebra-basics] Solve for x: 6x + 7 = 35
+        model:            '5'   true: '4'
+    [functions] Given f(x) = 3x² + 5x + 2, find f(1).
+        model:            '8'   true: '10'
+    [functions] Given f(x) = 5x² + 7x + 7, find f(-3).
+        model:           '29'   true: '31'
+    [vectors] Compute u·v for u = [8, 5] and v = [8, 6].
+        model:           '90'   true: '94'
+    [vectors] Compute u·v for u = [8, 6] and v = [4, 8].
+        model:           '76'   true: '80'
+
+Saved summary -> C:\Users\hp\Desktop\asadbek\AI ML\ai-edu\mathvis-model\checkpoints\accuracy_report.json
