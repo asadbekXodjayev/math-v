@@ -1,5 +1,13 @@
 # MathGen — Our Own AI
 
+> **⚠ Audit notice (2026-10-14).** Parts of this README don't match the code. The trained
+> checkpoint has **34.2M parameters** (d=512, d_ff=2048, 1,299-token digit-level vocab), not ~5M /
+> d=256 / 8,192. The reported accuracies measure the model on problems it generated itself,
+> mostly drawn from very small template spaces, so they are not evidence of generalization.
+> The verified facts, known bugs and the research plan are in
+> [`research/REPOSITORY_AUDIT.md`](research/REPOSITORY_AUDIT.md). This README will be rewritten
+> with verified numbers once the controlled study is done.
+
 Custom transformer model trained from scratch to generate math problems.
 No external APIs. No open-source weights. Built and trained entirely by us.
 

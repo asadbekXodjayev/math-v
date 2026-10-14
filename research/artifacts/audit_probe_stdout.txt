@@ -1,0 +1,97 @@
+
+==============================================================================
+F1  parameter counts (README claims ~5M params, d=256, vocab 8192)
+==============================================================================
+current_best       vocab= 1299  total= 34.23M  non-emb= 33.56M  epoch=9  val_loss=0.1331  step=9010
+baseline_v2_best   vocab= 6031  total= 36.65M  non-emb= 33.56M  epoch=4  val_loss=0.1835  step=6610
+
+==============================================================================
+F2  train loss = epoch_loss / global_step (cumulative)  ->  understated ~epoch x
+==============================================================================
+epoch  1  reported train=1.6074  corrected train=1.6074  val=0.2129
+epoch  2  reported train=0.0988  corrected train=0.1976  val=0.1752
+epoch  3  reported train=0.0579  corrected train=0.1737  val=0.1619
+epoch  4  reported train=0.0405  corrected train=0.1619  val=0.1538
+epoch  5  reported train=0.0308  corrected train=0.1540  val=0.1474
+epoch  6  reported train=0.0246  corrected train=0.1479  val=0.1431
+epoch  7  reported train=0.0204  corrected train=0.1429  val=0.1394
+epoch  8  reported train=0.0173  corrected train=0.1381  val=0.1357
+epoch  9  reported train=0.0150  corrected train=0.1348  val=0.1338
+epoch 10  reported train=0.0133  corrected train=0.1328  val=0.1331
+logged tok/s: E1 last=23.8k  E10 last=241.4k (cumulative tokens / per-epoch time -> inflates ~epoch x; also counts padding)
+
+==============================================================================
+F3  arith_integer subtraction: a=max(a,b); b=min(a,b)  ->  'b - b = 0'
+==============================================================================
+subtraction items: 33680  with a == b: 17292 (51.3%)  | a correct generator gives 3.4%
+
+==============================================================================
+F4  verifier: generator-control agreement + off-distribution probes
+==============================================================================
+generator control: 23/23 templates at 100%  
+  Solve for x: 7x + 11 = 72                        true= 61/7  verifier -> WRONG TRUTH '8'
+  Solve for x: 4x + 3 = 12                         true=  9/4  verifier -> WRONG TRUTH '2'
+  Solve for x: -2x + 3 = 7                         true=   -2  verifier -> UNVERIFIABLE (None)
+  Compute -3 + 5.                                  true=    2  verifier -> UNVERIFIABLE (None)
+  Find ||v|| for v = [-3, 4].                      true=    5  verifier -> UNVERIFIABLE (None)
+  Compute u·v for u = [-1, 2] and v = [3, 4].      true=    5  verifier -> UNVERIFIABLE (None)
+
+==============================================================================
+F5  instance-space sizes and legacy 92/8 row-level split leakage
+==============================================================================
+  limit_factor                 5  exhaustive
+  integral_power              12  exhaustive
+  deriv_power                 20  exhaustive
+  integral_definite           27  exhaustive
+  limit_infinity              50  exhaustive
+  deriv_at_point              80  exhaustive
+  algebra_quadratic           91  exhaustive
+  linear_transform           144  exhaustive
+  vec_magnitude              144  exhaustive
+  arith_pemdas               512  exhaustive
+  vec_angle                  625  exhaustive
+  limit_substitution         864  exhaustive
+  deriv_polynomial          1080  exhaustive
+  algebra_linear            1120  exhaustive
+  arith_fractions           1225  exhaustive
+  arith_integer             2117  >= (not saturated)
+  func_evaluate             4455  >= (not saturated)
+  mat_transpose             6559  >= (not saturated)
+  mat_det                   6561  >= (not saturated)
+  vec_dot                  19576  >= (not saturated)
+  mat_scalar               23579  >= (not saturated)
+  mat_mul                  59953  >= (not saturated)
+  mat_add                  59968  >= (not saturated)
+legacy recipe: 47000 samples | val [GEN]=2365 | val sample identical to a train sample: 48.8% | val questionText seen in train: 58.7%
+
+==============================================================================
+F6/F7  legacy reported accuracies: uncertainty and comparison
+==============================================================================
+digit : 238/300 = 79.3%  Wilson95 [74.4, 83.5]
+bpe   : 147/180 = 81.7%  Wilson95 [75.4, 86.6]
+two-proportion z-test p = 0.534  (and the runs also differ in data size, epochs, eval n)
+
+==============================================================================
+F8  JSON ascii-escaping, unicode .isdigit(), sequence lengths vs context 256
+==============================================================================
+[GEN] samples with \uXXXX escapes: 84.3%  (mean 4.0 escapes/sample)
+example: [GEN] topic:linear-algebra/matrix-multiplication difficulty:easy <SEP><JSON>{"questionText": "Compute AB where A = [[3, 3], [7, 7]] and B = [[5, 4], [6, 5]].", "hints": [
+str.isdigit on unicode: {'²': True, '³': True, '₁': True, '₂': True}  -> the 'digit-level' rule also blocks merges on these
+  digit_1299 tokens/sample mean=109 p95=182 max=191 truncated(>257)=0.0%
+  bpe_6031   tokens/sample mean=74 p95=114 max=123 truncated(>257)=0.0%
+  char       chars/sample  mean=246 p95=339 max=346 truncated(>257)=45.0%  (MathDataset truncates silently)
+
+==============================================================================
+F9  data pipeline determinism (legacy has no seed anywhere)
+==============================================================================
+two unseeded builds -> sha256 0e851b88a19ab336 vs 2e1cf1efdd4e16eb  identical=False
+seed calls in src/*.py: 0
+
+==============================================================================
+SMOKE  legacy best.pt loads and generates on CPU (legacy sampling, seeded)
+==============================================================================
+  basic-math/arithmetic                   67 tok in  2.26s  correct=True  Q='Evaluate: 4 × (7 + 4)'
+  linear-algebra/matrix-multiplication   120 tok in  5.23s  correct=False  Q='Find det(A) for A = [[4, 2], [9, 1]].'
+  calculus/derivatives                    80 tok in  2.88s  correct=True  Q='Differentiate f(x) = 2x^3 + 4x + 7.'
+
+Saved -> research\artifacts\audit_results.json

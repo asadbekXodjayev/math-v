@@ -1,0 +1,385 @@
+{
+  "env": {
+    "python": "3.14.2",
+    "torch": "2.11.0+cu128",
+    "cuda_build": "12.8",
+    "cuda_available": true
+  },
+  "F1_params": {
+    "current_best": {
+      "vocab_size": 1299,
+      "n_merges": 954,
+      "d_model": 512,
+      "d_ff": 2048,
+      "n_layers": 8,
+      "n_heads": 8,
+      "context_len": 256,
+      "total_params": 34228224,
+      "embedding_params_tied": 665088,
+      "non_embedding_params": 33563136,
+      "saved_cfg": {
+        "vocab_size": 1299,
+        "context_len": 256,
+        "n_layers": 8,
+        "n_heads": 8,
+        "d_model": 512,
+        "d_ff": 2048,
+        "dropout": 0.1,
+        "bias": false,
+        "use_grad_ckpt": false
+      },
+      "epoch": 9,
+      "val_loss": 0.13308981030135397,
+      "global_step": 9010
+    },
+    "baseline_v2_best": {
+      "vocab_size": 6031,
+      "n_merges": 5686,
+      "d_model": 512,
+      "d_ff": 2048,
+      "n_layers": 8,
+      "n_heads": 8,
+      "context_len": 256,
+      "total_params": 36651008,
+      "embedding_params_tied": 3087872,
+      "non_embedding_params": 33563136,
+      "saved_cfg": {
+        "vocab_size": 6031,
+        "context_len": 256,
+        "n_layers": 8,
+        "n_heads": 8,
+        "d_model": 512,
+        "d_ff": 2048,
+        "dropout": 0.1,
+        "bias": false,
+        "use_grad_ckpt": false
+      },
+      "epoch": 4,
+      "val_loss": 0.18350528919178508,
+      "global_step": 6610
+    }
+  },
+  "F2_loss_logging": {
+    "digit_retrain5": [
+      {
+        "epoch": 1,
+        "reported_train": 1.6073781648210428,
+        "corrected_train": 1.6073781648210428,
+        "val": 0.21291381353215807
+      },
+      {
+        "epoch": 2,
+        "reported_train": 0.09879681793507705,
+        "corrected_train": 0.1975936358701541,
+        "val": 0.1752013429572248
+      },
+      {
+        "epoch": 3,
+        "reported_train": 0.057897990757597405,
+        "corrected_train": 0.1736939722727922,
+        "val": 0.16193228029901055
+      },
+      {
+        "epoch": 4,
+        "reported_train": 0.04046626454353597,
+        "corrected_train": 0.16186505817414387,
+        "val": 0.15378037386923837
+      },
+      {
+        "epoch": 5,
+        "reported_train": 0.030800817134923462,
+        "corrected_train": 0.15400408567461732,
+        "val": 0.14738684247253805
+      },
+      {
+        "epoch": 6,
+        "reported_train": 0.024649532642759882,
+        "corrected_train": 0.1478971958565593,
+        "val": 0.14305852420011145
+      },
+      {
+        "epoch": 7,
+        "reported_train": 0.02041136683573979,
+        "corrected_train": 0.14287956785017852,
+        "val": 0.13937667799983056
+      },
+      {
+        "epoch": 8,
+        "reported_train": 0.017261303026336643,
+        "corrected_train": 0.13809042421069315,
+        "val": 0.13572890733837323
+      },
+      {
+        "epoch": 9,
+        "reported_train": 0.014978631244868293,
+        "corrected_train": 0.13480768120381464,
+        "val": 0.1337607812587243
+      },
+      {
+        "epoch": 10,
+        "reported_train": 0.013284715469905922,
+        "corrected_train": 0.13284715469905922,
+        "val": 0.13308981030135397
+      }
+    ],
+    "logged_tok_per_s_k": {
+      "E1_last": 23.8,
+      "E10_last": 241.4
+    }
+  },
+  "F3_subtraction": {
+    "n_subtraction": 33680,
+    "n_a_eq_b": 17292,
+    "frac_a_eq_b": 0.5134204275534442,
+    "expected_frac_if_correct": 0.034482758620689655
+  },
+  "F4_verifier": {
+    "generator_control_acc": {
+      "algebra_linear": 1.0,
+      "algebra_quadratic": 1.0,
+      "arith_fractions": 1.0,
+      "arith_integer": 1.0,
+      "arith_pemdas": 1.0,
+      "deriv_at_point": 1.0,
+      "deriv_polynomial": 1.0,
+      "deriv_power": 1.0,
+      "func_evaluate": 1.0,
+      "integral_definite": 1.0,
+      "integral_power": 1.0,
+      "limit_factor": 1.0,
+      "limit_infinity": 1.0,
+      "limit_substitution": 1.0,
+      "linear_transform": 1.0,
+      "mat_add": 1.0,
+      "mat_det": 1.0,
+      "mat_mul": 1.0,
+      "mat_scalar": 1.0,
+      "mat_transpose": 1.0,
+      "vec_angle": 1.0,
+      "vec_dot": 1.0,
+      "vec_magnitude": 1.0
+    },
+    "probes": [
+      {
+        "question": "Solve for x: 7x + 11 = 72",
+        "true": "61/7",
+        "verifier": "8",
+        "status": "WRONG TRUTH '8'"
+      },
+      {
+        "question": "Solve for x: 4x + 3 = 12",
+        "true": "9/4",
+        "verifier": "2",
+        "status": "WRONG TRUTH '2'"
+      },
+      {
+        "question": "Solve for x: -2x + 3 = 7",
+        "true": "-2",
+        "verifier": null,
+        "status": "UNVERIFIABLE (None)"
+      },
+      {
+        "question": "Compute -3 + 5.",
+        "true": "2",
+        "verifier": null,
+        "status": "UNVERIFIABLE (None)"
+      },
+      {
+        "question": "Find ||v|| for v = [-3, 4].",
+        "true": "5",
+        "verifier": null,
+        "status": "UNVERIFIABLE (None)"
+      },
+      {
+        "question": "Compute u\u00b7v for u = [-1, 2] and v = [3, 4].",
+        "true": "5",
+        "verifier": null,
+        "status": "UNVERIFIABLE (None)"
+      }
+    ]
+  },
+  "F5_leakage": {
+    "instance_spaces": {
+      "algebra_linear": {
+        "unique_questions_60k_draws": 1120,
+        "saturated": true
+      },
+      "algebra_quadratic": {
+        "unique_questions_60k_draws": 91,
+        "saturated": true
+      },
+      "arith_fractions": {
+        "unique_questions_60k_draws": 1225,
+        "saturated": true
+      },
+      "arith_integer": {
+        "unique_questions_60k_draws": 2117,
+        "saturated": false
+      },
+      "arith_pemdas": {
+        "unique_questions_60k_draws": 512,
+        "saturated": true
+      },
+      "deriv_at_point": {
+        "unique_questions_60k_draws": 80,
+        "saturated": true
+      },
+      "deriv_polynomial": {
+        "unique_questions_60k_draws": 1080,
+        "saturated": true
+      },
+      "deriv_power": {
+        "unique_questions_60k_draws": 20,
+        "saturated": true
+      },
+      "func_evaluate": {
+        "unique_questions_60k_draws": 4455,
+        "saturated": false
+      },
+      "integral_definite": {
+        "unique_questions_60k_draws": 27,
+        "saturated": true
+      },
+      "integral_power": {
+        "unique_questions_60k_draws": 12,
+        "saturated": true
+      },
+      "limit_factor": {
+        "unique_questions_60k_draws": 5,
+        "saturated": true
+      },
+      "limit_infinity": {
+        "unique_questions_60k_draws": 50,
+        "saturated": true
+      },
+      "limit_substitution": {
+        "unique_questions_60k_draws": 864,
+        "saturated": true
+      },
+      "linear_transform": {
+        "unique_questions_60k_draws": 144,
+        "saturated": true
+      },
+      "mat_add": {
+        "unique_questions_60k_draws": 59968,
+        "saturated": false
+      },
+      "mat_det": {
+        "unique_questions_60k_draws": 6561,
+        "saturated": false
+      },
+      "mat_mul": {
+        "unique_questions_60k_draws": 59953,
+        "saturated": false
+      },
+      "mat_scalar": {
+        "unique_questions_60k_draws": 23579,
+        "saturated": false
+      },
+      "mat_transpose": {
+        "unique_questions_60k_draws": 6559,
+        "saturated": false
+      },
+      "vec_angle": {
+        "unique_questions_60k_draws": 625,
+        "saturated": true
+      },
+      "vec_dot": {
+        "unique_questions_60k_draws": 19576,
+        "saturated": false
+      },
+      "vec_magnitude": {
+        "unique_questions_60k_draws": 144,
+        "saturated": true
+      }
+    },
+    "legacy_recipe_n_samples": 47000,
+    "val_gen_n": 2365,
+    "val_gen_exact_duplicate_of_train_frac": 0.4883720930232558,
+    "val_gen_question_seen_in_train_frac": 0.586892177589852
+  },
+  "F7_stats": {
+    "digit": {
+      "k": 238,
+      "n": 300,
+      "wilson95": [
+        0.7439449828281532,
+        0.8353044739379138
+      ]
+    },
+    "bpe": {
+      "k": 147,
+      "n": 180,
+      "wilson95": [
+        0.7537265496401512,
+        0.8663729681384164
+      ]
+    },
+    "two_prop_p": 0.5344956391045814
+  },
+  "F8_tokenizer": {
+    "escape_frac": 0.8428571428571429,
+    "isdigit_unicode": {
+      "\u00b2": true,
+      "\u00b3": true,
+      "\u2081": true,
+      "\u2082": true
+    },
+    "lengths": {
+      "digit_1299": {
+        "mean": 109.2252380952381,
+        "p95": 182,
+        "max": 191,
+        "frac_gt_257": 0.0
+      },
+      "bpe_6031": {
+        "mean": 73.63952380952381,
+        "p95": 114,
+        "max": 123,
+        "frac_gt_257": 0.0
+      },
+      "char_level": {
+        "mean": 246.05380952380952,
+        "p95": 339,
+        "max": 346,
+        "frac_gt_257": 0.44952380952380955
+      }
+    }
+  },
+  "F9_determinism": {
+    "unseeded_build_digests": [
+      "0e851b88a19ab336",
+      "2e1cf1efdd4e16eb"
+    ],
+    "seed_calls_in_src": 0
+  },
+  "smoke_model": [
+    {
+      "topic": "basic-math/arithmetic",
+      "question": "Evaluate: 4 \u00d7 (7 + 4)",
+      "answerKey": "44",
+      "verified_truth": "44",
+      "correct": true,
+      "new_tokens": 67,
+      "seconds": 2.2638645998667926
+    },
+    {
+      "topic": "linear-algebra/matrix-multiplication",
+      "question": "Find det(A) for A = [[4, 2], [9, 1]].",
+      "answerKey": "-18",
+      "verified_truth": "-14",
+      "correct": false,
+      "new_tokens": 120,
+      "seconds": 5.225269800052047
+    },
+    {
+      "topic": "calculus/derivatives",
+      "question": "Differentiate f(x) = 2x^3 + 4x + 7.",
+      "answerKey": "6x^2 + 4",
+      "verified_truth": "6*x**2 + 4",
+      "correct": true,
+      "new_tokens": 80,
+      "seconds": 2.8845127001404762
+    }
+  ]
+}
