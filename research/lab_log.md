@@ -118,3 +118,17 @@ Append-only, newest entries last. Record only what was actually run, with the co
   - a determinism test that compared only part of the manifest;
   - repeated enumeration.
 - **Deviations:** DV-001 (no sympy in scoring) and DV-002 (small eval cells). Both are in `research/decisions.md`.
+
+---
+
+## 2026-10-17 — M5 framework (built), P0 interrupted
+
+- **Built, test-first:** tokenizer arms, model arms, training loop, decoding/eval, pilot scripts, Baseline A scorer, the `legacy-repro` worktree (2 commits on branch `legacy-repro`), served F3 fix. Full suite: **all passing**. Plan tests 1–12 are covered.
+- **Code review (M5):** 10 findings, all fixed with failing tests first; see `decisions.md` I-005…I-007 and DV-003.
+- **P0 run A** (`runs/p0-ref-s0-st1000-a`): completed 1,000 steps on GPU.
+  - Final train loss 0.076; ~13.9K tok/s, ~0.35 s/step **on battery power**.
+  - Profiling found elementwise kernels bound by memory bandwidth, consistent with a throttled laptop GPU (BatteryStatus = 1). See I-006.
+- **P0 run B was stopped by Claude Code because system memory was critically low** (0.7 GB free of 7.6 GB). It had only just started.
+  - P0 is therefore incomplete: the determinism comparison and eval timing have not been measured.
+  - Not restarted automatically.
+- **Before resuming pilots:** connect AC power and free RAM (close other apps).
