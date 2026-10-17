@@ -48,11 +48,10 @@ def gen_from_generator(topic, diff):
     return (p["questionText"], p["answerKey"]) if p else (None, None)
 
 
-def make_model_source(device_str, max_new):
+def make_model_source(device_str, max_new, ck_dir):
     import torch
     from model import MathGen, MathGenConfig
     from tokenizer import BPETokenizer
-    ck_dir = SRC.parent / "checkpoints"
     tok = BPETokenizer(); tok.load(str(ck_dir / "tokenizer.json"))
     cfg = MathGenConfig(vocab_size=len(tok), use_grad_ckpt=False)
     dev = torch.device(device_str)
@@ -147,7 +146,12 @@ def main():
     ap.add_argument("--n", type=int, default=10)
     ap.add_argument("--cuda", action="store_true")
     ap.add_argument("--max-new", type=int, default=256)
+    ap.add_argument("--ckpt-dir", default=str(SRC.parent / "checkpoints"), help="legacy-repro: run directory")
+    ap.add_argument("--seed", type=int, default=0, help="legacy-repro: seeds sampling and generators")
     args = ap.parse_args()
+    import random, torch
+    random.seed(args.seed); torch.manual_seed(args.seed)
+    ck_dir = Path(args.ckpt_dir)
     diffs = ["easy", "medium", "hard"]
 
     results = {}
@@ -157,10 +161,10 @@ def main():
     if args.source in ("model", "both"):
         dev = "cuda" if args.cuda else "cpu"
         print(f"\nBuilding model source (device={dev}, max_new={args.max_new})...")
-        gen_fn = make_model_source(dev, args.max_new)
+        gen_fn = make_model_source(dev, args.max_new, ck_dir)
         results["model"] = report("model (best.pt, under test)", run_source(gen_fn, args.n, diffs))
 
-    out = SRC.parent / "checkpoints" / "accuracy_report.json"
+    out = ck_dir / "accuracy_report.json"
     out.write_text(json.dumps({k: {"overall_acc": v[0], **v[1]} for k, v in results.items()}, indent=2),
                    encoding="utf-8")
     print(f"Saved summary -> {out}")
