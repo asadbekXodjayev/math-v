@@ -16,3 +16,4 @@ data/*
 !data/manifests/
 !data/README.md
 !data/dataset_card.md
+!data/tokenizers/

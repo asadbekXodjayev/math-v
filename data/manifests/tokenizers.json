@@ -1,0 +1,23 @@
+{
+  "fit_file_sha256": "feda78cd91b89d75b5c9cb239fadc8dff6f4c2b3e55036a954e62f0c00c06692",
+  "tokenizers": {
+    "char": {
+      "sha256": "a11bd48480cc92a072004c01fd56be87828684be6800feec96bff951e83ffd0b",
+      "vocab_size": 89,
+      "text_merges": 0,
+      "digit_merges": 0
+    },
+    "digit": {
+      "sha256": "5574a4e8df29b640c8da937d559ad2d70ce8a463fc3741c607e8a60cc8fed6a9",
+      "vocab_size": 489,
+      "text_merges": 400,
+      "digit_merges": 0
+    },
+    "bpe_num": {
+      "sha256": "4a2ff844e3a5e7402e8d6c4f0e457e0d1345210127397990c9bd8f876b78dbb5",
+      "vocab_size": 873,
+      "text_merges": 400,
+      "digit_merges": 384
+    }
+  }
+}
