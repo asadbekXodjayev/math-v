@@ -1,0 +1,103 @@
+{"tag": "q01", "query": "abs:\"number tokenization\" AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 2, "returned": 2}
+{"tag": "q02", "query": "abs:tokenization AND abs:arithmetic AND abs:digit", "sort": "relevance", "date": "2026-10-17", "total": 28, "returned": 28}
+{"tag": "q03", "query": "abs:\"from scratch\" AND abs:arithmetic AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 14, "returned": 14}
+{"tag": "q04", "query": "abs:memorization AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 62, "returned": 50}
+{"tag": "q05", "query": "abs:\"length generalization\" AND abs:positional AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 9, "returned": 9}
+{"tag": "q06", "query": "abs:synthetic AND abs:mathematical AND abs:\"small transformer\"", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q07", "query": "abs:digit AND abs:tokeniz AND abs:number", "sort": "relevance", "date": "2026-10-17", "total": 0, "returned": 0}
+{"tag": "q08", "query": "abs:\"linear algebra\" AND abs:transformer AND abs:synthetic", "sort": "relevance", "date": "2026-10-17", "total": 8, "returned": 8}
+{"tag": "q08", "query": "abs:\"linear algebra\" AND abs:transformer AND abs:synthetic", "sort": "relevance", "date": "2026-10-17", "total": 8, "returned": 8}
+{"tag": "q09", "query": "abs:\"symbolic integration\" AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 7, "returned": 7}
+{"tag": "q10", "query": "abs:\"repeated examples\" AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q11", "query": "abs:seen AND abs:unseen AND abs:arithmetic AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q12", "query": "abs:arithmetic AND abs:tokenization", "sort": "submittedDate", "date": "2026-10-17", "total": 316, "returned": 50}
+{"tag": "q13", "query": "abs:\"small language models\" AND abs:arithmetic AND abs:\"from scratch\"", "sort": "relevance", "date": "2026-10-17", "total": 2, "returned": 2}
+{"tag": "q14", "query": "abs:scratchpad AND abs:arithmetic AND abs:\"small transformer\"", "sort": "relevance", "date": "2026-10-17", "total": 0, "returned": 0}
+{"tag": "q15", "query": "abs:\"positional encoding\" AND abs:arithmetic AND abs:NoPE", "sort": "relevance", "date": "2026-10-17", "total": 0, "returned": 0}
+{"tag": "q16", "query": "abs:\"number representation\" AND abs:arithmetic AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 4, "returned": 4}
+{"tag": "q17", "query": "abs:tokenization AND abs:numbers AND abs:\"from scratch\"", "sort": "relevance", "date": "2026-10-17", "total": 68, "returned": 50}
+{"tag": "q18", "query": "ti:tokenization AND ti:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 5, "returned": 5}
+{"tag": "q19", "query": "ti:number AND ti:tokenization", "sort": "relevance", "date": "2026-10-17", "total": 15, "returned": 15}
+{"tag": "q20", "query": "abs:\"numeral systems\" AND abs:language", "sort": "relevance", "date": "2026-10-17", "total": 62, "returned": 50}
+{"tag": "q21", "query": "abs:\"digit-level\" AND abs:tokenization", "sort": "relevance", "date": "2026-10-17", "total": 0, "returned": 0}
+{"tag": "q22", "query": "abs:\"right-to-left\" AND abs:tokenization", "sort": "relevance", "date": "2026-10-17", "total": 25, "returned": 25}
+{"tag": "q23", "query": "abs:\"small transformers\" AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 4, "returned": 4}
+{"tag": "q24", "query": "abs:synthetic AND abs:mathematics AND abs:\"from scratch\" AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 3, "returned": 3}
+{"tag": "q25", "query": "abs:interpolation AND abs:extrapolation AND abs:arithmetic AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 4, "returned": 4}
+{"tag": "q26", "query": "abs:\"data efficiency\" AND abs:arithmetic AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 4, "returned": 4}
+{"tag": "q27", "query": "abs:scratchpad AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 15, "returned": 15}
+{"tag": "q28", "query": "abs:\"chain of thought\" AND abs:\"from scratch\" AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 2, "returned": 2}
+{"tag": "q29", "query": "abs:\"positional encoding\" AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 16, "returned": 16}
+{"tag": "q30", "query": "abs:SwiGLU AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 4, "returned": 4}
+{"tag": "q31", "query": "abs:\"mathematical reasoning\" AND abs:\"small transformer\"", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q32", "query": "abs:memorization AND abs:generalization AND abs:synthetic AND abs:math AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 2, "returned": 2}
+{"tag": "q33", "query": "abs:tokenization AND abs:memorization AND abs:numbers", "sort": "relevance", "date": "2026-10-17", "total": 21, "returned": 21}
+{"tag": "q34", "query": "abs:\"answer first\" AND abs:reasoning", "sort": "relevance", "date": "2026-10-17", "total": 31, "returned": 31}
+{"tag": "q35", "query": "abs:\"linear equations\" AND abs:transformer AND abs:trained", "sort": "relevance", "date": "2026-10-17", "total": 5, "returned": 5}
+{"tag": "q36", "query": "abs:\"symbolic mathematics\" AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 13, "returned": 13}
+{"tag": "q37", "query": "abs:\"number formatting\" AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 19, "returned": 19}
+{"tag": "q38", "query": "abs:\"tokenizer\" AND abs:arithmetic AND abs:\"small\"", "sort": "relevance", "date": "2026-10-17", "total": 47, "returned": 47}
+{"tag": "q39", "query": "ti:arithmetic AND ti:transformers", "sort": "submittedDate", "date": "2026-10-17", "total": 53, "returned": 50}
+{"tag": "q40", "query": "ti:arithmetic AND ti:\"language models\"", "sort": "submittedDate", "date": "2026-10-17", "total": 50, "returned": 50}
+{"tag": "q41", "query": "abs:\"character-level\" AND abs:arithmetic AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 2, "returned": 2}
+{"tag": "q42", "query": "abs:\"multi-digit\" AND abs:tokens AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 6, "returned": 6}
+{"tag": "q43", "query": "abs:\"compositional generalization\" AND abs:arithmetic AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 7, "returned": 7}
+{"tag": "q44", "query": "abs:\"tiny transformers\" AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 2, "returned": 2}
+{"tag": "q45", "query": "abs:\"length generalization\" AND abs:NoPE", "sort": "relevance", "date": "2026-10-17", "total": 5, "returned": 5}
+{"tag": "q46", "query": "abs:calculus AND abs:transformer AND abs:synthetic", "sort": "relevance", "date": "2026-10-17", "total": 6, "returned": 6}
+{"tag": "q47", "query": "abs:fractions AND abs:transformer AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 48, "returned": 48}
+{"tag": "q48", "query": "abs:\"before the answer\" AND abs:\"chain of thought\" AND abs:training", "sort": "relevance", "date": "2026-10-17", "total": 5, "returned": 5}
+{"tag": "q49", "query": "abs:\"teaching arithmetic\"", "sort": "relevance", "date": "2026-10-17", "total": 2, "returned": 2}
+{"tag": "q50", "query": "abs:memorization AND abs:transformer AND abs:arithmetic", "sort": "submittedDate", "date": "2026-10-17", "total": 23, "returned": 23}
+{"tag": "q51", "query": "abs:multiplication AND abs:\"from scratch\" AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 141, "returned": 50}
+{"tag": "q52", "query": "abs:\"mathematics dataset\" AND abs:extrapolation", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q53", "query": "abs:\"held-out\" AND abs:operands", "sort": "relevance", "date": "2026-10-17", "total": 6, "returned": 6}
+{"tag": "q54", "query": "abs:tokenization AND abs:\"mathematical reasoning\" AND abs:digits", "sort": "relevance", "date": "2026-10-17", "total": 7, "returned": 7}
+{"tag": "q55", "query": "abs:\"number embeddings\" AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 2, "returned": 2}
+{"tag": "q56", "query": "abs:\"matrix\" AND abs:transformers AND abs:\"linear algebra\" AND abs:trained", "sort": "relevance", "date": "2026-10-17", "total": 6, "returned": 6}
+{"tag": "q57", "query": "abs:\"data diversity\" AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q58", "query": "abs:\"positional encodings\" AND abs:\"small\" AND abs:\"algorithmic\"", "sort": "relevance", "date": "2026-10-17", "total": 8, "returned": 8}
+{"tag": "q59", "query": "abs:tokenization AND abs:\"length generalization\" AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 2, "returned": 2}
+{"tag": "q60", "query": "abs:digit AND abs:tokenization AND abs:\"from scratch\"", "sort": "relevance", "date": "2026-10-17", "total": 10, "returned": 10}
+{"tag": "q61", "query": "abs:\"number tokenization\"", "sort": "relevance", "date": "2026-10-17", "total": 8, "returned": 8}
+{"tag": "q62", "query": "abs:\"numerical tokenization\"", "sort": "relevance", "date": "2026-10-17", "total": 41, "returned": 41}
+{"tag": "q63", "query": "abs:tokenization AND abs:numbers AND abs:generalization AND abs:transformers", "sort": "submittedDate", "date": "2026-10-17", "total": 359, "returned": 50}
+{"tag": "q64", "query": "abs:BPE AND abs:arithmetic AND abs:digits", "sort": "relevance", "date": "2026-10-17", "total": 3, "returned": 3}
+{"tag": "q65", "query": "abs:mathematics AND abs:\"trained from scratch\" AND abs:algebra", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q66", "query": "abs:\"symbolic differentiation\" AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 4, "returned": 4}
+{"tag": "q67", "query": "abs:transformers AND abs:matrix AND abs:\"eigenvalues\" AND abs:trained", "sort": "relevance", "date": "2026-10-17", "total": 36, "returned": 36}
+{"tag": "q68", "query": "abs:\"synthetic math\" AND abs:small AND abs:model", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q69", "query": "abs:template AND abs:math AND abs:memorization AND abs:generalization", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q70", "query": "abs:\"chain of thought\" AND abs:order AND abs:answer AND abs:\"from scratch\"", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q71", "query": "abs:rationale AND abs:\"after the answer\"", "sort": "relevance", "date": "2026-10-17", "total": 4, "returned": 4}
+{"tag": "q72", "query": "abs:\"multi-task\" AND abs:arithmetic AND abs:transformer AND abs:scratch", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q73", "query": "abs:\"Physics of Language Models\"", "sort": "relevance", "date": "2026-10-17", "total": 2, "returned": 2}
+{"tag": "q74", "query": "abs:\"out-of-distribution\" AND abs:operands AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q75", "query": "abs:interpolation AND abs:extrapolation AND abs:mathematics AND abs:neural", "sort": "relevance", "date": "2026-10-17", "total": 13, "returned": 13}
+{"tag": "q76", "query": "abs:numeracy AND abs:\"from scratch\"", "sort": "relevance", "date": "2026-10-17", "total": 2, "returned": 2}
+{"tag": "q77", "query": "ti:numeracy", "sort": "submittedDate", "date": "2026-10-17", "total": 20, "returned": 20}
+{"tag": "q78", "query": "abs:\"grade school\" AND abs:synthetic AND abs:\"from scratch\" AND abs:pretrain", "sort": "relevance", "date": "2026-10-17", "total": 0, "returned": 0}
+{"tag": "q79", "query": "ti:\"Non-BPE\" AND ti:numeracy", "sort": "relevance", "date": "2026-10-17", "total": 0, "returned": 0}
+{"tag": "q80", "query": "abs:numeracy AND abs:tokenizer", "sort": "submittedDate", "date": "2026-10-17", "total": 7, "returned": 7}
+{"tag": "q81", "query": "abs:\"digit chunking\"", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q82", "query": "abs:\"answer\" AND abs:\"chain-of-thought\" AND abs:order AND abs:arithmetic AND abs:transformers", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q83", "query": "abs:scratchpad AND abs:\"from scratch\"", "sort": "submittedDate", "date": "2026-10-17", "total": 3, "returned": 3}
+{"tag": "q84", "query": "abs:\"sample complexity\" AND abs:arithmetic AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 2, "returned": 2}
+{"tag": "q85", "query": "abs:\"in-distribution\" AND abs:\"out-of-distribution\" AND abs:arithmetic AND abs:\"from scratch\"", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q86", "query": "abs:polynomial AND abs:transformer AND abs:\"from scratch\" AND abs:symbolic", "sort": "relevance", "date": "2026-10-17", "total": 0, "returned": 0}
+{"tag": "q87", "query": "abs:\"symbolic integration\"", "sort": "submittedDate", "date": "2026-10-17", "total": 104, "returned": 50}
+{"tag": "q88", "query": "abs:architecture AND abs:ablation AND abs:arithmetic AND abs:\"small transformers\"", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q89", "query": "abs:template AND abs:synthetic AND abs:arithmetic AND abs:generalization AND abs:transformer", "sort": "relevance", "date": "2026-10-17", "total": 0, "returned": 0}
+{"tag": "q90", "query": "abs:\"memorization\" AND abs:\"generalization\" AND abs:\"tokenization\"", "sort": "relevance", "date": "2026-10-17", "total": 184, "returned": 50}
+{"tag": "q91", "query": "abs:\"training set\" AND abs:\"test set\" AND abs:arithmetic AND abs:\"memorize\"", "sort": "relevance", "date": "2026-10-17", "total": 0, "returned": 0}
+{"tag": "q92", "query": "abs:\"multiple tasks\" AND abs:arithmetic AND abs:\"small\" AND abs:transformers AND abs:trained", "sort": "relevance", "date": "2026-10-17", "total": 0, "returned": 0}
+{"tag": "q93", "query": "abs:\"critical data size\"", "sort": "relevance", "date": "2026-10-17", "total": 5, "returned": 5}
+{"tag": "q94", "query": "abs:arithmetic AND abs:tokenization AND abs:\"small language models\"", "sort": "relevance", "date": "2026-10-17", "total": 5, "returned": 5}
+{"tag": "q95", "query": "abs:\"number representation\" AND abs:\"language models\" AND abs:\"from scratch\"", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}
+{"tag": "q96", "query": "abs:\"post-thinking\"", "sort": "relevance", "date": "2026-10-17", "total": 5, "returned": 5}
+{"tag": "q97", "query": "ti:\"length generalization\"", "sort": "submittedDate", "date": "2026-10-17", "total": 68, "returned": 50}
+{"tag": "q98", "query": "abs:\"equation solving\" AND abs:transformer AND abs:synthetic", "sort": "relevance", "date": "2026-10-17", "total": 0, "returned": 0}
+{"tag": "q99", "query": "abs:tokenization AND abs:\"from scratch\" AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 14, "returned": 14}
+{"tag": "q100", "query": "abs:tokenizer AND abs:\"from scratch\" AND abs:math", "sort": "relevance", "date": "2026-10-17", "total": 25, "returned": 25}
+{"tag": "q101", "query": "abs:hints AND abs:arithmetic AND abs:transformer AND abs:answer", "sort": "relevance", "date": "2026-10-17", "total": 0, "returned": 0}
+{"tag": "q102", "query": "abs:\"intermediate steps\" AND abs:\"from scratch\" AND abs:transformer AND abs:arithmetic", "sort": "relevance", "date": "2026-10-17", "total": 1, "returned": 1}

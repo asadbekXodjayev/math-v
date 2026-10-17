@@ -1,0 +1,506 @@
+{
+ "agarwal2021precipice": {
+  "venue": "Advances in Neural Information Processing Systems 34 (NeurIPS 2021)",
+  "year": 2021,
+  "type": "inproceedings",
+  "volume": "34",
+  "pages": "29304--29320",
+  "evidence": "https://proceedings.neurips.cc/paper_files/paper/2021/hash/f514cec81cb148559cf475e7426eed5e-Abstract.html"
+ },
+ "anil2022length": {
+  "venue": "Advances in Neural Information Processing Systems 35 (NeurIPS 2022)",
+  "year": 2022,
+  "type": "inproceedings",
+  "volume": "35",
+  "pages": "38546--38556",
+  "doi": "10.52202/068431-2793",
+  "evidence": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/fb7451e43f9c1c35b774bcfad7a5714b-Abstract-Conference.html"
+ },
+ "arpit2017closer": {
+  "venue": "Proceedings of the 34th International Conference on Machine Learning (ICML 2017)",
+  "year": 2017,
+  "type": "inproceedings",
+  "volume": "PMLR 70",
+  "pages": "233--242",
+  "evidence": "https://proceedings.mlr.press/v70/arpit17a.html"
+ },
+ "baeumel2026output": {
+  "venue": "The 2026 Conference on Empirical Methods in Natural Language Processing (EMNLP 2026), Main Conference",
+  "year": 2026,
+  "type": "inproceedings",
+  "evidence": "Official detailed program linked from https://2026.emnlp.org/program/ (Google Sheet 1aXGTy_7Xeh-OXIs3iJSbDpUsZ6YhbfA76b17kBZH0Yk): paper '8120-MAIN', Oral, Session 11, 2026-10-27. Proceedings not yet in ACL Anthology (aclanthology.org/volumes/2026.emnlp-main/ is 404), so no anthology ID/pages/DOI yet"
+ },
+ "barron2025toobig": {
+  "venue": "Tiny Titans: The next wave of On-Device Learning for Foundational Models (TTODLer-FM), Workshop at ICML 2025",
+  "year": 2025,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=skWiP3K67u (OpenReview API: venue 'TTODLer-FM @ ICML 2025 Oral'; workshop group title from api2.openreview.net/groups?id=ICML.cc/2025/Workshop/TTODLer-FM). Note: workshop paper (oral), not ICML main proceedings"
+ },
+ "bouthillier2021variance": {
+  "venue": "Proceedings of Machine Learning and Systems 3 (MLSys 2021)",
+  "year": 2021,
+  "type": "inproceedings",
+  "volume": "3",
+  "pages": "747--769",
+  "evidence": "https://proceedings.mlsys.org/paper_files/paper/2021/hash/0184b0cd3cfb185989f858a1d9f5c1eb-Abstract.html"
+ },
+ "carlini2023quantifying": {
+  "venue": "International Conference on Learning Representations (ICLR 2023)",
+  "year": 2023,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=TatRHT_1cK (OpenReview API content.venue = 'ICLR 2023 notable top 25%')"
+ },
+ "charton2021linear": {
+  "venue": "Transactions on Machine Learning Research (TMLR)",
+  "year": 2022,
+  "type": "article",
+  "evidence": "https://openreview.net/forum?id=Hp4g7FAXXG (OpenReview API: venue 'Accepted by TMLR', venueid 'TMLR', pdate 2022-10-28)"
+ },
+ "charton2024gcd": {
+  "venue": "International Conference on Learning Representations (ICLR 2024)",
+  "year": 2024,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=cmcD05NPKa (OpenReview API content.venue = 'ICLR 2024 spotlight')"
+ },
+ "chowdhery2022palm": {
+  "venue": "Journal of Machine Learning Research",
+  "year": 2023,
+  "type": "article",
+  "volume": "24",
+  "number": "240",
+  "pages": "1--113",
+  "evidence": "https://jmlr.org/papers/v24/22-1144.html"
+ },
+ "deng2024symbolic": {
+  "venue": "Transactions on Machine Learning Research (TMLR)",
+  "year": 2026,
+  "type": "article",
+  "evidence": "https://openreview.net/forum?id=QSblPg1xUM (OpenReview API: venue 'Accepted by TMLR', venueid 'TMLR', pdate 2026-01-27)"
+ },
+ "dodge2019showyourwork": {
+  "venue": "Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)",
+  "year": 2019,
+  "type": "inproceedings",
+  "pages": "2185--2194",
+  "doi": "10.18653/v1/D19-1224",
+  "anthology_id": "D19-1224",
+  "evidence": "https://aclanthology.org/D19-1224/"
+ },
+ "doshi2023grok": {
+  "venue": "International Conference on Learning Representations (ICLR 2024)",
+  "year": 2024,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=UHjE5v5MB7 (OpenReview API content.venue = 'ICLR 2024 poster')"
+ },
+ "dziri2023faith": {
+  "venue": "Advances in Neural Information Processing Systems 36 (NeurIPS 2023)",
+  "year": 2023,
+  "type": "inproceedings",
+  "volume": "36",
+  "pages": "70293--70332",
+  "doi": "10.52202/075280-3081",
+  "evidence": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/deb3c28192f979302c157cb653c15e90-Abstract-Conference.html"
+ },
+ "feldman2020memorization": {
+  "venue": "Proceedings of the 52nd Annual ACM SIGACT Symposium on Theory of Computing (STOC 2020)",
+  "year": 2020,
+  "type": "inproceedings",
+  "pages": "954--959",
+  "doi": "10.1145/3357713.3384290",
+  "evidence": "https://acm-stoc.org/stoc2020/accepted-papers.html (official STOC 2020 accepted-papers list). dl.acm.org is bot-walled (403); proceedings title, pages and DOI taken from the ACM-deposited Crossref record https://api.crossref.org/works/10.1145/3357713.3384290"
+ },
+ "hendrycks2021math": {
+  "venue": "Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks 1 (NeurIPS Datasets and Benchmarks 2021)",
+  "year": 2021,
+  "type": "inproceedings",
+  "volume": "1",
+  "evidence": "https://datasets-benchmarks-proceedings.neurips.cc/paper_files/paper/2021/hash/be83ab3ecd0db773eb2dc1b0a17836a1-Abstract-round2.html"
+ },
+ "hoffmann2022chinchilla": {
+  "venue": "Advances in Neural Information Processing Systems 35 (NeurIPS 2022)",
+  "year": 2022,
+  "type": "inproceedings",
+  "volume": "35",
+  "pages": "30016--30030",
+  "doi": "10.52202/068431-2176",
+  "evidence": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/c1e2faff6f588870935f114ebe04a3e5-Abstract-Conference.html"
+ },
+ "hupkes2020compositionality": {
+  "venue": "Journal of Artificial Intelligence Research",
+  "year": 2020,
+  "type": "article",
+  "volume": "67",
+  "pages": "757--795",
+  "doi": "10.1613/jair.1.11674",
+  "evidence": "https://jair.org/index.php/jair/article/view/11674"
+ },
+ "hupkes2023taxonomy": {
+  "venue": "Nature Machine Intelligence",
+  "year": 2023,
+  "type": "article",
+  "volume": "5",
+  "pages": "1161--1174",
+  "doi": "10.1038/s42256-023-00729-y",
+  "evidence": "https://www.nature.com/articles/s42256-023-00729-y (Analysis article; published 19 Oct 2023, issue date October 2023; published title: 'A taxonomy and review of generalization research in NLP')"
+ },
+ "kazemnejad2023nope": {
+  "venue": "Advances in Neural Information Processing Systems 36 (NeurIPS 2023)",
+  "year": 2023,
+  "type": "inproceedings",
+  "volume": "36",
+  "pages": "24892--24928",
+  "doi": "10.52202/075280-1082",
+  "evidence": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/4e85362c02172c0c6567ce593122d31c-Abstract-Conference.html"
+ },
+ "keysers2020cfq": {
+  "venue": "International Conference on Learning Representations (ICLR 2020)",
+  "year": 2020,
+  "type": "inproceedings",
+  "evidence": "https://iclr.cc/virtual_2020/poster_SygcCnNKwr.html (ICLR 2020 virtual poster page); OpenReview forum SygcCnNKwr"
+ },
+ "lake2018scan": {
+  "venue": "Proceedings of the 35th International Conference on Machine Learning (ICML 2018)",
+  "year": 2018,
+  "type": "inproceedings",
+  "volume": "PMLR 80",
+  "pages": "2873--2882",
+  "evidence": "https://proceedings.mlr.press/v80/lake18a.html"
+ },
+ "lample2020symbolic": {
+  "venue": "International Conference on Learning Representations (ICLR 2020)",
+  "year": 2020,
+  "type": "inproceedings",
+  "evidence": "https://iclr.cc/virtual_2020/poster_S1eZYeHFDS.html (citation_conference_title 'Eighth International Conference on Learning Representations'); OpenReview forum S1eZYeHFDS"
+ },
+ "lee2022dedup": {
+  "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+  "year": 2022,
+  "type": "inproceedings",
+  "pages": "8424--8445",
+  "doi": "10.18653/v1/2022.acl-long.577",
+  "anthology_id": "2022.acl-long.577",
+  "evidence": "https://aclanthology.org/2022.acl-long.577/"
+ },
+ "levy2024digits": {
+  "venue": "Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 2: Short Papers)",
+  "year": 2025,
+  "type": "inproceedings",
+  "pages": "385--395",
+  "doi": "10.18653/v1/2025.naacl-short.33",
+  "anthology_id": "2025.naacl-short.33",
+  "evidence": "https://aclanthology.org/2025.naacl-short.33/"
+ },
+ "liu2022omnigrok": {
+  "venue": "International Conference on Learning Representations (ICLR 2023)",
+  "year": 2023,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=zDiHoIWa0q1 (OpenReview API content.venue = 'ICLR 2023 notable top 25%')"
+ },
+ "magar2022contamination": {
+  "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Papers)",
+  "year": 2022,
+  "type": "inproceedings",
+  "pages": "157--165",
+  "doi": "10.18653/v1/2022.acl-short.18",
+  "anthology_id": "2022.acl-short.18",
+  "evidence": "https://aclanthology.org/2022.acl-short.18/"
+ },
+ "maltoni2024arithmetic": {
+  "venue": "Neural Networks",
+  "year": 2024,
+  "type": "article",
+  "volume": "179",
+  "pages": "106550",
+  "doi": "10.1016/j.neunet.2024.106550",
+  "evidence": "https://api.elsevier.com/content/article/doi/10.1016/j.neunet.2024.106550 (Elsevier API: Neural Networks, cover date November 2024). Volume 179 / article no. 106550 from the publisher-deposited Crossref record https://api.crossref.org/works/10.1016/j.neunet.2024.106550 (matches arXiv journal_ref 'Neural Networks, vol. 179, 2024')"
+ },
+ "mcleish2024abacus": {
+  "venue": "Advances in Neural Information Processing Systems 37 (NeurIPS 2024)",
+  "year": 2024,
+  "type": "inproceedings",
+  "volume": "37",
+  "pages": "108012--108041",
+  "doi": "10.52202/079017-3430",
+  "evidence": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/c35986bc1ee29b31c1011481b77fe540-Abstract-Conference.html"
+ },
+ "mirzadeh2024gsmsymbolic": {
+  "venue": "International Conference on Learning Representations (ICLR 2025)",
+  "year": 2025,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=AjXkRZIvjB (OpenReview API content.venue = 'ICLR 2025 Poster')"
+ },
+ "muennighoff2023constrained": {
+  "venue": "Advances in Neural Information Processing Systems 36 (NeurIPS 2023)",
+  "year": 2023,
+  "type": "inproceedings",
+  "volume": "36",
+  "pages": "50358--50376",
+  "doi": "10.52202/075280-2191",
+  "evidence": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/9d89448b63ce1e2e8dc7af72c984c196-Abstract-Conference.html"
+ },
+ "nanda2023progress": {
+  "venue": "International Conference on Learning Representations (ICLR 2023)",
+  "year": 2023,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=9XFSbDPmdW (OpenReview API content.venue = 'ICLR 2023 notable top 25%')"
+ },
+ "narang2021modifications": {
+  "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+  "year": 2021,
+  "type": "inproceedings",
+  "pages": "5758--5773",
+  "doi": "10.18653/v1/2021.emnlp-main.465",
+  "anthology_id": "2021.emnlp-main.465",
+  "evidence": "https://aclanthology.org/2021.emnlp-main.465/"
+ },
+ "nikankin2024heuristics": {
+  "venue": "International Conference on Learning Representations (ICLR 2025)",
+  "year": 2025,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=O9YTt26r2P (OpenReview API content.venue = 'ICLR 2025 Poster')"
+ },
+ "pineau2021reproducibility": {
+  "venue": "Journal of Machine Learning Research",
+  "year": 2021,
+  "type": "article",
+  "volume": "22",
+  "number": "164",
+  "pages": "1--20",
+  "evidence": "https://jmlr.org/papers/v22/20-303.html"
+ },
+ "press2022alibi": {
+  "venue": "International Conference on Learning Representations (ICLR 2022)",
+  "year": 2022,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=R8sQPpGCv0 (OpenReview API content.venue = 'ICLR 2022 Poster')"
+ },
+ "quirke2023addition": {
+  "venue": "International Conference on Learning Representations (ICLR 2024)",
+  "year": 2024,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=rIx1YXVWZb (OpenReview API content.venue = 'ICLR 2024 poster')"
+ },
+ "saxton2019analysing": {
+  "venue": "International Conference on Learning Representations (ICLR 2019)",
+  "year": 2019,
+  "type": "inproceedings",
+  "evidence": "https://iclr.cc/virtual/2019/poster/933 (ICLR 2019 Poster; listed on https://iclr.cc/Downloads/2019); OpenReview forum H1gR5iR5FX"
+ },
+ "sennrich2016bpe": {
+  "venue": "Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+  "year": 2016,
+  "type": "inproceedings",
+  "pages": "1715--1725",
+  "doi": "10.18653/v1/P16-1162",
+  "anthology_id": "P16-1162",
+  "evidence": "https://aclanthology.org/P16-1162/"
+ },
+ "singhal2025layernorm": {
+  "venue": "Advances in Neural Information Processing Systems 38 (NeurIPS 2025)",
+  "year": 2025,
+  "type": "inproceedings",
+  "volume": "38",
+  "pages": "77239--77291",
+  "doi": "10.52202/085713-2591",
+  "evidence": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/6f7d90b1198fec96defd80b5ebd5bc81-Abstract-Conference.html (Main Conference Track; also OpenReview 6JIjL7kXzy 'NeurIPS 2025 poster')"
+ },
+ "su2021roformer": {
+  "venue": "Neurocomputing",
+  "year": 2024,
+  "type": "article",
+  "volume": "568",
+  "pages": "127063",
+  "doi": "10.1016/j.neucom.2023.127063",
+  "evidence": "https://api.elsevier.com/content/article/doi/10.1016/j.neucom.2023.127063 (Elsevier API: Neurocomputing, cover date 1 February 2024; sciencedirect.com HTML is Cloudflare-blocked). Volume 568 / article no. 127063 taken from the publisher-deposited Crossref record https://api.crossref.org/works/10.1016/j.neucom.2023.127063, not from an Elsevier page"
+ },
+ "thawani2021representing": {
+  "venue": "Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+  "year": 2021,
+  "type": "inproceedings",
+  "pages": "644--656",
+  "doi": "10.18653/v1/2021.naacl-main.53",
+  "anthology_id": "2021.naacl-main.53",
+  "evidence": "https://aclanthology.org/2021.naacl-main.53/"
+ },
+ "tirumala2022memorization": {
+  "venue": "Advances in Neural Information Processing Systems 35 (NeurIPS 2022)",
+  "year": 2022,
+  "type": "inproceedings",
+  "volume": "35",
+  "pages": "38274--38290",
+  "doi": "10.52202/068431-2773",
+  "evidence": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/fa0509f4dab6807e2cb465715bf2d249-Abstract-Conference.html"
+ },
+ "vaswani2017attention": {
+  "venue": "Advances in Neural Information Processing Systems 30 (NIPS 2017)",
+  "year": 2017,
+  "type": "inproceedings",
+  "volume": "30",
+  "evidence": "https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html"
+ },
+ "wallace2019numbers": {
+  "venue": "Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)",
+  "year": 2019,
+  "type": "inproceedings",
+  "pages": "5307--5315",
+  "doi": "10.18653/v1/D19-1534",
+  "anthology_id": "D19-1534",
+  "evidence": "https://aclanthology.org/D19-1534/"
+ },
+ "wei2022cot": {
+  "venue": "Advances in Neural Information Processing Systems 35 (NeurIPS 2022)",
+  "year": 2022,
+  "type": "inproceedings",
+  "volume": "35",
+  "pages": "24824--24837",
+  "doi": "10.52202/068431-1800",
+  "evidence": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/9d5609613524ecf4f15af0f7b31abca4-Abstract-Conference.html"
+ },
+ "welleck2022brittleness": {
+  "venue": "Proceedings of the AAAI Conference on Artificial Intelligence (AAAI-22)",
+  "year": 2022,
+  "type": "inproceedings",
+  "volume": "36",
+  "number": "8",
+  "pages": "8629--8637",
+  "doi": "10.1609/aaai.v36i8.20841",
+  "evidence": "https://ojs.aaai.org/index.php/AAAI/article/view/20841"
+ },
+ "wu2024reasoning": {
+  "venue": "Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)",
+  "year": 2024,
+  "type": "inproceedings",
+  "pages": "1819--1862",
+  "doi": "10.18653/v1/2024.naacl-long.102",
+  "anthology_id": "2024.naacl-long.102",
+  "evidence": "https://aclanthology.org/2024.naacl-long.102/"
+ },
+ "xiong2020layernorm": {
+  "venue": "Proceedings of the 37th International Conference on Machine Learning (ICML 2020)",
+  "year": 2020,
+  "type": "inproceedings",
+  "volume": "PMLR 119",
+  "pages": "10524--10533",
+  "evidence": "https://proceedings.mlr.press/v119/xiong20b.html"
+ },
+ "yang2024numbercookbook": {
+  "venue": "International Conference on Learning Representations (ICLR 2025)",
+  "year": 2025,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=BWS5gVjgeY (OpenReview API content.venue = 'ICLR 2025 Poster')"
+ },
+ "ye2024physics21": {
+  "venue": "International Conference on Learning Representations (ICLR 2025)",
+  "year": 2025,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=Tn5B6Udq3E (OpenReview API content.venue = 'ICLR 2025 Poster')"
+ },
+ "zhang2017rethinking": {
+  "venue": "International Conference on Learning Representations (ICLR 2017)",
+  "year": 2017,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=Sy8gdB9xx (OpenReview API content.venue = 'ICLR 2017 Oral')"
+ },
+ "zhang2019rmsnorm": {
+  "venue": "Advances in Neural Information Processing Systems 32 (NeurIPS 2019)",
+  "year": 2019,
+  "type": "inproceedings",
+  "volume": "32",
+  "evidence": "https://proceedings.neurips.cc/paper_files/paper/2019/hash/1e8a19426224ca89e83cef47f1e7f53b-Abstract.html"
+ },
+ "zhang2023counterfactual": {
+  "venue": "Advances in Neural Information Processing Systems 36 (NeurIPS 2023)",
+  "year": 2023,
+  "type": "inproceedings",
+  "volume": "36",
+  "pages": "39321--39362",
+  "doi": "10.52202/075280-1708",
+  "evidence": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/7bc4f74e35bcfe8cfe43b0a860786d6a-Abstract-Conference.html"
+ },
+ "zhou2023algorithms": {
+  "venue": "International Conference on Learning Representations (ICLR 2024)",
+  "year": 2024,
+  "type": "inproceedings",
+  "evidence": "https://openreview.net/forum?id=AssIuHnmHX (OpenReview API content.venue = 'ICLR 2024 poster')"
+ },
+ "zhou2024numeral": {
+  "venue": "Findings of the Association for Computational Linguistics: EMNLP 2024",
+  "year": 2024,
+  "type": "inproceedings",
+  "pages": "3806--3820",
+  "doi": "10.18653/v1/2024.findings-emnlp.218",
+  "anthology_id": "2024.findings-emnlp.218",
+  "evidence": "https://aclanthology.org/2024.findings-emnlp.218/"
+ },
+ "_unconfirmed": {
+  "golkar2023xval": "arXiv comment claims 'NeurIPS Workshop on ML for the Physical Sciences'. Not found in the paper lists on https://ml4physicalsciences.github.io/2023/ (207 entries) or /2024/ (no 'xVal'/'Golkar'). OpenReview shows: NeurIPS 2023 AI4Science workshop poster under the earlier title 'xVal: A Continuous Number Encoding for Large Language Models' (forum KHDMZtoF4i); ICLR 2024 rejected (OinvjdvPjp); TMLR rejected (kSPHESKMve). No archival peer-reviewed venue confirmed; cite as arXiv (or, if wanted, the AI4Science workshop poster).",
+  "chen2024posthinking": "arXiv comment: accepted to IEEE Transactions on Neural Networks and Learning Systems. IEEE Xplore (https://ieeexplore.ieee.org/document/11127195, reached via doi.org/10.1109/tnnls.2025.3591266) is bot-walled (HTTP 202 empty body; REST API 401; WebFetch empty), so not confirmed on an official IEEE page. The IEEE-deposited Crossref record (https://api.crossref.org/works/10.1109/tnnls.2025.3591266) says: IEEE Transactions on Neural Networks and Learning Systems, vol 36, no 11, pp 19820-19833, Nov 2025, title 'Distilling Reasoning Ability From Large Language Models With Adaptive Thinking'. Promote it if you accept Crossref, as you did for the two Crossref-sourced keys."
+ },
+ "_disagreements": {
+  "lake2018scan": "S2 said ICLR (2017); official PMLR page says ICML 2018 (PMLR 80), matching the arXiv comment.",
+  "hoffmann2022chinchilla": "S2 venue NeurIPS 35 (2022) is correct, but the NeurIPS proceedings title differs from arXiv: 'An empirical analysis of compute-optimal large language model training' (same authors Hoffmann, Borgeaud, Mensch, ...; same Chinchilla abstract).",
+  "hupkes2023taxonomy": "S2 year 2022; Nature MI published it in 2023 (vol 5, pp 1161-1174) under a different title: 'A taxonomy and review of generalization research in NLP' (arXiv: 'State-of-the-art generalisation research in NLP: A taxonomy and review').",
+  "su2021roformer": "S2 said Neurocomputing 2021; official Elsevier record: Neurocomputing, cover date 1 Feb 2024 (vol 568, art. 127063).",
+  "chowdhery2022palm": "S2 said JMLR 2022; JMLR page: vol 24 (2023), paper 240, pp 1-113.",
+  "pineau2021reproducibility": "S2 said JMLR 2020; JMLR page: vol 22 (2021), paper 164, pp 1-20.",
+  "feldman2020memorization": "S2 said STOC 2019; official: STOC 2020 (52nd STOC, June 2020).",
+  "hupkes2020compositionality": "S2 said JAIR 2019; JAIR page: vol 67 (2020), pp 757-795.",
+  "zhou2023algorithms": "arXiv comment says 'Preprint'; OpenReview: ICLR 2024 poster (also a NeurIPS 2023 MATH-AI workshop poster).",
+  "ye2024physics21": "S2 said ICLR 2024; OpenReview: ICLR 2025 Poster (arXiv comment only mentions an ICML 2024 tutorial video).",
+  "zhang2023counterfactual": "S2 year 2021; official NeurIPS 2023 (vol 36). (An ICLR 2023 submission with the same title was withdrawn.)",
+  "levy2024digits": "S2 year 2024; official NAACL 2025, as a Short paper (Volume 2); NAACL 2025 is officially 'Nations of the Americas Chapter'.",
+  "golkar2023xval": "arXiv comment says NeurIPS ML4PS workshop; not found on ML4PS 2023/2024 lists; OpenReview instead shows a NeurIPS 2023 AI4Science workshop poster (older title).",
+  "chen2024posthinking": "S2 year 2024 (arXiv year); the Crossref record dates the TNNLS issue to Nov 2025 (vol 36, no 11). This is not confirmed on an IEEE page.",
+  "deng2024symbolic": "S2 said TMLR 2024; OpenReview shows TMLR acceptance published 2026-01-27, which matches the arXiv comment 'TMLR 2026'.",
+  "zhang2017rethinking": "S2 year 2016 (= arXiv year); official year 2017 (International Conference on Learning Representations (ICLR 2017)).",
+  "lample2020symbolic": "S2 year 2019 (= arXiv year); official year 2020 (International Conference on Learning Representations (ICLR 2020)).",
+  "keysers2020cfq": "S2 year 2019 (= arXiv year); official year 2020 (International Conference on Learning Representations (ICLR 2020)).",
+  "press2022alibi": "S2 year 2021 (= arXiv year); official year 2022 (International Conference on Learning Representations (ICLR 2022)).",
+  "liu2022omnigrok": "S2 year 2022 (= arXiv year); official year 2023 (International Conference on Learning Representations (ICLR 2023)).",
+  "carlini2023quantifying": "S2 year 2022 (= arXiv year); official year 2023 (International Conference on Learning Representations (ICLR 2023)).",
+  "quirke2023addition": "S2 year 2023 (= arXiv year); official year 2024 (International Conference on Learning Representations (ICLR 2024)).",
+  "doshi2023grok": "S2 year 2023 (= arXiv year); official year 2024 (International Conference on Learning Representations (ICLR 2024)).",
+  "charton2024gcd": "S2 year 2023 (= arXiv year); official year 2024 (International Conference on Learning Representations (ICLR 2024)).",
+  "yang2024numbercookbook": "S2 year 2024 (= arXiv year); official year 2025 (International Conference on Learning Representations (ICLR 2025)).",
+  "mirzadeh2024gsmsymbolic": "S2 year 2024 (= arXiv year); official year 2025 (International Conference on Learning Representations (ICLR 2025)).",
+  "nikankin2024heuristics": "S2 year 2024 (= arXiv year); official year 2025 (International Conference on Learning Representations (ICLR 2025)).",
+  "charton2021linear": "S2 year 2021 (= arXiv year); official year 2022 (Transactions on Machine Learning Research (TMLR)).",
+  "sennrich2016bpe": "S2 year 2015 (= arXiv year); official year 2016 (Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)).",
+  "lee2022dedup": "S2 year 2021 (= arXiv year); official year 2022 (Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)).",
+  "wu2024reasoning": "S2 year 2023 (= arXiv year); official year 2024 (Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)).",
+  "welleck2022brittleness": "S2 year 2021 (= arXiv year); official year 2022 (Proceedings of the AAAI Conference on Artificial Intelligence (AAAI-22)).",
+  "maltoni2024arithmetic": "S2 year 2023 (= arXiv year); official year 2024 (Neural Networks)."
+ },
+ "_out_of_scope_confirmed": {
+  "lee2023teaching": {
+   "venue": "International Conference on Learning Representations (ICLR 2024)",
+   "year": 2024,
+   "type": "inproceedings",
+   "evidence": "https://openreview.net/forum?id=dsUB4bst9S (OpenReview API content.venue = 'ICLR 2024 poster')",
+   "note": "out of scope (S2 said arXiv.org); found incidentally"
+  },
+  "razeghi2022frequencies": {
+   "venue": "Findings of the Association for Computational Linguistics: EMNLP 2022",
+   "year": 2022,
+   "type": "inproceedings",
+   "pages": "840--854",
+   "doi": "10.18653/v1/2022.findings-emnlp.59",
+   "anthology_id": "2022.findings-emnlp.59",
+   "evidence": "https://aclanthology.org/2022.findings-emnlp.59/",
+   "note": "out of scope (S2 said arXiv.org); found incidentally. Published title adds 'Numerical': 'Impact of Pretraining Term Frequencies on Few-Shot Numerical Reasoning'"
+  },
+  "smithline2026sparsity": {
+   "venue": "Mechanistic Interpretability Workshop at ICML 2026 (virtual poster)",
+   "year": 2026,
+   "type": "inproceedings",
+   "evidence": "https://openreview.net/forum?id=PG9V0MvEGG (OpenReview API: venue 'Mech Interp Workshop ICML 2026 Virtualposter', venueid ICML.cc/2026/Workshop/Mech_Interp)",
+   "note": "out of scope (S2 said arXiv.org, comment 'Preprint'); found incidentally. Workshop only, so citing arXiv is fine"
+  }
+ },
+ "_not_checked": {
+  "dror2018hitchhiker": "Crossref-sourced; already verified (per instructions)",
+  "wilson1927probable": "Crossref-sourced; already verified (per instructions)",
+  "harma2026compact": "Crossref-sourced (DOI 10.3390/electronics15091847, added in the regenerated input). Not arXiv-sourced, so out of scope",
+  "huang2026nonbpe": "URL-sourced (https://icml.cc/virtual/2026/82628, added in the regenerated input). Not arXiv-sourced, so out of scope"
+ }
+}

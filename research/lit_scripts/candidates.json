@@ -1,0 +1,1253 @@
+{
+  "_comment": "M2 candidate references. 'title' is what we BELIEVE the title is; verify_refs.py checks it against arXiv/Crossref and flags mismatches. Themes: T1 number representation/tokenization, T2 positional encoding & length/OOD generalization, T3 memorization vs generalization, T4 data efficiency/repetition, T5 math with sequence models, T6 architecture components & ablation transfer, T7 splits & generalization taxonomy, T8 scratchpad/output ordering, T9 evaluation statistics & reproducibility.",
+  "refs": [
+    {
+      "key": "nogueira2021investigating",
+      "arxiv": "2102.13019",
+      "title": "Investigating the Limitations of Transformers with Simple Arithmetic Tasks",
+      "themes": [
+        "T1",
+        "T2"
+      ]
+    },
+    {
+      "key": "singh2024tokenization",
+      "arxiv": "2402.14903",
+      "title": "Tokenization counts: the impact of tokenization on arithmetic in frontier LLMs",
+      "themes": [
+        "T1"
+      ]
+    },
+    {
+      "key": "mcleish2024abacus",
+      "arxiv": "2405.17399",
+      "title": "Transformers Can Do Arithmetic with the Right Embeddings",
+      "themes": [
+        "T1",
+        "T2"
+      ],
+      "venue_override": {
+        "venue": "Advances in Neural Information Processing Systems 37 (NeurIPS 2024)",
+        "year": 2024,
+        "type": "inproceedings",
+        "volume": "37",
+        "pages": "108012--108041",
+        "doi": "10.52202/079017-3430",
+        "evidence": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/c35986bc1ee29b31c1011481b77fe540-Abstract-Conference.html"
+      }
+    },
+    {
+      "key": "golkar2023xval",
+      "arxiv": "2310.02989",
+      "title": "xVal: A Continuous Numerical Tokenization for Scientific Language Models",
+      "note": "first verify run flagged this: the original v1 title was renamed on arXiv in a later version",
+      "themes": [
+        "T1"
+      ]
+    },
+    {
+      "key": "charton2021linear",
+      "arxiv": "2112.01898",
+      "title": "Linear algebra with transformers",
+      "themes": [
+        "T1",
+        "T5"
+      ],
+      "venue_override": {
+        "venue": "Transactions on Machine Learning Research (TMLR)",
+        "year": 2022,
+        "type": "article",
+        "evidence": "https://openreview.net/forum?id=Hp4g7FAXXG (OpenReview API: venue 'Accepted by TMLR', venueid 'TMLR', pdate 2022-10-28)"
+      }
+    },
+    {
+      "key": "wallace2019numbers",
+      "arxiv": "1909.07940",
+      "title": "Do NLP Models Know Numbers? Probing Numeracy in Embeddings",
+      "themes": [
+        "T1"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)",
+        "year": 2019,
+        "type": "inproceedings",
+        "pages": "5307--5315",
+        "doi": "10.18653/v1/D19-1534",
+        "evidence": "https://aclanthology.org/D19-1534/"
+      }
+    },
+    {
+      "key": "thawani2021representing",
+      "arxiv": "2103.13136",
+      "title": "Representing Numbers in NLP: a Survey and a Vision",
+      "themes": [
+        "T1"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+        "year": 2021,
+        "type": "inproceedings",
+        "pages": "644--656",
+        "doi": "10.18653/v1/2021.naacl-main.53",
+        "evidence": "https://aclanthology.org/2021.naacl-main.53/"
+      }
+    },
+    {
+      "key": "shen2023positional",
+      "arxiv": "2311.14737",
+      "title": "Positional Description Matters for Transformers Arithmetic",
+      "themes": [
+        "T1",
+        "T2"
+      ]
+    },
+    {
+      "key": "lee2023teaching",
+      "arxiv": "2307.03381",
+      "title": "Teaching Arithmetic to Small Transformers",
+      "themes": [
+        "T1",
+        "T4",
+        "T5",
+        "T8"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2024)",
+        "year": 2024,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=dsUB4bst9S (OpenReview API content.venue = 'ICLR 2024 poster')"
+      }
+    },
+    {
+      "key": "jelassi2023length",
+      "arxiv": "2306.15400",
+      "title": "Length Generalization in Arithmetic Transformers",
+      "themes": [
+        "T2"
+      ]
+    },
+    {
+      "key": "sennrich2016bpe",
+      "arxiv": "1508.07909",
+      "title": "Neural Machine Translation of Rare Words with Subword Units",
+      "themes": [
+        "T1"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+        "year": 2016,
+        "type": "inproceedings",
+        "pages": "1715--1725",
+        "doi": "10.18653/v1/P16-1162",
+        "evidence": "https://aclanthology.org/P16-1162/"
+      }
+    },
+    {
+      "key": "touvron2023llama",
+      "arxiv": "2302.13971",
+      "title": "LLaMA: Open and Efficient Foundation Language Models",
+      "themes": [
+        "T1"
+      ]
+    },
+    {
+      "key": "chowdhery2022palm",
+      "arxiv": "2204.02311",
+      "title": "PaLM: Scaling Language Modeling with Pathways",
+      "themes": [
+        "T1"
+      ],
+      "venue_override": {
+        "venue": "Journal of Machine Learning Research",
+        "year": 2023,
+        "type": "article",
+        "volume": "24",
+        "number": "240",
+        "pages": "1--113",
+        "evidence": "https://jmlr.org/papers/v24/22-1144.html"
+      }
+    },
+    {
+      "key": "quirke2023addition",
+      "arxiv": "2310.13121",
+      "title": "Understanding Addition in Transformers",
+      "themes": [
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2024)",
+        "year": 2024,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=rIx1YXVWZb (OpenReview API content.venue = 'ICLR 2024 poster')"
+      }
+    },
+    {
+      "key": "zhangli2024reverse",
+      "arxiv": "2403.05845",
+      "title": "Reverse That Number! Decoding Order Matters in Arithmetic Learning",
+      "themes": [
+        "T1",
+        "T8"
+      ]
+    },
+    {
+      "key": "yang2024numbercookbook",
+      "arxiv": "2411.03766",
+      "title": "Number Cookbook: Number Understanding of Language Models and How to Improve It",
+      "themes": [
+        "T1"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2025)",
+        "year": 2025,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=BWS5gVjgeY (OpenReview API content.venue = 'ICLR 2025 Poster')"
+      }
+    },
+    {
+      "key": "levy2024digits",
+      "arxiv": "2410.11781",
+      "title": "Language Models Encode Numbers Using Digit Representations in Base 10",
+      "themes": [
+        "T1"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 2: Short Papers)",
+        "year": 2025,
+        "type": "inproceedings",
+        "pages": "385--395",
+        "doi": "10.18653/v1/2025.naacl-short.33",
+        "evidence": "https://aclanthology.org/2025.naacl-short.33/"
+      }
+    },
+    {
+      "key": "zhou2024numeral",
+      "arxiv": "2409.17391",
+      "title": "Scaling Behavior for Large Language Models regarding Numeral Systems: An Example using Pythia",
+      "themes": [
+        "T1"
+      ],
+      "venue_override": {
+        "venue": "Findings of the Association for Computational Linguistics: EMNLP 2024",
+        "year": 2024,
+        "type": "inproceedings",
+        "pages": "3806--3820",
+        "doi": "10.18653/v1/2024.findings-emnlp.218",
+        "evidence": "https://aclanthology.org/2024.findings-emnlp.218/"
+      }
+    },
+    {
+      "key": "su2021roformer",
+      "arxiv": "2104.09864",
+      "title": "RoFormer: Enhanced Transformer with Rotary Position Embedding",
+      "themes": [
+        "T2",
+        "T6"
+      ],
+      "venue_override": {
+        "venue": "Neurocomputing",
+        "year": 2024,
+        "type": "article",
+        "volume": "568",
+        "pages": "127063",
+        "doi": "10.1016/j.neucom.2023.127063",
+        "evidence": "https://api.elsevier.com/content/article/doi/10.1016/j.neucom.2023.127063 (Elsevier API: Neurocomputing, cover date 1 February 2024; sciencedirect.com HTML is Cloudflare-blocked). Volume 568 / article no. 127063 taken from the publisher-deposited Crossref record https://api.crossref.org/works/10.1016/j.neucom.2023.127063, not from an Elsevier page"
+      }
+    },
+    {
+      "key": "kazemnejad2023nope",
+      "arxiv": "2305.19466",
+      "title": "The Impact of Positional Encoding on Length Generalization in Transformers",
+      "themes": [
+        "T2",
+        "T6"
+      ],
+      "venue_override": {
+        "venue": "Advances in Neural Information Processing Systems 36 (NeurIPS 2023)",
+        "year": 2023,
+        "type": "inproceedings",
+        "volume": "36",
+        "pages": "24892--24928",
+        "doi": "10.52202/075280-1082",
+        "evidence": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/4e85362c02172c0c6567ce593122d31c-Abstract-Conference.html"
+      }
+    },
+    {
+      "key": "zhou2023algorithms",
+      "arxiv": "2310.16028",
+      "title": "What Algorithms can Transformers Learn? A Study in Length Generalization",
+      "themes": [
+        "T2"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2024)",
+        "year": 2024,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=AssIuHnmHX (OpenReview API content.venue = 'ICLR 2024 poster')"
+      }
+    },
+    {
+      "key": "zhou2024robustly",
+      "arxiv": "2402.09371",
+      "title": "Transformers Can Achieve Length Generalization But Not Robustly",
+      "themes": [
+        "T1",
+        "T2"
+      ]
+    },
+    {
+      "key": "press2022alibi",
+      "arxiv": "2108.12409",
+      "title": "Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation",
+      "themes": [
+        "T2"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2022)",
+        "year": 2022,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=R8sQPpGCv0 (OpenReview API content.venue = 'ICLR 2022 Poster')"
+      }
+    },
+    {
+      "key": "anil2022length",
+      "arxiv": "2207.04901",
+      "title": "Exploring Length Generalization in Large Language Models",
+      "themes": [
+        "T2",
+        "T8"
+      ],
+      "venue_override": {
+        "venue": "Advances in Neural Information Processing Systems 35 (NeurIPS 2022)",
+        "year": 2022,
+        "type": "inproceedings",
+        "volume": "35",
+        "pages": "38546--38556",
+        "doi": "10.52202/068431-2793",
+        "evidence": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/fb7451e43f9c1c35b774bcfad7a5714b-Abstract-Conference.html"
+      }
+    },
+    {
+      "key": "shazeer2020glu",
+      "arxiv": "2002.05202",
+      "title": "GLU Variants Improve Transformer",
+      "themes": [
+        "T6"
+      ]
+    },
+    {
+      "key": "zhang2019rmsnorm",
+      "arxiv": "1910.07467",
+      "title": "Root Mean Square Layer Normalization",
+      "themes": [
+        "T6"
+      ],
+      "venue_override": {
+        "venue": "Advances in Neural Information Processing Systems 32 (NeurIPS 2019)",
+        "year": 2019,
+        "type": "inproceedings",
+        "volume": "32",
+        "evidence": "https://proceedings.neurips.cc/paper_files/paper/2019/hash/1e8a19426224ca89e83cef47f1e7f53b-Abstract.html"
+      }
+    },
+    {
+      "key": "narang2021modifications",
+      "arxiv": "2102.11972",
+      "title": "Do Transformer Modifications Transfer Across Implementations and Applications?",
+      "themes": [
+        "T6"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+        "year": 2021,
+        "type": "inproceedings",
+        "pages": "5758--5773",
+        "doi": "10.18653/v1/2021.emnlp-main.465",
+        "evidence": "https://aclanthology.org/2021.emnlp-main.465/"
+      }
+    },
+    {
+      "key": "vaswani2017attention",
+      "arxiv": "1706.03762",
+      "title": "Attention Is All You Need",
+      "themes": [
+        "T6"
+      ],
+      "venue_override": {
+        "venue": "Advances in Neural Information Processing Systems 30 (NIPS 2017)",
+        "year": 2017,
+        "type": "inproceedings",
+        "volume": "30",
+        "evidence": "https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html"
+      }
+    },
+    {
+      "key": "xiong2020layernorm",
+      "arxiv": "2002.04745",
+      "title": "On Layer Normalization in the Transformer Architecture",
+      "themes": [
+        "T6"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the 37th International Conference on Machine Learning (ICML 2020)",
+        "year": 2020,
+        "type": "inproceedings",
+        "volume": "PMLR 119",
+        "pages": "10524--10533",
+        "evidence": "https://proceedings.mlr.press/v119/xiong20b.html"
+      }
+    },
+    {
+      "key": "kaplan2020scaling",
+      "arxiv": "2001.08361",
+      "title": "Scaling Laws for Neural Language Models",
+      "themes": [
+        "T4",
+        "T6"
+      ]
+    },
+    {
+      "key": "hoffmann2022chinchilla",
+      "arxiv": "2203.15556",
+      "title": "Training Compute-Optimal Large Language Models",
+      "themes": [
+        "T4"
+      ],
+      "venue_override": {
+        "venue": "Advances in Neural Information Processing Systems 35 (NeurIPS 2022)",
+        "year": 2022,
+        "type": "inproceedings",
+        "volume": "35",
+        "pages": "30016--30030",
+        "doi": "10.52202/068431-2176",
+        "venue_title": "Training Compute-Optimal Large Language Models",
+        "evidence": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/c1e2faff6f588870935f114ebe04a3e5-Abstract-Conference.html"
+      }
+    },
+    {
+      "key": "eldan2023tinystories",
+      "arxiv": "2305.07759",
+      "title": "TinyStories: How Small Can Language Models Be and Still Speak Coherent English?",
+      "themes": [
+        "T4",
+        "T6"
+      ]
+    },
+    {
+      "key": "power2022grokking",
+      "arxiv": "2201.02177",
+      "title": "Grokking: Generalization Beyond Overfitting on Small Algorithmic Datasets",
+      "themes": [
+        "T3",
+        "T4"
+      ]
+    },
+    {
+      "key": "nanda2023progress",
+      "arxiv": "2301.05217",
+      "title": "Progress measures for grokking via mechanistic interpretability",
+      "themes": [
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2023)",
+        "year": 2023,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=9XFSbDPmdW (OpenReview API content.venue = 'ICLR 2023 notable top 25%')"
+      }
+    },
+    {
+      "key": "liu2022omnigrok",
+      "arxiv": "2210.01117",
+      "title": "Omnigrok: Grokking Beyond Algorithmic Data",
+      "themes": [
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2023)",
+        "year": 2023,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=zDiHoIWa0q1 (OpenReview API content.venue = 'ICLR 2023 notable top 25%')"
+      }
+    },
+    {
+      "key": "doshi2023grok",
+      "arxiv": "2310.13061",
+      "title": "To grok or not to grok: Disentangling generalization and memorization on corrupted algorithmic datasets",
+      "themes": [
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2024)",
+        "year": 2024,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=UHjE5v5MB7 (OpenReview API content.venue = 'ICLR 2024 poster')"
+      }
+    },
+    {
+      "key": "carlini2023quantifying",
+      "arxiv": "2202.07646",
+      "title": "Quantifying Memorization Across Neural Language Models",
+      "themes": [
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2023)",
+        "year": 2023,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=TatRHT_1cK (OpenReview API content.venue = 'ICLR 2023 notable top 25%')"
+      }
+    },
+    {
+      "key": "zhang2023counterfactual",
+      "arxiv": "2112.12938",
+      "title": "Counterfactual Memorization in Neural Language Models",
+      "themes": [
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "Advances in Neural Information Processing Systems 36 (NeurIPS 2023)",
+        "year": 2023,
+        "type": "inproceedings",
+        "volume": "36",
+        "pages": "39321--39362",
+        "doi": "10.52202/075280-1708",
+        "evidence": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/7bc4f74e35bcfe8cfe43b0a860786d6a-Abstract-Conference.html"
+      }
+    },
+    {
+      "key": "lee2022dedup",
+      "arxiv": "2107.06499",
+      "title": "Deduplicating Training Data Makes Language Models Better",
+      "themes": [
+        "T3",
+        "T7"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+        "year": 2022,
+        "type": "inproceedings",
+        "pages": "8424--8445",
+        "doi": "10.18653/v1/2022.acl-long.577",
+        "evidence": "https://aclanthology.org/2022.acl-long.577/"
+      }
+    },
+    {
+      "key": "magar2022contamination",
+      "arxiv": "2203.08242",
+      "title": "Data Contamination: From Memorization to Exploitation",
+      "themes": [
+        "T3",
+        "T7"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Papers)",
+        "year": 2022,
+        "type": "inproceedings",
+        "pages": "157--165",
+        "doi": "10.18653/v1/2022.acl-short.18",
+        "evidence": "https://aclanthology.org/2022.acl-short.18/"
+      }
+    },
+    {
+      "key": "wu2024reasoning",
+      "arxiv": "2307.02477",
+      "title": "Reasoning or Reciting? Exploring the Capabilities and Limitations of Language Models Through Counterfactual Tasks",
+      "themes": [
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)",
+        "year": 2024,
+        "type": "inproceedings",
+        "pages": "1819--1862",
+        "doi": "10.18653/v1/2024.naacl-long.102",
+        "evidence": "https://aclanthology.org/2024.naacl-long.102/"
+      }
+    },
+    {
+      "key": "mirzadeh2024gsmsymbolic",
+      "arxiv": "2410.05229",
+      "title": "GSM-Symbolic: Understanding the Limitations of Mathematical Reasoning in Large Language Models",
+      "themes": [
+        "T3",
+        "T7"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2025)",
+        "year": 2025,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=AjXkRZIvjB (OpenReview API content.venue = 'ICLR 2025 Poster')"
+      }
+    },
+    {
+      "key": "nikankin2024heuristics",
+      "arxiv": "2410.21272",
+      "title": "Arithmetic Without Algorithms: Language Models Solve Math With a Bag of Heuristics",
+      "themes": [
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2025)",
+        "year": 2025,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=O9YTt26r2P (OpenReview API content.venue = 'ICLR 2025 Poster')"
+      }
+    },
+    {
+      "key": "razeghi2022frequencies",
+      "arxiv": "2202.07206",
+      "title": "Impact of Pretraining Term Frequencies on Few-Shot Reasoning",
+      "themes": [
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "Findings of the Association for Computational Linguistics: EMNLP 2022",
+        "year": 2022,
+        "type": "inproceedings",
+        "pages": "840--854",
+        "doi": "10.18653/v1/2022.findings-emnlp.59",
+        "venue_title": "Impact of Pretraining Term Frequencies on Few-Shot Numerical Reasoning",
+        "evidence": "https://aclanthology.org/2022.findings-emnlp.59/"
+      }
+    },
+    {
+      "key": "dziri2023faith",
+      "arxiv": "2305.18654",
+      "title": "Faith and Fate: Limits of Transformers on Compositionality",
+      "themes": [
+        "T3",
+        "T8"
+      ],
+      "venue_override": {
+        "venue": "Advances in Neural Information Processing Systems 36 (NeurIPS 2023)",
+        "year": 2023,
+        "type": "inproceedings",
+        "volume": "36",
+        "pages": "70293--70332",
+        "doi": "10.52202/075280-3081",
+        "evidence": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/deb3c28192f979302c157cb653c15e90-Abstract-Conference.html"
+      }
+    },
+    {
+      "key": "zhang2017rethinking",
+      "arxiv": "1611.03530",
+      "title": "Understanding deep learning requires rethinking generalization",
+      "themes": [
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2017)",
+        "year": 2017,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=Sy8gdB9xx (OpenReview API content.venue = 'ICLR 2017 Oral')"
+      }
+    },
+    {
+      "key": "arpit2017closer",
+      "arxiv": "1706.05394",
+      "title": "A Closer Look at Memorization in Deep Networks",
+      "themes": [
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the 34th International Conference on Machine Learning (ICML 2017)",
+        "year": 2017,
+        "type": "inproceedings",
+        "volume": "PMLR 70",
+        "pages": "233--242",
+        "evidence": "https://proceedings.mlr.press/v70/arpit17a.html"
+      }
+    },
+    {
+      "key": "feldman2020memorization",
+      "arxiv": "1906.05271",
+      "title": "Does Learning Require Memorization? A Short Tale about a Long Tail",
+      "themes": [
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the 52nd Annual ACM SIGACT Symposium on Theory of Computing (STOC 2020)",
+        "year": 2020,
+        "type": "inproceedings",
+        "pages": "954--959",
+        "doi": "10.1145/3357713.3384290",
+        "evidence": "https://acm-stoc.org/stoc2020/accepted-papers.html (official STOC 2020 accepted-papers list). dl.acm.org is bot-walled (403); proceedings title, pages and DOI taken from the ACM-deposited Crossref record https://api.crossref.org/works/10.1145/3357713.3384290"
+      }
+    },
+    {
+      "key": "tirumala2022memorization",
+      "arxiv": "2205.10770",
+      "title": "Memorization Without Overfitting: Analyzing the Training Dynamics of Large Language Models",
+      "themes": [
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "Advances in Neural Information Processing Systems 35 (NeurIPS 2022)",
+        "year": 2022,
+        "type": "inproceedings",
+        "volume": "35",
+        "pages": "38274--38290",
+        "doi": "10.52202/068431-2773",
+        "evidence": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/fa0509f4dab6807e2cb465715bf2d249-Abstract-Conference.html"
+      }
+    },
+    {
+      "key": "lake2018scan",
+      "arxiv": "1711.00350",
+      "title": "Generalization without systematicity: On the compositional skills of sequence-to-sequence recurrent networks",
+      "themes": [
+        "T7"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the 35th International Conference on Machine Learning (ICML 2018)",
+        "year": 2018,
+        "type": "inproceedings",
+        "volume": "PMLR 80",
+        "pages": "2873--2882",
+        "evidence": "https://proceedings.mlr.press/v80/lake18a.html"
+      }
+    },
+    {
+      "key": "keysers2020cfq",
+      "arxiv": "1912.09713",
+      "title": "Measuring Compositional Generalization: A Comprehensive Method on Realistic Data",
+      "themes": [
+        "T7"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2020)",
+        "year": 2020,
+        "type": "inproceedings",
+        "evidence": "https://iclr.cc/virtual_2020/poster_SygcCnNKwr.html (ICLR 2020 virtual poster page); OpenReview forum SygcCnNKwr"
+      }
+    },
+    {
+      "key": "hupkes2023taxonomy",
+      "arxiv": "2210.03050",
+      "title": "State-of-the-art generalisation research in NLP: A taxonomy and review",
+      "themes": [
+        "T7"
+      ],
+      "venue_override": {
+        "venue": "Nature Machine Intelligence",
+        "year": 2023,
+        "type": "article",
+        "volume": "5",
+        "pages": "1161--1174",
+        "doi": "10.1038/s42256-023-00729-y",
+        "venue_title": "A taxonomy and review of generalization research in NLP",
+        "evidence": "https://www.nature.com/articles/s42256-023-00729-y (Analysis article; published 19 Oct 2023, issue date October 2023; published title: 'A taxonomy and review of generalization research in NLP')"
+      }
+    },
+    {
+      "key": "hupkes2020compositionality",
+      "arxiv": "1908.08351",
+      "title": "Compositionality decomposed: how do neural networks generalise?",
+      "themes": [
+        "T7"
+      ],
+      "venue_override": {
+        "venue": "Journal of Artificial Intelligence Research",
+        "year": 2020,
+        "type": "article",
+        "volume": "67",
+        "pages": "757--795",
+        "doi": "10.1613/jair.1.11674",
+        "evidence": "https://jair.org/index.php/jair/article/view/11674"
+      }
+    },
+    {
+      "key": "saxton2019analysing",
+      "arxiv": "1904.01557",
+      "title": "Analysing Mathematical Reasoning Abilities of Neural Models",
+      "themes": [
+        "T5",
+        "T7"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2019)",
+        "year": 2019,
+        "type": "inproceedings",
+        "evidence": "https://iclr.cc/virtual/2019/poster/933 (ICLR 2019 Poster; listed on https://iclr.cc/Downloads/2019); OpenReview forum H1gR5iR5FX"
+      }
+    },
+    {
+      "key": "lample2020symbolic",
+      "arxiv": "1912.01412",
+      "title": "Deep Learning for Symbolic Mathematics",
+      "themes": [
+        "T5"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2020)",
+        "year": 2020,
+        "type": "inproceedings",
+        "evidence": "https://iclr.cc/virtual_2020/poster_S1eZYeHFDS.html (citation_conference_title 'Eighth International Conference on Learning Representations'); OpenReview forum S1eZYeHFDS"
+      }
+    },
+    {
+      "key": "welleck2022brittleness",
+      "arxiv": "2109.13986",
+      "title": "Symbolic Brittleness in Sequence Models: on Systematic Generalization in Symbolic Mathematics",
+      "themes": [
+        "T5",
+        "T7"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the AAAI Conference on Artificial Intelligence (AAAI-22)",
+        "year": 2022,
+        "type": "inproceedings",
+        "volume": "36",
+        "number": "8",
+        "pages": "8629--8637",
+        "doi": "10.1609/aaai.v36i8.20841",
+        "evidence": "https://ojs.aaai.org/index.php/AAAI/article/view/20841"
+      }
+    },
+    {
+      "key": "charton2022doing",
+      "arxiv": "2211.00170",
+      "title": "What is my math transformer doing? -- Three results on interpretability and generalization",
+      "themes": [
+        "T5",
+        "T3"
+      ]
+    },
+    {
+      "key": "charton2024gcd",
+      "arxiv": "2308.15594",
+      "title": "Learning the greatest common divisor: explaining transformer predictions",
+      "themes": [
+        "T1",
+        "T5"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2024)",
+        "year": 2024,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=cmcD05NPKa (OpenReview API content.venue = 'ICLR 2024 spotlight')"
+      }
+    },
+    {
+      "key": "charton2024repeated",
+      "arxiv": "2410.07041",
+      "title": "Emergent properties with repeated examples",
+      "themes": [
+        "T4",
+        "T3"
+      ]
+    },
+    {
+      "key": "ye2024physics21",
+      "arxiv": "2407.20311",
+      "title": "Physics of Language Models: Part 2.1, Grade-School Math and the Hidden Reasoning Process",
+      "themes": [
+        "T5",
+        "T3"
+      ],
+      "venue_override": {
+        "venue": "International Conference on Learning Representations (ICLR 2025)",
+        "year": 2025,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=Tn5B6Udq3E (OpenReview API content.venue = 'ICLR 2025 Poster')"
+      }
+    },
+    {
+      "key": "liu2023tinygsm",
+      "arxiv": "2312.09241",
+      "title": "TinyGSM: achieving >80% on GSM8k with small language models",
+      "themes": [
+        "T5",
+        "T4"
+      ]
+    },
+    {
+      "key": "cobbe2021gsm8k",
+      "arxiv": "2110.14168",
+      "title": "Training Verifiers to Solve Math Word Problems",
+      "themes": [
+        "T5"
+      ]
+    },
+    {
+      "key": "hendrycks2021math",
+      "arxiv": "2103.03874",
+      "title": "Measuring Mathematical Problem Solving With the MATH Dataset",
+      "themes": [
+        "T5"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks 1 (NeurIPS Datasets and Benchmarks 2021)",
+        "year": 2021,
+        "type": "inproceedings",
+        "volume": "1",
+        "evidence": "https://datasets-benchmarks-proceedings.neurips.cc/paper_files/paper/2021/hash/be83ab3ecd0db773eb2dc1b0a17836a1-Abstract-round2.html"
+      }
+    },
+    {
+      "key": "nye2021scratchpad",
+      "arxiv": "2112.00114",
+      "title": "Show Your Work: Scratchpads for Intermediate Computation with Language Models",
+      "themes": [
+        "T8"
+      ]
+    },
+    {
+      "key": "wei2022cot",
+      "arxiv": "2201.11903",
+      "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+      "themes": [
+        "T8"
+      ],
+      "venue_override": {
+        "venue": "Advances in Neural Information Processing Systems 35 (NeurIPS 2022)",
+        "year": 2022,
+        "type": "inproceedings",
+        "volume": "35",
+        "pages": "24824--24837",
+        "doi": "10.52202/068431-1800",
+        "evidence": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/9d5609613524ecf4f15af0f7b31abca4-Abstract-Conference.html"
+      }
+    },
+    {
+      "key": "hernandez2022repeated",
+      "arxiv": "2205.10487",
+      "title": "Scaling Laws and Interpretability of Learning from Repeated Data",
+      "themes": [
+        "T4"
+      ]
+    },
+    {
+      "key": "muennighoff2023constrained",
+      "arxiv": "2305.16264",
+      "title": "Scaling Data-Constrained Language Models",
+      "themes": [
+        "T4"
+      ],
+      "venue_override": {
+        "venue": "Advances in Neural Information Processing Systems 36 (NeurIPS 2023)",
+        "year": 2023,
+        "type": "inproceedings",
+        "volume": "36",
+        "pages": "50358--50376",
+        "doi": "10.52202/075280-2191",
+        "evidence": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/9d89448b63ce1e2e8dc7af72c984c196-Abstract-Conference.html"
+      }
+    },
+    {
+      "key": "dodge2019showyourwork",
+      "arxiv": "1909.03004",
+      "title": "Show Your Work: Improved Reporting of Experimental Results",
+      "themes": [
+        "T9"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)",
+        "year": 2019,
+        "type": "inproceedings",
+        "pages": "2185--2194",
+        "doi": "10.18653/v1/D19-1224",
+        "evidence": "https://aclanthology.org/D19-1224/"
+      }
+    },
+    {
+      "key": "bouthillier2021variance",
+      "arxiv": "2103.03098",
+      "title": "Accounting for Variance in Machine Learning Benchmarks",
+      "themes": [
+        "T9"
+      ],
+      "venue_override": {
+        "venue": "Proceedings of Machine Learning and Systems 3 (MLSys 2021)",
+        "year": 2021,
+        "type": "inproceedings",
+        "volume": "3",
+        "pages": "747--769",
+        "evidence": "https://proceedings.mlsys.org/paper_files/paper/2021/hash/0184b0cd3cfb185989f858a1d9f5c1eb-Abstract.html"
+      }
+    },
+    {
+      "key": "agarwal2021precipice",
+      "arxiv": "2108.13264",
+      "title": "Deep Reinforcement Learning at the Edge of the Statistical Precipice",
+      "themes": [
+        "T9"
+      ],
+      "venue_override": {
+        "venue": "Advances in Neural Information Processing Systems 34 (NeurIPS 2021)",
+        "year": 2021,
+        "type": "inproceedings",
+        "volume": "34",
+        "pages": "29304--29320",
+        "evidence": "https://proceedings.neurips.cc/paper_files/paper/2021/hash/f514cec81cb148559cf475e7426eed5e-Abstract.html"
+      }
+    },
+    {
+      "key": "madaan2024variance",
+      "arxiv": "2406.10229",
+      "title": "Quantifying Variance in Evaluation Benchmarks",
+      "themes": [
+        "T9"
+      ]
+    },
+    {
+      "key": "pineau2021reproducibility",
+      "arxiv": "2003.12206",
+      "title": "Improving Reproducibility in Machine Learning Research (A Report from the NeurIPS 2019 Reproducibility Program)",
+      "themes": [
+        "T9"
+      ],
+      "venue_override": {
+        "venue": "Journal of Machine Learning Research",
+        "year": 2021,
+        "type": "article",
+        "volume": "22",
+        "number": "164",
+        "pages": "1--20",
+        "evidence": "https://jmlr.org/papers/v22/20-303.html"
+      }
+    },
+    {
+      "key": "picard2021seed",
+      "arxiv": "2109.08203",
+      "title": "Torch.manual_seed(3407) is all you need: On the influence of random seeds in deep learning architectures for computer vision",
+      "themes": [
+        "T9"
+      ]
+    },
+    {
+      "key": "baeumel2026output",
+      "arxiv": "2609.01386",
+      "title": "When Tokenization is Secretly Output Supervision",
+      "themes": [
+        "T1"
+      ],
+      "found_by": "novelty search 2026-10-17",
+      "venue_override": {
+        "venue": "The 2026 Conference on Empirical Methods in Natural Language Processing (EMNLP 2026), Main Conference",
+        "year": 2026,
+        "type": "inproceedings",
+        "evidence": "Official detailed program linked from https://2026.emnlp.org/program/ (Google Sheet 1aXGTy_7Xeh-OXIs3iJSbDpUsZ6YhbfA76b17kBZH0Yk): paper '8120-MAIN', Oral, Session 11, 2026-10-27. Proceedings not yet in ACL Anthology (aclanthology.org/volumes/2026.emnlp-main/ is 404), so no anthology ID/pages/DOI yet"
+      }
+    },
+    {
+      "key": "kreitner2025bittokens",
+      "arxiv": "2510.06824",
+      "title": "Efficient numeracy in language models through single-token number embeddings",
+      "themes": [
+        "T1"
+      ],
+      "found_by": "novelty search 2026-10-17"
+    },
+    {
+      "key": "satariyan2026separators",
+      "arxiv": "2610.06605",
+      "title": "Separators Make Carry Propagation Learnable:The Geometry of Latent Carry in a Multiplication Transformer",
+      "themes": [
+        "T1"
+      ],
+      "found_by": "novelty search 2026-10-17"
+    },
+    {
+      "key": "huang2026nonbpe",
+      "url": "https://icml.cc/virtual/2026/82628",
+      "title": "Are Non-BPE Tokenizers Ready to Improve LLM Numeracy?",
+      "themes": [
+        "T1"
+      ],
+      "found_by": "novelty search 2026-10-17",
+      "venue_override": {
+        "venue": "3rd AI for Math Workshop at ICML 2026",
+        "year": 2026,
+        "type": "inproceedings",
+        "evidence": "https://icml.cc/virtual/2026/82628 (listed under the workshop session; the novelty search had reported it as ICML main track)"
+      }
+    },
+    {
+      "key": "kasliwal2026tiny",
+      "arxiv": "2610.09003",
+      "title": "Algorithmic Scratchpads and Curriculum Staging for Arithmetic Reasoning in Tiny Transformers",
+      "themes": [
+        "T4",
+        "T6",
+        "T8"
+      ],
+      "found_by": "novelty search 2026-10-17"
+    },
+    {
+      "key": "smithline2026sparsity",
+      "arxiv": "2605.09403",
+      "title": "Sparsity Moves Computation: How FFN Architecture Reshapes Attention in Small Transformers",
+      "themes": [
+        "T6"
+      ],
+      "found_by": "novelty search 2026-10-17",
+      "venue_override": {
+        "venue": "Mechanistic Interpretability Workshop at ICML 2026 (virtual poster)",
+        "year": 2026,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=PG9V0MvEGG (OpenReview API: venue 'Mech Interp Workshop ICML 2026 Virtualposter', venueid ICML.cc/2026/Workshop/Mech_Interp)"
+      }
+    },
+    {
+      "key": "singh2026relative",
+      "arxiv": "2607.18759",
+      "title": "Relative Positions Generalize, Absolute Positions Memorize: An Implicit-Bias Account of Length Generalization in Attention",
+      "themes": [
+        "T2"
+      ],
+      "found_by": "novelty search 2026-10-17"
+    },
+    {
+      "key": "barron2025toobig",
+      "arxiv": "2506.09099",
+      "title": "Too Big to Think: Capacity, Memorization, and Generalization in Pre-Trained Transformers",
+      "themes": [
+        "T3"
+      ],
+      "found_by": "novelty search 2026-10-17",
+      "venue_override": {
+        "venue": "Tiny Titans: The next wave of On-Device Learning for Foundational Models (TTODLer-FM), Workshop at ICML 2025",
+        "year": 2025,
+        "type": "inproceedings",
+        "evidence": "https://openreview.net/forum?id=skWiP3K67u (OpenReview API: venue 'TTODLer-FM @ ICML 2025 Oral'; workshop group title from api2.openreview.net/groups?id=ICML.cc/2025/Workshop/TTODLer-FM). Note: workshop paper (oral), not ICML main proceedings"
+      }
+    },
+    {
+      "key": "maltoni2024arithmetic",
+      "arxiv": "2308.01154",
+      "title": "Arithmetic with Language Models: from Memorization to Computation",
+      "themes": [
+        "T3"
+      ],
+      "found_by": "novelty search 2026-10-17",
+      "venue_override": {
+        "venue": "Neural Networks",
+        "year": 2024,
+        "type": "article",
+        "volume": "179",
+        "pages": "106550",
+        "doi": "10.1016/j.neunet.2024.106550",
+        "evidence": "https://api.elsevier.com/content/article/doi/10.1016/j.neunet.2024.106550 (Elsevier API: Neural Networks, cover date November 2024). Volume 179 / article no. 106550 from the publisher-deposited Crossref record https://api.crossref.org/works/10.1016/j.neunet.2024.106550 (matches arXiv journal_ref 'Neural Networks, vol. 179, 2024')"
+      }
+    },
+    {
+      "key": "deng2024symbolic",
+      "arxiv": "2410.15580",
+      "title": "Language Models are Symbolic Learners in Arithmetic",
+      "themes": [
+        "T3"
+      ],
+      "found_by": "novelty search 2026-10-17",
+      "venue_override": {
+        "venue": "Transactions on Machine Learning Research (TMLR)",
+        "year": 2026,
+        "type": "article",
+        "evidence": "https://openreview.net/forum?id=QSblPg1xUM (OpenReview API: venue 'Accepted by TMLR', venueid 'TMLR', pdate 2026-01-27)"
+      }
+    },
+    {
+      "key": "zhao2026shattered",
+      "arxiv": "2601.22510",
+      "title": "Shattered Compositionality: Counterintuitive Learning Dynamics of Transformers for Arithmetic",
+      "themes": [
+        "T3",
+        "T8"
+      ],
+      "found_by": "novelty search 2026-10-17"
+    },
+    {
+      "key": "zhu2024critical",
+      "arxiv": "2401.10463",
+      "title": "Critical Data Size of Language Models from a Grokking Perspective",
+      "themes": [
+        "T4"
+      ],
+      "found_by": "novelty search 2026-10-17"
+    },
+    {
+      "key": "so2026slower",
+      "arxiv": "2605.14659",
+      "title": "Slower Generalization, Faster Memorization: A Sweet Spot in Algorithmic Learning",
+      "themes": [
+        "T3",
+        "T4"
+      ],
+      "found_by": "novelty search 2026-10-17"
+    },
+    {
+      "key": "he2026ceiling",
+      "arxiv": "2609.33134",
+      "title": "Ceiling of a Task: When Can a Transformer Succeed Without Its Chain of Thought?",
+      "themes": [
+        "T8"
+      ],
+      "found_by": "novelty search 2026-10-17"
+    },
+    {
+      "key": "singhal2025layernorm",
+      "arxiv": "2511.10566",
+      "title": "Impact of Layer Norm on Memorization and Generalization in Transformers",
+      "themes": [
+        "T3",
+        "T6"
+      ],
+      "found_by": "Crossref check of an unverified novelty-search hit, 2026-10-17",
+      "venue_override": {
+        "venue": "Advances in Neural Information Processing Systems 38 (NeurIPS 2025)",
+        "year": 2025,
+        "type": "inproceedings",
+        "volume": "38",
+        "pages": "77239--77291",
+        "doi": "10.52202/085713-2591",
+        "evidence": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/6f7d90b1198fec96defd80b5ebd5bc81-Abstract-Conference.html (Main Conference Track; also OpenReview 6JIjL7kXzy 'NeurIPS 2025 poster')"
+      }
+    },
+    {
+      "key": "harma2026compact",
+      "doi": "10.3390/electronics15091847",
+      "title": "On Memorization and Generalization in Compact Transformers",
+      "themes": [
+        "T3"
+      ],
+      "found_by": "novelty search web hit, verified via Crossref 2026-10-17"
+    },
+    {
+      "key": "chen2024posthinking",
+      "arxiv": "2404.09170",
+      "title": "Distilling Reasoning Ability from Large Language Models with Adaptive Thinking",
+      "themes": [
+        "T8"
+      ],
+      "found_by": "novelty search 2026-10-17",
+      "venue_override": {
+        "venue": "IEEE Transactions on Neural Networks and Learning Systems",
+        "year": 2025,
+        "type": "article",
+        "volume": "36",
+        "number": "11",
+        "pages": "19820-19833",
+        "doi": "10.1109/tnnls.2025.3591266",
+        "venue_title": "Distilling Reasoning Ability From Large Language Models With Adaptive Thinking",
+        "evidence": "https://api.crossref.org/works/10.1109/tnnls.2025.3591266 (publisher-deposited Crossref record; IEEE Xplore is bot-walled)"
+      }
+    },
+    {
+      "key": "dror2018hitchhiker",
+      "doi": "10.18653/v1/P18-1128",
+      "title": "The Hitchhiker's Guide to Testing Statistical Significance in Natural Language Processing",
+      "themes": [
+        "T9"
+      ]
+    },
+    {
+      "key": "wilson1927probable",
+      "doi": "10.1080/01621459.1927.10502953",
+      "title": "Probable Inference, the Law of Succession, and Statistical Inference",
+      "themes": [
+        "T9"
+      ]
+    }
+  ]
+}

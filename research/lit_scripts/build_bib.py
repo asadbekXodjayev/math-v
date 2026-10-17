@@ -1,0 +1,155 @@
+"""
+Builds research/REFERENCES.bib and the generated reference index in
+research/RELATED_WORK_TABLE.md from the verified metadata written by verify_refs.py.
+Authors and titles come from arXiv/Crossref/the official page, never typed by hand. A venue
+is used only if it was confirmed on the official proceedings page ("venue_override" in
+candidates.json, with its evidence URL); anything else is cited as an arXiv preprint, even if
+its arXiv comment mentions an acceptance. (Semantic Scholar's venue stays in the metadata as
+a hint only: its year is usually the arXiv year, and it lists SCAN under the wrong venue.)
+
+Refuses to run if any reference failed verification.
+
+Usage (from mathvis-model/):
+    .venv/Scripts/python.exe research/lit_scripts/build_bib.py
+"""
+
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+META = ROOT / "research" / "artifacts" / "m2_reference_metadata.json"
+OUT = ROOT / "research" / "REFERENCES.bib"
+TABLE = ROOT / "research" / "RELATED_WORK_TABLE.md"
+BEGIN, END = "<!-- BEGIN GENERATED INDEX -->", "<!-- END GENERATED INDEX -->"
+
+THEMES = {
+    "T1": "Number representation and tokenization",
+    "T2": "Positional encoding, length and operand OOD generalization",
+    "T3": "Memorization vs generalization",
+    "T4": "Data efficiency, repetition, phase transitions",
+    "T5": "Structured math with sequence models",
+    "T6": "Architecture components at small scale",
+    "T7": "Split design and generalization taxonomy",
+    "T8": "Output ordering: scratchpads, hints, answer-first",
+    "T9": "Evaluation statistics and reproducibility",
+}
+
+
+def esc(s: str) -> str:
+    return s.replace("&", r"\&").replace("%", r"\%").replace("#", r"\#").replace("_", r"\_")
+
+
+def entry(key: str, v: dict) -> str:
+    m = v["metadata"]
+    fields: dict[str, str] = {}
+    # Cite the published title when the venue version was renamed (fetched from Crossref).
+    title = (v.get("venue_override") or {}).get("venue_title") or m["title"]
+    fields["title"] = "{" + esc(title) + "}"
+    fields["author"] = " and ".join(esc(a) for a in m["authors"])
+
+    if v["source"] == "crossref":
+        kind = "inproceedings" if m.get("type") == "proceedings-article" else "article"
+        fields["booktitle" if kind == "inproceedings" else "journal"] = esc(m["container"])
+        fields["year"] = str(m["year"])
+        for f in ("volume", "issue", "page"):
+            if m.get(f):
+                fields["number" if f == "issue" else ("pages" if f == "page" else f)] = m[f]
+        fields["doi"] = v["id"]
+        fields["url"] = "https://doi.org/" + v["id"]
+    elif v["source"] == "url":
+        venue = v["venue_override"]
+        kind = venue["type"]
+        fields["booktitle"] = esc(venue["venue"])
+        fields["year"] = str(venue["year"])
+        fields["url"] = m["url"]
+    else:
+        venue = v.get("venue_override")
+        if venue:
+            kind = venue["type"]
+            fields["journal" if kind == "article" else "booktitle"] = esc(venue["venue"])
+            fields["year"] = str(venue["year"])
+            for f in ("volume", "number", "pages", "doi"):
+                if venue.get(f):
+                    fields[f] = str(venue[f])
+        else:
+            kind = "misc"
+            fields["howpublished"] = "arXiv preprint arXiv:" + v["id"]
+            fields["year"] = m["published"][:4]
+        fields["eprint"] = v["id"]
+        fields["archiveprefix"] = "arXiv"
+        if m.get("primary_category"):
+            fields["primaryclass"] = m["primary_category"]
+        fields["url"] = "https://arxiv.org/abs/" + v["id"]
+
+    body = ",\n".join(f"  {k} = {{{val}}}" for k, val in fields.items())
+    return f"@{kind}{{{key},\n{body}\n}}\n"
+
+
+def index_row(key: str, v: dict) -> str:
+    m = v["metadata"]
+    authors = [re.sub(r"[{}]", "", a) for a in m["authors"]]
+    first = authors[0].split()[-1]
+    who = first if len(authors) == 1 else (f"{first} & {authors[1].split()[-1]}" if len(authors) == 2
+                                           else f"{first} et al.")
+    # Convention: the year shown is the first arXiv submission year (the year cited in the
+    # review text); the venue column carries the venue and its own year.
+    venue = v.get("venue_override")
+    if v["source"] == "crossref":
+        year, where, link = m["year"], m["container"], f"[doi:{v['id']}](https://doi.org/{v['id']})"
+    elif v["source"] == "url":
+        year, where, link = venue["year"], venue["venue"], f"[official page]({m['url']})"
+    else:
+        year = m["published"][:4]
+        where = f"{venue['venue']}" if venue else "arXiv (venue not confirmed)"
+        link = f"[arXiv:{v['id']}](https://arxiv.org/abs/{v['id']})"
+    title = m["title"].replace("|", "\\|")
+    return f"| `{key}` | {who} {year} | {title} | {link} | {where} | {', '.join(v['themes'])} |"
+
+
+def write_index(refs: dict) -> int:
+    lines = [BEGIN, "",
+             "*Generated by `research/lit_scripts/build_bib.py`; do not edit by hand. Grouped by each "
+             "reference's primary theme; the last column lists all themes it informs.*", ""]
+    for t, name in THEMES.items():
+        keys = sorted((k for k, v in refs.items() if v["themes"][0] == t),
+                      key=lambda k: (str(refs[k]["metadata"].get("published") or refs[k]["metadata"].get("year")), k))
+        if not keys:
+            continue
+        lines += [f"### {t} — {name} ({len(keys)})", "",
+                  "| Key | Reference | Title | Link | Venue (verified) | Themes |",
+                  "|---|---|---|---|---|---|"]
+        lines += [index_row(k, refs[k]) for k in keys]
+        lines.append("")
+    lines.append(END)
+    text = TABLE.read_text(encoding="utf-8")
+    if BEGIN not in text or END not in text:
+        raise SystemExit(f"{TABLE.name} is missing the generated-index markers")
+    head, rest = text.split(BEGIN, 1)
+    TABLE.write_text(head + "\n".join(lines) + rest.split(END, 1)[1], encoding="utf-8")
+    return len(refs)
+
+
+def main() -> None:
+    data = json.loads(META.read_text(encoding="utf-8"))
+    refs = data["refs"]
+    bad = [k for k, v in refs.items() if not v["title_ok"]]
+    if bad:
+        raise SystemExit(f"refusing to build: unverified references {bad}")
+
+    header = (
+        "% MathGen M2 references. GENERATED by research/lit_scripts/build_bib.py from\n"
+        "% research/artifacts/m2_reference_metadata.json (verified "
+        f"{data['summary']['run_utc']}). Do not edit by hand.\n"
+        "% Venues only where confirmed on the official proceedings page (evidence URL in\n"
+        "% research/lit_scripts/candidates.json); otherwise cited as arXiv preprints.\n\n"
+    )
+    entries = [entry(k, refs[k]) for k in sorted(refs)]
+    OUT.write_text(header + "\n".join(entries), encoding="utf-8")
+    n_venue = sum(1 for e in entries if not e.startswith("@misc"))
+    print(f"wrote {OUT.relative_to(ROOT)}: {len(entries)} entries ({n_venue} with a confirmed venue)")
+    print(f"wrote {TABLE.relative_to(ROOT)} index: {write_index(refs)} rows")
+
+
+if __name__ == "__main__":
+    main()
