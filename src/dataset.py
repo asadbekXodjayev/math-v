@@ -92,7 +92,7 @@ class TopicGenerators:
         a, b = _r(2, 30), _r(2, 30)
         op = random.choice(["+", "-", "*"])
         if op == "+":  ans = a + b; s = f"{a} + {b} = {ans}"
-        elif op == "-": a = max(a, b); b = min(a, b); ans = a - b; s = f"{a} - {b} = {ans}"
+        elif op == "-": a, b = max(a, b), min(a, b); ans = a - b; s = f"{a} - {b} = {ans}"  # F3 fix (was a=max; b=min(a, b))
         else:          ans = a * b; s = f"{a} × {b} = {ans}"
         return (f"Compute {a} {op} {b}.", [s], str(ans))
 
