@@ -74,3 +74,14 @@ Append-only, newest entries last. Record only what was actually run, with the co
 
 - **Loop scope:** "MathGen to G3". Run M3 (pre-registration) → M4 (data v1 + oracle, tests) → M5 (framework, P0, P1) → M6 (pilots P2–P4) autonomously, then stop at G3 before the core grid. Choosing to continue past M3 is treated as approval of G2. **G3 still needs an explicit go.**
 - **RQ:** "Adopt RQ v2 + all". This adopts RQ v2 (`RESEARCH_GAP.md` §6), the hypothesis refinements (H1a/b/c, H4a/b, H5-tok, H6-pe/ffn) and proposals P-a…P-i, including P-b, the decoupled input/output tokenization check (+6 runs).
+
+---
+
+## 2026-10-17 — M3 pre-registration
+
+- **Outputs:**
+  - `research/RESEARCH_DESIGN.md`: RQ v2, task and format, data v1 (families, G/M sets, hash pools, 7 block regions, OOD rule and ranges), arms, training protocol rules, metrics, 12 contrasts, decision rule, run matrix;
+  - `research/decisions.md`: D-001…D-015, where the frozen design differs from the original plan.
+- **Values set by rule, not frozen now:** context length (M4 measurement), step budget S (P2), per-arm LR (P3), SESOI (P4 → G3).
+- **Run matrix:** 61 runs through the core (≈ 21 GPU-h, plan estimates) vs 52 in the original plan. The increase is C-dec (+6, adopted P-b) and C-dtok (+3, needed to test the adopted H5-tok). D-006 is flagged for G3.
+- **G2:** treated as approved by the user's "MathGen to G3" choice (see the entry above). Tag `prereg-v1` marks the frozen design.
