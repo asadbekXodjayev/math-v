@@ -1,0 +1,5 @@
+# C-AF control: same as REF, answer-first serialization. Uses REF lr.
+tok_arm: digit
+arch_arm: ref
+order: answer_first
+lr: 1.0e-3

@@ -1,0 +1,5 @@
+# REF: T-digit, RoPE, SwiGLU, hints-first. lr is set by pilot P3 (RESEARCH_DESIGN.md §4.3).
+tok_arm: digit
+arch_arm: ref
+order: hints_first
+lr: 1.0e-3

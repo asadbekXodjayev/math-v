@@ -1,0 +1,4 @@
+tok_arm: bpe_num
+arch_arm: ref
+order: hints_first
+lr: 1.0e-3

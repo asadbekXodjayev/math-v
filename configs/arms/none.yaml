@@ -1,0 +1,4 @@
+tok_arm: digit
+arch_arm: none
+order: hints_first
+lr: 1.0e-3

@@ -1,0 +1,5 @@
+# H1c decoupled: bpe-merged prompt numbers, digit-split target numbers. Uses REF lr.
+tok_arm: dec_bd
+arch_arm: ref
+order: hints_first
+lr: 1.0e-3

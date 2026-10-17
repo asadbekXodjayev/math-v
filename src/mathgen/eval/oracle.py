@@ -264,6 +264,13 @@ def _value(s: str, atype: str):
     raise ValueError(f"unknown answer type {atype!r}")
 
 
+def parses(pred: str | None, atype: str) -> bool:
+    """Whether `pred` is well-formed under the answer type's grammar (right or wrong)."""
+    if not isinstance(pred, str) or not pred.strip() or len(pred) > MAX_PRED_CHARS:
+        return False
+    return _value(pred, atype) is not None
+
+
 def math_correct(pred: str | None, truth: str, atype: str) -> bool:
     if not isinstance(pred, str) or not pred.strip() or len(pred) > MAX_PRED_CHARS:
         return False
