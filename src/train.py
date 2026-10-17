@@ -15,10 +15,25 @@ Usage:
 """
 
 import argparse
+import hashlib
 import json
 import os
+import platform as _platform
+import random
+import subprocess
+import sys
 import time
 from pathlib import Path
+
+# legacy-repro: same Py3.14/Windows torch-import workaround as src/server.py (environment only).
+try:
+    _uc = _platform.uname_result("Windows", "localhost", "10", "10.0", "AMD64")
+    _uc.__dict__["processor"] = ""
+    _platform._uname_cache = _uc
+except Exception:
+    pass
+_platform.win32_ver = lambda *a, **k: ("10", "10.0", "", "")
+_platform._wmi_query = lambda *a, **k: None
 
 import torch
 import torch.nn as nn
@@ -29,11 +44,34 @@ from model import MathGen, MathGenConfig, build_model
 from tokenizer import BPETokenizer
 from dataset import build_all_samples, build_dataloader
 
-CKPT_DIR = Path(__file__).parent.parent / "checkpoints"
-TOK_PATH = str(CKPT_DIR / "tokenizer.json")
-BEST_PT  = CKPT_DIR / "best.pt"
-LAST_PT  = CKPT_DIR / "latest.pt"
-LOG_PATH = CKPT_DIR / "train_log.jsonl"
+# legacy-repro: all outputs go to --run-dir (set in __main__), never to the shared checkpoints/.
+CKPT_DIR = TOK_PATH = BEST_PT = LAST_PT = LOG_PATH = None
+
+
+def set_run_dir(run_dir: Path) -> None:
+    global CKPT_DIR, TOK_PATH, BEST_PT, LAST_PT, LOG_PATH
+    CKPT_DIR = Path(run_dir)
+    TOK_PATH = str(CKPT_DIR / "tokenizer.json")
+    BEST_PT  = CKPT_DIR / "best.pt"
+    LAST_PT  = CKPT_DIR / "latest.pt"
+    LOG_PATH = CKPT_DIR / "train_log.jsonl"
+
+
+def write_run_record(args, all_samples) -> None:
+    """legacy-repro: args, git commit, pip freeze and the dataset sha256, per run."""
+    repo = Path(__file__).resolve().parent.parent
+    git = lambda *a: subprocess.run(["git", *a], cwd=repo, capture_output=True, text=True).stdout.strip()
+    record = {
+        "args": vars(args),
+        "git_commit": git("rev-parse", "HEAD"),
+        "git_dirty": bool(git("status", "--porcelain", "--untracked-files=no")),
+        "python": sys.version.split()[0], "torch": torch.__version__,
+        "dataset_sha256": hashlib.sha256("\n".join(all_samples).encode("utf-8")).hexdigest(),
+        "n_samples": len(all_samples),
+    }
+    (CKPT_DIR / "run_record.json").write_text(json.dumps(record, indent=2), encoding="utf-8")
+    freeze = subprocess.run([sys.executable, "-m", "pip", "freeze"], capture_output=True, text=True).stdout
+    (CKPT_DIR / "pip_freeze.txt").write_text(freeze, encoding="utf-8")
 
 
 def cosine_warmup_lr(step: int, warmup: int, total: int, max_lr: float, min_lr: float) -> float:
@@ -62,11 +100,16 @@ def train(args: argparse.Namespace) -> None:
         print(f"VRAM: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB", flush=True)
     print(f"{'='*60}\n", flush=True)
 
-    CKPT_DIR.mkdir(exist_ok=True)
+    CKPT_DIR.mkdir(parents=True, exist_ok=True)
+    # legacy-repro: seed every RNG the legacy code uses (data generation and shuffling use `random` and torch).
+    random.seed(args.seed)
+    torch.manual_seed(args.seed)
+    torch.cuda.manual_seed_all(args.seed)
 
     # ── 1. Data ───────────────────────────────────────────────────────────────
     print("=== Building dataset ===")
     all_samples = build_all_samples(n_synthetic_per_topic=args.n_per_topic)
+    write_run_record(args, all_samples)
     split = int(len(all_samples) * 0.92)
     train_samples = all_samples[:split]
     val_samples   = all_samples[split:]
@@ -132,6 +175,9 @@ def train(args: argparse.Namespace) -> None:
         model.train()
         epoch_loss = 0.0
         accum_loss = 0.0
+        epoch_steps = 0          # legacy-repro: optimizer steps in this epoch (F2 fix)
+        real_tokens = 0          # legacy-repro: non-padding target tokens since t0 (F2 fix)
+        oom_skips = 0
         t0 = time.time()
 
         optimizer.zero_grad(set_to_none=True)
@@ -153,6 +199,7 @@ def train(args: argparse.Namespace) -> None:
                     loss = loss / args.grad_accum
                 scaler.scale(loss).backward()
                 accum_loss += loss.item()
+                real_tokens += int((y != -1).sum())
             except (torch.cuda.OutOfMemoryError, RuntimeError) as e:
                 if "out of memory" not in str(e).lower():
                     raise
@@ -162,6 +209,7 @@ def train(args: argparse.Namespace) -> None:
                     torch.cuda.empty_cache()
                 print(f"  [OOM] skipped micro-batch near step {global_step} "
                       f"(transient VRAM spike)", flush=True)
+                oom_skips += 1
                 continue
 
             # Optimizer step every grad_accum batches
@@ -174,14 +222,15 @@ def train(args: argparse.Namespace) -> None:
 
                 epoch_loss += accum_loss
                 global_step += 1
+                epoch_steps += 1
                 accum_loss = 0.0
 
                 if global_step % 25 == 0:
                     elapsed = time.time() - t0
-                    tok_per_sec = args.batch_size * args.grad_accum * cfg.context_len * global_step / elapsed
+                    tok_per_sec = real_tokens / elapsed   # legacy-repro: real tokens this epoch (F2 fix)
                     print(
                         f"E{epoch+1} step {global_step} | "
-                        f"loss={epoch_loss/max(global_step,1):.4f} | "
+                        f"loss={epoch_loss/max(epoch_steps,1):.4f} | "
                         f"lr={lr:.2e} | "
                         f"{tok_per_sec/1e3:.1f}k tok/s"
                     )
@@ -211,7 +260,7 @@ def train(args: argparse.Namespace) -> None:
         if device.type == "cuda":
             torch.cuda.empty_cache()   # release validation memory before next epoch
 
-        t_loss = epoch_loss / max(global_step, 1)
+        t_loss = epoch_loss / max(epoch_steps, 1)   # legacy-repro: per-epoch mean (F2 fix)
         print(f"\n{'─'*55}")
         print(f"Epoch {epoch+1}/{args.epochs}  train={t_loss:.4f}  val={val_loss:.4f}  lr={lr:.2e}")
         print(f"{'─'*55}\n")
@@ -226,7 +275,9 @@ def train(args: argparse.Namespace) -> None:
             "cfg":         vars(cfg),
         }
         torch.save(state, LAST_PT)
-        log_line(LOG_PATH, {"epoch": epoch+1, "train_loss": t_loss, "val_loss": val_loss, "lr": lr})
+        log_line(LOG_PATH, {"epoch": epoch+1, "train_loss": t_loss, "val_loss": val_loss, "lr": lr,
+                            "global_step": global_step, "epoch_wall_s": time.time() - t0,
+                            "real_tok_s": real_tokens / max(time.time() - t0, 1e-9), "oom_skips": oom_skips})
 
         if val_loss < best_val:
             best_val = val_loss
@@ -256,7 +307,10 @@ if __name__ == "__main__":
                    help="Ignore checkpoints, train from scratch")
     p.add_argument("--cpu",          action="store_true",
                    help="Force CPU training (slower but no VRAM issues)")
+    p.add_argument("--seed",         type=int,   default=0, help="legacy-repro: seed for all RNGs")
+    p.add_argument("--run-dir",      required=True, help="legacy-repro: per-run output directory")
     args = p.parse_args()
+    set_run_dir(Path(args.run_dir))
 
     if args.cpu:
         # Force CPU by hiding CUDA from torch
