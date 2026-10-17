@@ -1,0 +1,483 @@
+{
+  "config_sha256": "1fdccf6742da3fa80b40896fbf744e638754dd65747852d3553d6f82d1433643",
+  "code_sha256": "b56fadf96e09b90dc5efe23e8cf979a3da7c312b07cb8f8a0b41a73c08c029e2",
+  "space_sizes": {
+    "algebra_linear": 1120,
+    "algebra_quadratic": 91,
+    "arith_fractions": 1225,
+    "arith_integer": 2117,
+    "arith_pemdas": 512,
+    "deriv_at_point": 80,
+    "deriv_polynomial": 1080,
+    "deriv_power": 20,
+    "func_evaluate": 4455,
+    "integral_definite": 27,
+    "integral_power": 12,
+    "limit_factor": 5,
+    "limit_infinity": 50,
+    "limit_substitution": 864,
+    "linear_transform": 144,
+    "mat_add": 43046721,
+    "mat_det": 6561,
+    "mat_mul": 43046721,
+    "mat_scalar": 26244,
+    "mat_transpose": 6561,
+    "vec_angle": 625,
+    "vec_dot": 20736,
+    "vec_magnitude": 144
+  },
+  "g_set": [
+    "algebra_linear",
+    "arith_fractions",
+    "arith_integer",
+    "arith_pemdas",
+    "deriv_polynomial",
+    "func_evaluate",
+    "limit_substitution",
+    "mat_add",
+    "mat_det",
+    "mat_mul",
+    "mat_scalar",
+    "mat_transpose",
+    "vec_angle",
+    "vec_dot"
+  ],
+  "m_set": [
+    "algebra_quadratic",
+    "deriv_at_point",
+    "deriv_power",
+    "integral_definite",
+    "integral_power",
+    "limit_factor",
+    "limit_infinity",
+    "linear_transform",
+    "vec_magnitude"
+  ],
+  "files": {
+    "eval/test_id_unseen.jsonl": {
+      "sha256": "e6e287f46e8ae6b666d34f8b4435b372499dcd5648ca72426e1b5e14ec93f629",
+      "n_items": 2672,
+      "per_template": {
+        "algebra_linear": 200,
+        "arith_fractions": 200,
+        "arith_integer": 200,
+        "arith_pemdas": 129,
+        "deriv_polynomial": 200,
+        "func_evaluate": 200,
+        "limit_substitution": 200,
+        "mat_add": 200,
+        "mat_det": 200,
+        "mat_mul": 200,
+        "mat_scalar": 200,
+        "mat_transpose": 200,
+        "vec_angle": 143,
+        "vec_dot": 200
+      }
+    },
+    "eval/val.jsonl": {
+      "sha256": "5e912b04b0f2caee2142bf2ca88ebcd96e3b45c5131cc4fd617b21aab6019383",
+      "n_items": 644,
+      "per_template": {
+        "algebra_linear": 50,
+        "arith_fractions": 49,
+        "arith_integer": 50,
+        "arith_pemdas": 23,
+        "deriv_polynomial": 46,
+        "func_evaluate": 50,
+        "limit_substitution": 43,
+        "mat_add": 50,
+        "mat_det": 50,
+        "mat_mul": 50,
+        "mat_scalar": 50,
+        "mat_transpose": 50,
+        "vec_angle": 33,
+        "vec_dot": 50
+      }
+    },
+    "eval/block.jsonl": {
+      "sha256": "abf782bdd23404fd55fbf4b65558e59452d44fa61fb3f77710303f43d87b77fa",
+      "n_items": 1069,
+      "per_template": {
+        "algebra_linear": 112,
+        "arith_fractions": 175,
+        "arith_integer": 121,
+        "deriv_polynomial": 180,
+        "func_evaluate": 200,
+        "mat_det": 81,
+        "vec_dot": 200
+      }
+    },
+    "eval/ood_same.jsonl": {
+      "sha256": "000c49a6b533879788f64c18211dfd10393372ea38488c5ac8ed8c36786ff76d",
+      "n_items": 1248,
+      "per_template": {
+        "algebra_linear": 100,
+        "algebra_quadratic": 21,
+        "arith_fractions": 25,
+        "arith_integer": 100,
+        "deriv_at_point": 100,
+        "deriv_polynomial": 100,
+        "deriv_power": 12,
+        "func_evaluate": 100,
+        "integral_definite": 45,
+        "integral_power": 24,
+        "limit_factor": 3,
+        "limit_infinity": 18,
+        "limit_substitution": 100,
+        "linear_transform": 100,
+        "mat_scalar": 100,
+        "vec_angle": 100,
+        "vec_dot": 100,
+        "vec_magnitude": 100
+      }
+    },
+    "eval/ood_longer.jsonl": {
+      "sha256": "68e9280e08ff38f05c1ffcee725efa68dbff9afeb8ec10d01f9de570a4f874a4",
+      "n_items": 2189,
+      "per_template": {
+        "algebra_linear": 100,
+        "algebra_quadratic": 100,
+        "arith_fractions": 100,
+        "arith_integer": 100,
+        "arith_pemdas": 100,
+        "deriv_at_point": 100,
+        "deriv_polynomial": 100,
+        "deriv_power": 84,
+        "func_evaluate": 100,
+        "integral_definite": 100,
+        "integral_power": 84,
+        "limit_factor": 21,
+        "limit_infinity": 100,
+        "limit_substitution": 100,
+        "linear_transform": 100,
+        "mat_add": 100,
+        "mat_det": 100,
+        "mat_mul": 100,
+        "mat_scalar": 100,
+        "mat_transpose": 100,
+        "vec_angle": 100,
+        "vec_dot": 100,
+        "vec_magnitude": 100
+      }
+    },
+    "fit/tokenizer_fit.jsonl": {
+      "sha256": "feda78cd91b89d75b5c9cb239fadc8dff6f4c2b3e55036a954e62f0c00c06692",
+      "n_items": 50000,
+      "per_template": {
+        "algebra_linear": 2171,
+        "algebra_quadratic": 2125,
+        "arith_fractions": 2190,
+        "arith_integer": 2179,
+        "arith_pemdas": 2168,
+        "deriv_at_point": 2209,
+        "deriv_polynomial": 2157,
+        "deriv_power": 2189,
+        "func_evaluate": 2140,
+        "integral_definite": 2133,
+        "integral_power": 2215,
+        "limit_factor": 2186,
+        "limit_infinity": 2187,
+        "limit_substitution": 2178,
+        "linear_transform": 2154,
+        "mat_add": 2154,
+        "mat_det": 2126,
+        "mat_mul": 2176,
+        "mat_scalar": 2221,
+        "mat_transpose": 2155,
+        "vec_angle": 2211,
+        "vec_dot": 2270,
+        "vec_magnitude": 2106
+      }
+    },
+    "train/seed0.jsonl": {
+      "sha256": "39e8d53d8192afe5c715b074aaac4b30839070822b978cfa0474707cba13dbf7",
+      "n_items": 128000,
+      "per_template": {
+        "algebra_linear": 5548,
+        "algebra_quadratic": 5651,
+        "arith_fractions": 5629,
+        "arith_integer": 5607,
+        "arith_pemdas": 5453,
+        "deriv_at_point": 5576,
+        "deriv_polynomial": 5495,
+        "deriv_power": 5536,
+        "func_evaluate": 5582,
+        "integral_definite": 5493,
+        "integral_power": 5450,
+        "limit_factor": 5534,
+        "limit_infinity": 5515,
+        "limit_substitution": 5623,
+        "linear_transform": 5555,
+        "mat_add": 5588,
+        "mat_det": 5741,
+        "mat_mul": 5659,
+        "mat_scalar": 5635,
+        "mat_transpose": 5518,
+        "vec_angle": 5484,
+        "vec_dot": 5594,
+        "vec_magnitude": 5534
+      }
+    },
+    "train/seed1.jsonl": {
+      "sha256": "53e67e364acad4f5997d45a1186b25cfe64549464bb1b7ff38d301bcf2e37f62",
+      "n_items": 128000,
+      "per_template": {
+        "algebra_linear": 5652,
+        "algebra_quadratic": 5650,
+        "arith_fractions": 5394,
+        "arith_integer": 5449,
+        "arith_pemdas": 5485,
+        "deriv_at_point": 5477,
+        "deriv_polynomial": 5632,
+        "deriv_power": 5525,
+        "func_evaluate": 5538,
+        "integral_definite": 5535,
+        "integral_power": 5476,
+        "limit_factor": 5712,
+        "limit_infinity": 5478,
+        "limit_substitution": 5597,
+        "linear_transform": 5639,
+        "mat_add": 5584,
+        "mat_det": 5604,
+        "mat_mul": 5558,
+        "mat_scalar": 5629,
+        "mat_transpose": 5537,
+        "vec_angle": 5627,
+        "vec_dot": 5681,
+        "vec_magnitude": 5541
+      }
+    },
+    "train/seed2.jsonl": {
+      "sha256": "1d0826cdb6293d1c0a837ce3d8a8be61b3b4d8967f8c11830184c959804055ca",
+      "n_items": 128000,
+      "per_template": {
+        "algebra_linear": 5503,
+        "algebra_quadratic": 5600,
+        "arith_fractions": 5556,
+        "arith_integer": 5567,
+        "arith_pemdas": 5550,
+        "deriv_at_point": 5606,
+        "deriv_polynomial": 5486,
+        "deriv_power": 5529,
+        "func_evaluate": 5563,
+        "integral_definite": 5446,
+        "integral_power": 5590,
+        "limit_factor": 5562,
+        "limit_infinity": 5548,
+        "limit_substitution": 5456,
+        "linear_transform": 5643,
+        "mat_add": 5677,
+        "mat_det": 5615,
+        "mat_mul": 5509,
+        "mat_scalar": 5601,
+        "mat_transpose": 5581,
+        "vec_angle": 5700,
+        "vec_dot": 5622,
+        "vec_magnitude": 5490
+      }
+    },
+    "train/seed3.jsonl": {
+      "sha256": "35261585dd7b748582096d684ed58660fa1097c30b8ad428afd4c8b22113922e",
+      "n_items": 128000,
+      "per_template": {
+        "algebra_linear": 5678,
+        "algebra_quadratic": 5570,
+        "arith_fractions": 5587,
+        "arith_integer": 5552,
+        "arith_pemdas": 5553,
+        "deriv_at_point": 5560,
+        "deriv_polynomial": 5553,
+        "deriv_power": 5730,
+        "func_evaluate": 5550,
+        "integral_definite": 5472,
+        "integral_power": 5533,
+        "limit_factor": 5681,
+        "limit_infinity": 5609,
+        "limit_substitution": 5573,
+        "linear_transform": 5551,
+        "mat_add": 5347,
+        "mat_det": 5545,
+        "mat_mul": 5612,
+        "mat_scalar": 5496,
+        "mat_transpose": 5465,
+        "vec_angle": 5569,
+        "vec_dot": 5592,
+        "vec_magnitude": 5622
+      }
+    },
+    "train/seed4.jsonl": {
+      "sha256": "598bc47bd4a016459c00de4b9036033c6642f6e89f236d1b12633d954ac7d55e",
+      "n_items": 128000,
+      "per_template": {
+        "algebra_linear": 5495,
+        "algebra_quadratic": 5511,
+        "arith_fractions": 5567,
+        "arith_integer": 5509,
+        "arith_pemdas": 5546,
+        "deriv_at_point": 5575,
+        "deriv_polynomial": 5634,
+        "deriv_power": 5521,
+        "func_evaluate": 5516,
+        "integral_definite": 5530,
+        "integral_power": 5546,
+        "limit_factor": 5469,
+        "limit_infinity": 5594,
+        "limit_substitution": 5564,
+        "linear_transform": 5606,
+        "mat_add": 5639,
+        "mat_det": 5638,
+        "mat_mul": 5657,
+        "mat_scalar": 5587,
+        "mat_transpose": 5656,
+        "vec_angle": 5610,
+        "vec_dot": 5539,
+        "vec_magnitude": 5491
+      }
+    }
+  },
+  "shortfalls": {
+    "eval/test_id_unseen.jsonl": {
+      "arith_pemdas": {
+        "requested": 200,
+        "got": 129
+      },
+      "vec_angle": {
+        "requested": 200,
+        "got": 143
+      }
+    },
+    "eval/val.jsonl": {
+      "arith_fractions": {
+        "requested": 50,
+        "got": 49
+      },
+      "arith_pemdas": {
+        "requested": 50,
+        "got": 23
+      },
+      "deriv_polynomial": {
+        "requested": 50,
+        "got": 46
+      },
+      "limit_substitution": {
+        "requested": 50,
+        "got": 43
+      },
+      "vec_angle": {
+        "requested": 50,
+        "got": 33
+      }
+    },
+    "eval/block.jsonl": {
+      "B1": {
+        "requested": 200,
+        "got": 121
+      },
+      "B2": {
+        "requested": 200,
+        "got": 112
+      },
+      "B4": {
+        "requested": 200,
+        "got": 81
+      },
+      "B6": {
+        "requested": 200,
+        "got": 175
+      },
+      "B7": {
+        "requested": 200,
+        "got": 180
+      }
+    },
+    "eval/ood_same.jsonl": {
+      "algebra_quadratic": {
+        "requested": 100,
+        "got": 21
+      },
+      "arith_fractions": {
+        "requested": 100,
+        "got": 25
+      },
+      "deriv_power": {
+        "requested": 100,
+        "got": 12
+      },
+      "integral_definite": {
+        "requested": 100,
+        "got": 45
+      },
+      "integral_power": {
+        "requested": 100,
+        "got": 24
+      },
+      "limit_factor": {
+        "requested": 100,
+        "got": 3
+      },
+      "limit_infinity": {
+        "requested": 100,
+        "got": 18
+      }
+    },
+    "eval/ood_longer.jsonl": {
+      "deriv_power": {
+        "requested": 100,
+        "got": 84
+      },
+      "integral_power": {
+        "requested": 100,
+        "got": 84
+      },
+      "limit_factor": {
+        "requested": 100,
+        "got": 21
+      }
+    }
+  },
+  "train_subsets": {
+    "0": {
+      "2000": "19e508c3c4eb09bc3408120fefb6c31f3f26a31cc033474b5d4b19f50c31ea65",
+      "8000": "c47074fdd7b65117b5d62669ed6fd8b83571ccf7b7a6a7fb7156cb4942eab7f8",
+      "32000": "5dd2fc036629d2c72b5fdb9b8ac07330ad83e6513295b77bc00b170621b583cf",
+      "128000": "39e8d53d8192afe5c715b074aaac4b30839070822b978cfa0474707cba13dbf7"
+    },
+    "1": {
+      "2000": "b442264affbb7e5076e314a38f7174b6eeeec183938f3ea3861a8d77fc9f811f",
+      "8000": "e46cb99b3485d833cf2901f742efda2e7d00656e073c5b8eeec74c9c737ae2e1",
+      "32000": "ff7e92ea3435f6c5a484775b2986a4edc861c5a4a0eb5bb27accd484b530a7e1",
+      "128000": "53e67e364acad4f5997d45a1186b25cfe64549464bb1b7ff38d301bcf2e37f62"
+    },
+    "2": {
+      "2000": "9ecf62a9d78557bdf9cac3b6ac789e4ed8aaa3c7acf1beaed1e75cd8bd3fef21",
+      "8000": "febda78356c11190a6f07a2e3eeb868985ec10ec4e607d6ce2dc9289d9cf4081",
+      "32000": "7727455ebe9c7d57d2466f48ca245d5435f0a6bb27b015f5856dc72beac18d24",
+      "128000": "1d0826cdb6293d1c0a837ce3d8a8be61b3b4d8967f8c11830184c959804055ca"
+    },
+    "3": {
+      "2000": "7de48c1d5a356d30577574eeb78ea22fd883a11e58dae83f5e73ea28caa52028",
+      "8000": "58f3acd206bf91dd9894fafbd02f39f7164e8da2da32e2911a4ce8d394f61d5b",
+      "32000": "8725878fe3e5a41614a2d461ac1209f7293afc54819e63d41def0b1db4471a73",
+      "128000": "35261585dd7b748582096d684ed58660fa1097c30b8ad428afd4c8b22113922e"
+    },
+    "4": {
+      "2000": "48508c36ebf292fbc85c8181b27b7e0380fe6a6fe56d00ba27d00a22d15096cc",
+      "8000": "caef74d233f7b1d2e0800afcd7f9961294b9529df2a730dfac03796ee9138053",
+      "32000": "1e953d41bffdcaf423de1310149d3dc324f849c7a310348b76020c8346e914fb",
+      "128000": "598bc47bd4a016459c00de4b9036033c6642f6e89f236d1b12633d954ac7d55e"
+    }
+  },
+  "oracle_agreement": {
+    "checked": 697822,
+    "disagreements": 0
+  },
+  "context": {
+    "max_tchar_len": 239,
+    "argmax": {
+      "file": "eval/ood_longer.jsonl",
+      "key": "mat_mul|a11=28,a12=29,a21=30,a22=21,b11=19,b12=16,b21=29,b22=26"
+    },
+    "context_length": 256,
+    "rule": "smallest power of two >= longest T-char sequence over all built files, min 256"
+  }
+}

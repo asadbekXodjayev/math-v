@@ -32,4 +32,23 @@ Each entry gives the date, what changed, why, who decided, and the expected impa
 
 ## Part B — Deviations after `prereg-v1`
 
-*(none yet)*
+| ID | Date | Deviation | Reason | Impact on claims |
+|---|---|---|---|---|
+| DV-001 | 2026-10-17 (M4) | Polynomial and antiderivative answers are compared as exact `{power: coefficient}` dictionaries under a restricted grammar, not with "sympy, 2 s timeout" (RESEARCH_DESIGN.md §5). No answer type uses sympy. The grammar accepts ASCII-digit terms `c`, `cx`, `cx^n` (optionally `c*x`, `x**n`), joined by `+`/`-`, in any order; antiderivatives need a trailing `+ C` | No timeouts and no timing dependence; hostile strings are rejected fast | **Can only lower math-correct**, never raise it. The narrower grammar rejects some forms sympy would accept, e.g. `x^3/3 + C`, `2x^(3)`, `3·x^2`, `C + x^2` (found in M4 code review). The training targets use exactly the canonical form, so the expected effect is small, and it is measured: the error taxonomy reports "unparseable" predictions per arm |
+| DV-002 | 2026-10-17 (M4) | Several eval cells hold fewer items than RESEARCH_DESIGN.md §3.2 lists, because the pre-registered ranges contain fewer distinct instances. Recorded per cell in `data/manifests/build.json` → `shortfalls`. test-ID-unseen: arith_pemdas 129, vec_angle 143 (of 200). Block: B1 121, B2 112, B4 81, B6 175, B7 180 (of 200). OOD-same: limit_factor 3, deriv_power 12, limit_infinity 18, algebra_quadratic 21, integral_power 24, arith_fractions 25, integral_definite 45 (of 100). OOD-longer: limit_factor 21, deriv_power 84, integral_power 84 (of 100) | The pre-registered ranges are kept; enlarging them would change the design | Per-template estimates for those cells are low-n and reported with their n. Pooled endpoints are barely affected (test-ID-unseen has 2,672 items; OOD-same has 1,248) |
+
+## Part D — Implementation details that `prereg-v1` does not specify (fixed before any training)
+
+| ID | Date | Detail | Choice | Rationale |
+|---|---|---|---|---|
+| I-001 | 2026-10-17 (M5) | BPE merge budgets | Up to 2,000 text merges and 1,000 digit merges. Each stops early when the best pair occurs fewer than 2 times; ties broken lexicographically | Fitting the 50K fit sample stops early at **400 text merges** and **384 digit merges** in practice. Vocabularies: T-char 89, T-digit 489, T-bpe-num 873. Mean / max tokens per example on test-ID-unseen + OOD-longer: 144.1/239, 82.1/170, 74.6/134 |
+| I-002 | 2026-10-17 (M5) | Pre-tokenizer regex | special tokens, then `[0-9]+` \| `[^0-9\s]+` \| `\s+` | Makes RESEARCH_DESIGN.md §4.1's "ASCII digit runs \| other non-space runs \| spaces" concrete |
+
+## Part C — Values set by pre-registered rules
+
+| Quantity | Rule (RESEARCH_DESIGN.md) | Value | Measured in | Evidence |
+|---|---|---|---|---|
+| Context length | §4.2: smallest power of two ≥ the longest T-char sequence over all built splits, min 256 | **256** (longest = 239: mat_mul OOD-longer) | M4 build, 2026-10-17 | `data/manifests/build.json` → `context`. D-013 had expected ~512; the legacy overflow came from `\uXXXX` escapes, which data v1 doesn't produce |
+| Step budget S | §4.3 | *pending P2* | | |
+| Per-arm learning rate | §4.3 | *pending P3* | | |
+| SESOI | §7.4 | *pending P4 → G3* | | |

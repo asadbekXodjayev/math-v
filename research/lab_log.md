@@ -85,3 +85,36 @@ Append-only, newest entries last. Record only what was actually run, with the co
 - **Values set by rule, not frozen now:** context length (M4 measurement), step budget S (P2), per-arm LR (P3), SESOI (P4 → G3).
 - **Run matrix:** 61 runs through the core (≈ 21 GPU-h, plan estimates) vs 52 in the original plan. The increase is C-dec (+6, adopted P-b) and C-dtok (+3, needed to test the adopted H5-tok). D-006 is flagged for G3.
 - **G2:** treated as approved by the user's "MathGen to G3" choice (see the entry above). Tag `prereg-v1` marks the frozen design.
+
+---
+
+## 2026-10-17 — M4 data v1 and oracle integrity
+
+- **Code (test-first; each test was watched failing before implementation):**
+  - `src/mathgen/data/`: `templates.py` (23 ports), `ranges.py`, `splits.py`, `formats.py`, `build.py`, `config.py`;
+  - `src/mathgen/eval/oracle.py`;
+  - `configs/base.yaml`, `scripts/build_data.py`, `pyproject.toml` (pytest config), `.gitattributes` (LF).
+- **Tests:** `tests/test_oracle.py`, `tests/test_templates.py`, `tests/test_data.py`. `pytest`: **243 passed, 10 skipped**. The skips are the 5 templates with no OOD-same range, × 2 tests.
+  - Byte-for-byte parity with the legacy generators on 200 ID and OOD draws per template (legacy fed the same operands through a scripted `random`).
+  - Generator vs oracle agreement on 2,000 draws per template per split.
+  - F3 fix: a == b at 1/29 ± 0.005 over 150K draws.
+  - Space sizes equal the M1 audit; G/M split equals the pre-registration.
+  - Block predicates; determinism (byte-identical manifest); split integrity; nested training subsets; uniform templates.
+- **Build:** `.venv/Scripts/python.exe -B scripts/build_data.py --config configs/base.yaml`, ~40 s.
+  - Run twice → `cmp` of `data/manifests/build.json`: **identical**.
+  - **697,822 items, 0 oracle disagreements.**
+  - Eval sizes: test-ID-unseen 2,672; val 644; block 1,069; OOD-same 1,248; OOD-longer 2,189. Train 5 × 128K; fit 50K.
+  - Subtraction a == b in seed-0 training data: 3.02% (n = 1,955; expected 3.45%; legacy 51.3%).
+- **Context length (rule):** longest T-char sequence = 239 → **256**. I had expected ~512 (D-013); the difference is the removed `\uXXXX` escapes. Logged in `decisions.md` Part C.
+- **Code review (REVIEW gate, `/code-review medium`)** found 10 issues; all fixed with failing tests first:
+  - oracle crash on `1/00x`;
+  - dangling `*` accepted;
+  - Unicode digits accepted;
+  - DV-001 over-claimed equivalence (rewritten: the narrower grammar can only lower scores);
+  - block-before-M-set ordering in `pool()`, plus a G-set assertion;
+  - silent eval-cell shortfalls (now recorded; DV-002);
+  - CLI path resolution;
+  - CRLF-dependent hashes (normalized, plus `.gitattributes`);
+  - a determinism test that compared only part of the manifest;
+  - repeated enumeration.
+- **Deviations:** DV-001 (no sympy in scoring) and DV-002 (small eval cells). Both are in `research/decisions.md`.

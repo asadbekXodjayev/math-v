@@ -206,7 +206,7 @@ Answer-first serializes `{"answerKey": ..., "hints": [...]}` with the same conte
   | `sqrt(n)` | symbolic |
   | lists (roots) | as multisets |
   | matrices / vectors | element-wise |
-  | polynomials | symbolic (sympy, 2 s timeout); "+ C" required for indefinite integrals |
+  | polynomials | symbolic (sympy, 2 s timeout); "+ C" required for indefinite integrals. *Implemented as exact term-dictionary equality instead: see `decisions.md` DV-001* |
 
 - **Secondary metrics:**
   - exact match (whitespace-normalized);

@@ -1,0 +1,10 @@
+[project]
+name = "mathgen"
+version = "0.1.0"
+description = "MathGen: a controlled study of tokenization and memorization in small Transformers for structured math"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
