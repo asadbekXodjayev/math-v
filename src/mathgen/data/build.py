@@ -219,5 +219,5 @@ def build(config: dict, out_dir: str | Path, config_sha256: str) -> dict:
     }
     (out_dir / "manifests").mkdir(parents=True, exist_ok=True)
     (out_dir / "manifests" / "build.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n",
-                                                      encoding="utf-8")
+                                                      encoding="utf-8", newline="\n")  # LF on every OS
     return summary
