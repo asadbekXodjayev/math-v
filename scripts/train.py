@@ -5,8 +5,9 @@ Usage (from mathvis-model/):
     .venv/Scripts/python.exe scripts/train.py --config configs/arms/ref.yaml --seed 0 [--steps 15000]
         [--n-train 128000] [--lr 1e-3] [--exp-id NAME] [--eval-every 2500] [--then-eval]
 
-The exp_id defaults to <arm>-s<seed>-n<N/1000>k-<steps/1000>k[-lr<lr>]. Every flag except
---then-eval overrides the arm config; overrides are stored in the run's record.json.
+The exp_id defaults to <arm>-s<seed>-n<N>-st<steps>[-lr<lr>]. Every flag except --then-eval
+overrides the arm config; overrides are stored in the run's record.json. Reusing an exp_id with a
+different config is refused (mathgen.training.loop._check_same_config).
 """
 
 import argparse
@@ -40,7 +41,7 @@ def main() -> None:
     fields.update(seed=args.seed, device=args.device, eval_every=args.eval_every)
     cfg = RunConfig(exp_id="", **fields)
     lr_tag = f"-lr{args.lr:g}" if args.lr is not None else ""
-    cfg.exp_id = args.exp_id or f"{arm}-s{cfg.seed}-n{cfg.n_train // 1000}k-{cfg.steps // 1000}k{lr_tag}"
+    cfg.exp_id = args.exp_id or f"{arm}-s{cfg.seed}-n{cfg.n_train}-st{cfg.steps}{lr_tag}"
 
     on_eval = None
     if cfg.eval_every:

@@ -121,6 +121,24 @@ def test_resume_matches_an_uninterrupted_run(tmp_path):
 
 
 @needs_data
+def test_resume_mid_log_interval_keeps_the_loss_log_exact(tmp_path):
+    """stop_after inside a logging interval must not drop or mis-average the interval's losses."""
+    full = train(tiny(tmp_path / "a", steps=30))
+    interrupted = tiny(tmp_path / "b", steps=30)
+    train(interrupted, stop_after=15)
+    resumed = train(interrupted)
+    losses = lambda p: [json.loads(l)["train_loss"] for l in (p / "metrics.jsonl").read_text().splitlines()]
+    assert losses(full) == pytest.approx(losses(resumed), rel=1e-6)
+
+
+@needs_data
+def test_existing_run_with_a_different_config_is_refused(tmp_path):
+    train(tiny(tmp_path, steps=10))
+    with pytest.raises(ValueError, match="config"):
+        train(tiny(tmp_path, steps=10, lr=5e-4))
+
+
+@needs_data
 def test_run_record_has_provenance(tmp_path):
     run = train(tiny(tmp_path, steps=10))
     rec = json.loads((run / "record.json").read_text())

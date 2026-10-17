@@ -51,6 +51,26 @@ def test_kv_cache_matches_full_forward(arm):
     assert torch.allclose(torch.cat(steps, dim=1), full, atol=1e-5)
 
 
+def test_rejected_cached_call_leaves_the_cache_untouched():
+    m = make("ref")
+    cache = KVCache()
+    with torch.no_grad():
+        m(torch.randint(0, 500, (1, 5)), cache=cache)
+        before = (cache.length, [k.shape for k, _ in cache.layers])
+        with pytest.raises(ValueError):
+            m(torch.randint(0, 500, (1, 2)), cache=cache)
+    assert (cache.length, [k.shape for k, _ in cache.layers]) == before
+
+
+def test_token_and_position_embeddings_start_at_the_same_scale():
+    """The tied head must not re-initialise the embedding (legacy did, leaving it ~3.5x smaller
+    than learned position embeddings; a confound for the position-scheme comparison)."""
+    m = make("learned", vocab=2000)
+    assert m.head.weight is m.embed.weight
+    assert abs(m.embed.weight.std().item() - 0.02) < 0.002
+    assert abs(m.pos_embed.weight.std().item() - 0.02) < 0.002
+
+
 def test_learned_positions_are_embedding_params():
     m = make("learned")
     assert m.non_embedding_params() == make("ref").non_embedding_params()

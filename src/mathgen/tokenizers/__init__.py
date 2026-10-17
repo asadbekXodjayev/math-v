@@ -109,9 +109,9 @@ class Tokenizer:
         self.specials = SPECIALS
         self.base_chars = base_chars
         self.text_merges, self.digit_merges = text_merges, digit_merges
-        self.vocab = list(SPECIALS) + base_chars + [a + b for a, b in text_merges] + [a + b for a, b in digit_merges]
-        if len(set(self.vocab)) != len(self.vocab):
-            raise ValueError("duplicate tokens in vocabulary")
+        # Two different merges can produce the same string (('ab','c') and ('a','bc')): one token each.
+        self.vocab = list(dict.fromkeys(list(SPECIALS) + base_chars + [a + b for a, b in text_merges]
+                                        + [a + b for a, b in digit_merges]))
         self.token_to_id = {s: i for i, s in enumerate(self.vocab)}
         self.pad_id, self.unk_id = self.token_to_id["<PAD>"], self.token_to_id["<UNK>"]
         self.eos_id = self.token_to_id["<EOS>"]

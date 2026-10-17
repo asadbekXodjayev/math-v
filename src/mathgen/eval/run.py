@@ -172,15 +172,17 @@ def _with_meta(items: list[dict], config: dict, m_set: set[str]) -> list[dict]:
              "set": "M" if it["template"] in m_set else "G"} for it in items]
 
 
-def eval_run(run_dir: str | Path, data_dir: str | Path = "data", device: str = "cuda",
+def eval_run(run_dir: str | Path, data_dir: str | Path | None = None, device: str = "cuda",
              splits: tuple[str, ...] = EVAL_SPLITS + ("train_recall",), batch_size: int = 256,
              recall_per_template: int = 200, limit: int | None = None) -> dict:
-    """`limit`: evaluate only the first `limit` items of each split (smoke tests)."""
+    """`data_dir` defaults to the run's own data directory. `limit`: evaluate only the first
+    `limit` items of each split (smoke tests)."""
     run_dir = Path(run_dir)
     repo = Path(__file__).resolve().parents[3]
-    data_dir = Path(data_dir) if Path(data_dir).is_absolute() else repo / data_dir
     final = torch.load(run_dir / "final.pt", map_location=device, weights_only=False)
     run, mcfg = final["run"], ModelConfig(**final["model_config"])
+    data_dir = Path(data_dir or run["data_dir"])
+    data_dir = data_dir if data_dir.is_absolute() else repo / data_dir
     model = Transformer(mcfg).to(device)
     model.load_state_dict(final["model"])
     tok = load_tokenizer(run["tok_arm"], data_dir)

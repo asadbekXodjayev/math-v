@@ -63,8 +63,8 @@ class RMSNorm(nn.Module):
         self.g = nn.Parameter(torch.ones(d))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        xf = x.float()   # normalize in fp32 under bf16 autocast
-        return (xf * torch.rsqrt(xf.pow(2).mean(-1, keepdim=True) + self.eps) * self.g).type_as(x)
+        # Fused kernel; same math as legacy x * rsqrt(mean(x²) + eps) * g. The residual stream is fp32.
+        return F.rms_norm(x, (x.size(-1),), self.g, self.eps)
 
 
 class RotaryEmbedding(nn.Module):
@@ -75,17 +75,16 @@ class RotaryEmbedding(nn.Module):
         theta = 1.0 / (base ** (torch.arange(0, head_dim, 2).float() / head_dim))
         self.register_buffer("theta", theta)
 
-    @staticmethod
-    def _rot(x: torch.Tensor) -> torch.Tensor:
-        a, b = x.chunk(2, dim=-1)
-        return torch.cat([-b, a], dim=-1)
+    def table(self, offset: int, T: int, device) -> tuple[torch.Tensor, torch.Tensor]:
+        """cos/sin for positions offset..offset+T-1, computed once per forward and shared by all layers."""
+        freqs = torch.outer(torch.arange(offset, offset + T, device=device).float(), self.theta)
+        emb = torch.cat([freqs, freqs], dim=-1)[None, None]
+        return emb.cos(), emb.sin()
 
-    def forward(self, q: torch.Tensor, k: torch.Tensor, offset: int):
-        T = q.size(2)
-        freqs = torch.outer(torch.arange(offset, offset + T, device=q.device).float(), self.theta)
-        cos = torch.cat([freqs.cos(), freqs.cos()], dim=-1)[None, None].to(q.dtype)
-        sin = torch.cat([freqs.sin(), freqs.sin()], dim=-1)[None, None].to(q.dtype)
-        return q * cos + self._rot(q) * sin, k * cos + self._rot(k) * sin
+    @staticmethod
+    def rotate(x: torch.Tensor, cos: torch.Tensor, sin: torch.Tensor) -> torch.Tensor:
+        a, b = x.chunk(2, dim=-1)
+        return x * cos.to(x.dtype) + torch.cat([-b, a], dim=-1) * sin.to(x.dtype)
 
 
 class CausalSelfAttention(nn.Module):
@@ -98,12 +97,12 @@ class CausalSelfAttention(nn.Module):
         if cfg.pos == "rope":
             self.rope = RotaryEmbedding(self.hd)
 
-    def forward(self, x: torch.Tensor, cache: KVCache | None, layer: int) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, cache: KVCache | None, layer: int, rope_table) -> torch.Tensor:
         B, T, C = x.shape
         q, k, v = (t.view(B, T, self.nh, self.hd).transpose(1, 2) for t in self.qkv(x).split(C, dim=2))
         offset = cache.length if cache is not None else 0
-        if hasattr(self, "rope"):
-            q, k = self.rope(q, k, offset)
+        if rope_table is not None:
+            q, k = RotaryEmbedding.rotate(q, *rope_table), RotaryEmbedding.rotate(k, *rope_table)
         if cache is not None:
             if layer < len(cache.layers):
                 pk, pv = cache.layers[layer]
@@ -111,8 +110,6 @@ class CausalSelfAttention(nn.Module):
                 cache.layers[layer] = (k, v)
             else:
                 cache.layers.append((k, v))
-        if offset > 0 and T > 1:
-            raise ValueError("cached decoding feeds one token at a time after the prefill")
         y = F.scaled_dot_product_attention(q, k, v, dropout_p=self.dropout if self.training else 0.0,
                                            is_causal=offset == 0)
         return self.proj(y.transpose(1, 2).contiguous().view(B, T, C))
@@ -148,8 +145,8 @@ class Block(nn.Module):
         self.ff = SwiGLU(cfg) if cfg.ffn == "swiglu" else GELUFFN(cfg)
         self.drop = nn.Dropout(cfg.dropout)
 
-    def forward(self, x: torch.Tensor, cache: KVCache | None, layer: int) -> torch.Tensor:
-        x = x + self.drop(self.attn(self.n1(x), cache, layer))
+    def forward(self, x: torch.Tensor, cache: KVCache | None, layer: int, rope_table) -> torch.Tensor:
+        x = x + self.drop(self.attn(self.n1(x), cache, layer, rope_table))
         return x + self.drop(self.ff(self.n2(x)))
 
 
@@ -169,8 +166,11 @@ class Transformer(nn.Module):
         self.head.weight = self.embed.weight   # weight tying
         self.apply(self._init_weights)
 
-    def _init_weights(self, m: nn.Module) -> None:   # legacy initialization
-        if isinstance(m, nn.Linear):
+    def _init_weights(self, m: nn.Module) -> None:
+        # Legacy scheme, except the tied head is skipped: legacy re-initialised the shared tensor
+        # through the head with std 0.02/sqrt(2L), leaving token embeddings ~3.5x smaller than the
+        # 0.02 that learned position embeddings get (M5 review; decisions.md I-005).
+        if isinstance(m, nn.Linear) and m is not self.head:
             nn.init.normal_(m.weight, 0.0, 0.02 / math.sqrt(2 * self.cfg.n_layers))
         elif isinstance(m, nn.Embedding):
             nn.init.normal_(m.weight, 0.0, 0.02)
@@ -179,12 +179,16 @@ class Transformer(nn.Module):
         offset = cache.length if cache is not None else 0
         if offset + idx.size(1) > self.cfg.context_len:
             raise ValueError("sequence longer than the context length")
+        if offset > 0 and idx.size(1) > 1:   # checked before anything touches the cache
+            raise ValueError("cached decoding feeds one token at a time after the prefill")
+        rope_table = (self.blocks[0].attn.rope.table(offset, idx.size(1), idx.device)
+                      if self.cfg.pos == "rope" else None)
         x = self.embed(idx)
         if self.cfg.pos == "learned":
             x = x + self.pos_embed(torch.arange(offset, offset + idx.size(1), device=idx.device))
         x = self.drop(x)
         for i, block in enumerate(self.blocks):
-            x = block(x, cache, i)
+            x = block(x, cache, i, rope_table)
         if cache is not None:
             cache.length += idx.size(1)
         return self.head(self.norm(x))

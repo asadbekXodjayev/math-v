@@ -107,6 +107,12 @@ def test_committed_tokenizers_equal_a_fresh_fit(arm, tokenizers):
     assert Tokenizer.load(path).vocab == tokenizers[arm].vocab
 
 
+def test_two_merges_producing_the_same_string_share_one_token():
+    tok = Tokenizer("digit", list("abc"), [("a", "b"), ("ab", "c"), ("b", "c"), ("a", "bc")], [])
+    assert len(set(tok.vocab)) == len(tok.vocab)
+    assert tok.decode(tok.encode("abc")) == "abc" and len(tok.encode("abc")) == 1
+
+
 def test_save_and_load_round_trip(tmp_path, tokenizers):
     tok = tokenizers["bpe_num"]
     tok.save(tmp_path / "tok.json")
