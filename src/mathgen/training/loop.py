@@ -156,6 +156,7 @@ def train(cfg: RunConfig, stop_after: int | None = None, on_eval=None) -> Path:
     if len(items) < cfg.n_train:
         raise ValueError(f"{train_file} has only {len(items)} examples")
     examples = [encode_example(tok, cfg.tok_arm, it, cfg.order) for it in items]
+    del items   # ~200 MB of dicts that training never reads again (the study laptop has 7.6 GB of RAM)
     if (longest := max(len(ids) for ids, _ in examples)) > cfg.context_len:
         raise ValueError(f"an example has {longest} tokens > context {cfg.context_len}")
 

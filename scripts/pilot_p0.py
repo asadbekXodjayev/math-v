@@ -41,14 +41,18 @@ def main() -> None:
     dirs = {}
     for tag in ("a", "b"):
         cfg = RunConfig(exp_id=f"p0-ref-s0-st{STEPS}-{tag}", steps=STEPS, ckpt_every=500)
+        # A run finished in an earlier (interrupted) invocation is reused; its wall time and peak VRAM are unknown.
+        trained_now = not (ROOT / cfg.runs_dir / cfg.exp_id / "final.pt").exists()
+        torch.cuda.reset_peak_memory_stats()
         start = time.perf_counter()
         dirs[tag] = train(cfg)
         lines = [json.loads(l) for l in (dirs[tag] / "metrics.jsonl").read_text(encoding="utf-8").splitlines()]
-        report["runs"][tag] = {"wall_s": time.perf_counter() - start,
+        report["runs"][tag] = {"trained_in_this_invocation": trained_now,
+                               "wall_s": time.perf_counter() - start if trained_now else None,
                                "mean_tok_s": sum(l["tok_s"] for l in lines) / len(lines),
                                "s_per_step": sum(l["elapsed_s"] for l in lines) / STEPS,
                                "final_train_loss": lines[-1]["train_loss"],
-                               "peak_vram_mb": torch.cuda.max_memory_allocated() / 2**20}
+                               "peak_vram_mb": torch.cuda.max_memory_allocated() / 2**20 if trained_now else None}
 
     strip = lambda p: [{k: v for k, v in json.loads(l).items() if k not in ("tok_s", "elapsed_s")}
                        for l in (p / "metrics.jsonl").read_text(encoding="utf-8").splitlines()]

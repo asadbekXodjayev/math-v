@@ -196,6 +196,7 @@ def eval_run(run_dir: str | Path, data_dir: str | Path | None = None, device: st
         if split == "train_recall":
             train = read_jsonl(data_dir / "train" / f"seed{run['seed']}.jsonl")[:run["n_train"]]
             items = _with_meta(train_recall_items(train, recall_per_template, run["seed"]), config, m_set)
+            del train   # ~200 MB; only the sampled recall items are needed
         else:
             items = read_jsonl(data_dir / "eval" / f"{split}.jsonl")
         items = items[:limit] if limit else items

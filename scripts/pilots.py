@@ -90,15 +90,30 @@ def budget() -> int:
     return json.loads((ART / "p2_budget.json").read_text())["S"]
 
 
-def p3() -> dict:
-    from mathgen.eval.run import evaluate_items
-    from mathgen.training import load_tokenizer
-    from mathgen.data.build import read_jsonl
-    from mathgen.model import ModelConfig, Transformer
+def p3_val(exp: str) -> None:
+    """Val completion loss and accuracy of one finished P3 run, written to runs/<exp>/p3_val.json.
+    Runs in its own process so the orchestrator never initialises CUDA (~0.6 GB of host RAM)."""
+    import mathgen.compat  # noqa: F401  (must precede torch)
     import torch
+    from mathgen.data.build import read_jsonl
+    from mathgen.eval.run import evaluate_items
+    from mathgen.model import ModelConfig, Transformer
+    from mathgen.training import load_tokenizer
 
+    run = ROOT / "runs" / exp
+    final = torch.load(run / "final.pt", map_location="cuda", weights_only=False)
+    model = Transformer(ModelConfig(**final["model_config"])).cuda()
+    model.load_state_dict(final["model"])
+    tok_arm = final["run"]["tok_arm"]
+    recs = evaluate_items(model, load_tokenizer(tok_arm), tok_arm, final["run"]["order"],
+                          read_jsonl(ROOT / "data" / "eval" / "val.jsonl"), model.cfg.context_len, "cuda")
+    out = {"val_loss": statistics.fmean(r["gold_nll"] / r["target_tokens"] for r in recs),
+           "val_acc": statistics.fmean(r["correct"] for r in recs), "val_n": len(recs)}
+    (run / "p3_val.json").write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8", newline="\n")
+
+
+def p3() -> dict:
     steps = round(0.3 * budget() / 100) * 100
-    val = read_jsonl(ROOT / "data" / "eval" / "val.jsonl")
     results, chosen = {}, {}
     for arm in SWEEP_ARMS:
         for lr in LR_GRID:
@@ -106,15 +121,10 @@ def p3() -> dict:
             sh([PY, "-B", "scripts/train.py", "--config", f"configs/arms/{arm}.yaml", "--seed", "0",
                 "--steps", str(steps), "--lr", str(lr), "--exp-id", exp])
             run = ROOT / "runs" / exp
-            final = torch.load(run / "final.pt", map_location="cuda", weights_only=False)
-            model = Transformer(ModelConfig(**final["model_config"])).cuda()
-            model.load_state_dict(final["model"])
-            tok_arm = final["run"]["tok_arm"]
-            recs = evaluate_items(model, load_tokenizer(tok_arm), tok_arm, final["run"]["order"], val,
-                                  model.cfg.context_len, "cuda")
-            loss = statistics.fmean(r["gold_nll"] / r["target_tokens"] for r in recs)
-            acc = statistics.fmean(r["correct"] for r in recs)
-            results.setdefault(arm, {})[f"{lr:g}"] = {"val_loss": loss, "val_acc": acc,
+            if not (run / "p3_val.json").exists():
+                sh([PY, "-B", "scripts/pilots.py", "p3val", exp])
+            val = json.loads((run / "p3_val.json").read_text(encoding="utf-8"))
+            results.setdefault(arm, {})[f"{lr:g}"] = {"val_loss": val["val_loss"], "val_acc": val["val_acc"],
                                                       "train_wall_h": train_wall_h(run)}
         by_lr = results[arm]
         best = min(v["val_loss"] for v in by_lr.values())
@@ -163,6 +173,9 @@ def p4() -> dict:
 STAGES = {"p1": p1, "p2": p2, "p3": p3, "p4": p4}
 
 if __name__ == "__main__":
+    if sys.argv[1:2] == ["p3val"]:
+        p3_val(sys.argv[2])
+        sys.exit()
     for stage in sys.argv[1:] or ["p2", "p3", "p4"]:
         print(f"\n===== pilot {stage} =====", flush=True)
         STAGES[stage]()
