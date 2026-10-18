@@ -229,3 +229,5 @@ Append-only, newest entries last. Record only what was actually run, with the co
 - Seed 1 (resumed from step 5,000): primary endpoint 0.9139. Seed 2 (record: fe4633a, clean tree): 0.9263. Seed 0 re-evaluated: 0.9304, the same as before.
 - **Fifth stop:** just before 20:03, Claude Code stopped the chain because system memory was critically low while the session was idle. Seed 3 had reached step 24,700 of 27,500; its checkpoint is at step 22,500, so a resume repeats ~2,200 steps (~2.5 min). Seed 4 and P1 have not started. Free RAM after the stop: 1.9 GB of 7.6 GB.
 - Not restarted automatically. To resume, run `scripts/pilots.py p4 p1`; finished seeds are re-evaluated (~1 min each) and seed 3 resumes from its checkpoint.
+
+- 20:04: the user asked to continue. Free RAM was 1.9 GB, on AC power. Relaunched `scripts/pilots.py p4 p1` in this session; seed 3 resumes from step 22,500.
