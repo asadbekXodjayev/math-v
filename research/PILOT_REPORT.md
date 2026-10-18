@@ -1,0 +1,99 @@
+# MathGen — Pilot Report (Milestone 6)
+
+**Status: draft.** P0, P2 and P3 are complete. P4 (REF × 5 seeds) and P1 (legacy reproduction) are still running, and the sections that depend on them are marked *pending*. Gate G3 has not been requested yet.
+
+All tables are generated from the run directories and pilot artifacts by `scripts/pilot_report.py` into `research/artifacts/pilot_tables.md`. This file adds the narrative and the decisions G3 needs. Numbers quoted here come from those artifacts; where they disagree, the artifact is right.
+
+---
+
+## 1. What the pilots are for
+
+The pre-registration (`RESEARCH_DESIGN.md`, tag `prereg-v1`) leaves four values to rules applied in the pilots, so that none of them is chosen after seeing the confirmatory results:
+
+| Value | Rule | Pilot | Value |
+|---|---|---|---|
+| Step budget S | §4.3: smallest checkpoint ≥ 98% of best val accuracy, rounded up to 2.5K, clamped to [10K, 30K] | P2 | **27,500** |
+| Per-arm LR | §4.3: lowest val completion loss at 0.3·S over {5e-4, 1e-3, 2e-3}, seed 0 | P3 | see §4 |
+| SESOI | §7.4: max(2 pp, 2 × REF seed SD on the primary endpoint) | P4 | *pending* |
+| Arms to cut, if any | §7.6: if REF's seed SD on OOD-longer is > 5 pp, cut arms rather than seeds | P4 | *pending* |
+
+The pilots also check reproducibility (P0), measure what the core grid will cost on this laptop, and reproduce the legacy model as Baseline A (P1).
+
+---
+
+## 2. P0: environment, throughput and determinism
+
+Hardware: RTX 3050 Laptop GPU (4 GB), 7.6 GB system RAM, torch 2.11.0+cu128, bf16.
+
+- **Power matters more than any code change.** The same 1K-step REF run took 0.352 s/step on battery and 0.059 s/step on AC (~6×). Every pilot after P0 ran on AC.
+- **Determinism.** Two runs of identical training code (A, B) were *not* bitwise identical. They matched through logged step 700, then drifted (max |Δw| 0.0116, final-loss difference 4e-4). Run A ran on battery in an earlier session with very little free RAM; the cause was not identified. With the same code and conditions, both kernel modes reproduce bitwise (default: B = C; deterministic: D = D2).
+- **Decision I-008:** every study run and evaluation uses `torch.use_deterministic_algorithms(True)`. That is the only mode PyTorch guarantees. It selects different kernels from the default (B ≠ D from step 100), and costs ≈ 7% throughput (0.0594 → 0.0634 s/step). It was adopted before any study run.
+- **Eval:** all 11,195 eval items in 58–59 s on a 1K-step model, byte-identical records across two evaluations. Peak VRAM: 796 MB training, 593 MB eval, so the 4 GB card is not the constraint. System RAM is (§7).
+
+## 3. P2: step budget S
+
+REF, seed 0, 30K steps, val accuracy every 2.5K (n = 644).
+
+- Best val accuracy 93.3% at 30K; 92.4% at 27.5K is the first checkpoint ≥ 98% of best → **S = 27,500**.
+- **The curve had not plateaued.** It was still rising at 30K, and it is not monotone at n = 644 (89.9% at 22.5K, 89.6% at 25K). S is set by the 98% rule close to the upper clamp, not by a plateau. Every arm trains for the same S, so comparisons are at a fixed compute budget, not at convergence. An arm that learns more slowly than REF is compared before it has finished learning. This is reported as a limitation, not corrected.
+- Training wall time: 32 min.
+
+## 4. P3: per-arm learning rate
+
+3 LRs × 6 arms at 8,200 steps, seed 0. 0.3 · 27,500 = 8,250, which `round()` (half-to-even) took to 8,200. The 50-step difference is logged in `decisions.md` Part C.
+
+| arm | chosen LR | position in the grid |
+|---|---|---|
+| ref, char, bpe_num, none | 5e-4 | **lowest value** |
+| learned, gelu | 1e-3 | interior |
+
+- **4 of 6 arms chose the lowest LR in the grid**, so their optimum may lie below 5e-4. The grid is kept as pre-registered: widening it now would be a result-dependent change. Consequence: those arms may be slightly under-tuned relative to learned and gelu. That matters most for C-arch (C5–C7), where REF (5e-4, possibly under-tuned) is compared with learned and gelu (interior optima).
+- The selection rule (val loss, D-011) and val accuracy agree for 5 of 6 arms. For gelu, loss picks 1e-3 while accuracy is 0.3 pp higher at 5e-4, well within the noise at n = 644.
+- *Observation, not a result:* at 0.3·S, seed 0, T-bpe-num reached a higher val accuracy than REF (T-digit). One seed at a short budget says nothing about C1–C3, which are tested at S with three paired seeds.
+
+## 5. P4: seed variance and SESOI — *pending*
+
+REF × 5 seeds at S = 27,500, LR 5e-4, full eval. These are also REF's final runs in the core grid.
+
+- Seed 0 is done (single seed, not the P4 result): primary endpoint 93.0%, train-recall 99.97%, block 38.4%, OOD-same 22.4%, OOD-longer 0.4%.
+- *Pending:* per-seed table, seed SD, **SESOI**, the P4 gate outcome.
+
+## 6. P1: legacy reproduction (Baseline A) — *pending*
+
+The legacy 34M pipeline is retrained from the `legacy-repro` worktree (seeding and logging fixes only; F3 kept on purpose). It is then scored by the legacy self-consistency eval and by forced-prefix scoring on data v1. Baseline A is provenance only: the legacy pipeline saw most ID instances in training, so its numbers are not comparable to the study's arms.
+
+---
+
+## 7. Cost of the core grid
+
+The full projection table is in `pilot_tables.md`. Interim projection, from P3 speeds and P0's eval time: **36 runs ≈ 18.1 GPU-h**. P4 replaces REF's speed and eval time with measurements at S. *Pending the P4 update.*
+
+For comparison: the pre-registration's plan estimate for the same 36 core runs was ≈ 13.5 GPU-h (§8). That estimate assumed the 15K-step draft budget; S came out at 27,500.
+
+**Wall-clock risk: system RAM, not the GPU.** The pilot chain has been stopped four times by Claude Code's low-memory guard (`lab_log.md`). A training process holds ~1.4 GB working set, leaving ~0.9 GB free on this 7.6 GB laptop. Every run resumes from its last checkpoint, so a stop costs at most one checkpoint interval (2.5K steps, ~2.5 min) plus the time until relaunch. The relaunch is the expensive part, because the session does not restart stopped work on its own. For the core grid, running `scripts/` from a separate terminal avoids the guard.
+
+## 8. Bugs found and fixed during the pilots
+
+Each was fixed test-first, before it could affect a reported number.
+
+| Commit | Bug | Would have caused |
+|---|---|---|
+| ee2bffa | Checkpoints loaded with `map_location=cuda` moved the CPU RNG state to the GPU | Every GPU resume crashed (`RNG state must be a torch.ByteTensor`) |
+| 003dd9d (I-010) | The cost projection read eval time from file timestamps | Re-evaluation on relaunch inflated the G3 projection (a test reproduced 300 min of eval per run instead of 1) |
+| 58084fa | P1 treated ≥ 10 lines of the legacy train log as a finished run, but the legacy `--fresh` run appends to that log | Two stopped attempts (e.g. 6 + 5 epochs) would have skipped training and scored an unfinished model as Baseline A |
+
+## 9. Limitations that come from the pilots
+
+1. S comes from a curve that was still rising (§3).
+2. 4 of 6 arms sit at the lower edge of the LR grid (§4).
+3. LRs were chosen on one seed at 0.3·S.
+4. Three arms (answer_first, dec_db, dec_bd) have no P3 run. They take REF's LR by design, and their cost is projected from borrowed speeds.
+5. P4 seeds 0 and 1 record `git_dirty = true`. The chosen LRs had been written into `configs/arms/*.yaml` before they were committed; those lines are the only difference. Seeds 2–4 record later commits that change only scripts and docs, not training code.
+
+## 10. Decisions requested at G3 — *draft; final once P4 and P1 are in*
+
+1. **Approve the core grid**: 36 runs, ≈ *[P4-updated]* GPU-h, in the pre-registered order C-tok → C-dec → C-arch → C-af → C-data → C-dtok.
+2. **D-006 (flagged at G2):** keep or cut C-dtok (T-bpe-num at N = 8K × 3, ≈ 1.4 GPU-h). Without it H5-tok (C11) cannot be tested. Recommendation: keep it.
+3. **P4 gate:** *[pending]*. If triggered, choose which arms to cut.
+4. **SESOI:** *[pending]*. Frozen into `decisions.md` Part C at G3.
+5. **LR grid edge (§4):** recommendation is to keep the pre-registered LRs. Optionally, add one sensitivity run labelled exploratory (REF at 2.5e-4, 0.3·S, seed 0, ≈ 10 min) to show how much the grid edge costs. It would not change any selected LR.
