@@ -152,3 +152,16 @@ Append-only, newest entries last. Record only what was actually run, with the co
 - **Eval timing:** all 11,195 eval items in ~58–67 s per run. Two evaluations of the same run gave byte-identical records. Peak VRAM: 796 MB training, 593 MB eval.
 - **Added (I-009):** each run writes `train_stats.json` (wall clock and peak VRAM, as §4.3 requires).
 - Full suite: 293 passed, 10 skipped.
+
+---
+
+## 2026-10-18 — P2 interrupted (low system memory)
+
+- P2 (`runs/p2-ref-s0-st30000`) reached step 7,000 of 30,000 on AC power. **Claude Code then stopped it because system memory was critically low** while the session was idle.
+- Saved state: checkpoint at step 5,000 (resume loses ~2K steps, about 2 min). Val accuracy so far: 46.3% at 2.5K, 62.1% at 5K (n = 644). These are partial, so S is not set yet.
+- Not restarted automatically: the stop notice says to restart only when the user asks. Free RAM after the stop: 1.4 GB of 7.6 GB.
+- To resume, either:
+  - restart Claude Code with `CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP=1` in its environment, or
+  - run `scripts/pilots.py p2 p3 p4 p1` from a separate terminal (every run resumes from its checkpoint).
+
+  Closing other memory-heavy apps also helps.
