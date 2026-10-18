@@ -24,7 +24,13 @@ def pilots(tmp_path, monkeypatch):
 
 def write_log(run: Path, epochs: list[int]) -> None:
     run.mkdir(parents=True, exist_ok=True)
-    (run / "train_log.jsonl").write_text("".join(json.dumps({"epoch": e}) + "\n" for e in epochs), encoding="utf-8")
+    (run / "train_log.jsonl").write_text("".join(json.dumps({"epoch": e, "val_loss": 1 / e}) + "\n" for e in epochs),
+                                         encoding="utf-8")
+
+
+def fake_baseline(pilots, best_val_loss: float) -> None:
+    """scripts/baseline_a.py records the val_loss stored in the best.pt it scored."""
+    (pilots.ART / "baseline_a_p1-legacy-repro-s0.json").write_text(json.dumps({"val_loss": best_val_loss}), encoding="utf-8")
 
 
 def epochs_in(path: Path) -> list[int]:
@@ -65,6 +71,8 @@ def test_p1_archives_a_stopped_attempt_before_training_fresh(pilots, tmp_path, m
             write_log(run, list(range(1, 11)))
         if "src/eval_accuracy.py" in cmd:
             (run / "accuracy_report.json").write_text(json.dumps({"model": {"correct": 1, "total": 2}}), encoding="utf-8")
+        if "scripts/baseline_a.py" in cmd:
+            fake_baseline(pilots, best_val_loss=0.1)
 
     monkeypatch.setattr(pilots, "sh", fake_sh)
     pilots.p1()
@@ -86,7 +94,56 @@ def test_p1_skips_training_once_a_complete_attempt_exists(pilots, tmp_path, monk
         calls.append(cmd)
         if "src/eval_accuracy.py" in cmd:
             (run / "accuracy_report.json").write_text(json.dumps({}), encoding="utf-8")
+        if "scripts/baseline_a.py" in cmd:
+            fake_baseline(pilots, best_val_loss=0.1)
 
     monkeypatch.setattr(pilots, "sh", fake_sh)
     pilots.p1()
     assert not any("src/train.py" in c for c in calls)
+
+
+def test_a_half_written_last_log_line_is_a_stopped_attempt(pilots, tmp_path):
+    """The legacy log is appended with a plain write; a stop mid-write leaves truncated JSON."""
+    run = tmp_path / "run"
+    write_log(run, list(range(1, 10)))
+    with open(run / "train_log.jsonl", "a", encoding="utf-8") as f:
+        f.write('{"epoch": 10, "val_lo')
+    (run / "best.pt").write_bytes(b"")
+    assert not pilots.legacy_train_done(run)
+
+
+def test_the_archive_name_never_reuses_an_existing_attempt_number(pilots, tmp_path, monkeypatch):
+    run = tmp_path / "runs" / "p1-legacy-repro-s0"
+    write_log(run, [1, 2])
+    (run / "train_log.attempt-2.jsonl").write_text("", encoding="utf-8")   # attempt-1 removed by hand
+
+    def fake_sh(cmd, cwd=None):
+        if "src/train.py" in cmd:
+            write_log(run, list(range(1, 11)))
+            (run / "best.pt").write_bytes(b"")
+        if "src/eval_accuracy.py" in cmd:
+            (run / "accuracy_report.json").write_text(json.dumps({}), encoding="utf-8")
+        if "scripts/baseline_a.py" in cmd:
+            fake_baseline(pilots, best_val_loss=0.1)
+
+    monkeypatch.setattr(pilots, "sh", fake_sh)
+    pilots.p1()
+    assert epochs_in(run / "train_log.attempt-3.jsonl") == [1, 2]
+
+
+def test_p1_fails_when_best_pt_is_not_the_best_logged_epoch(pilots, tmp_path, monkeypatch):
+    """Legacy train.py logs an epoch before saving best.pt; a stop in between leaves an older best.pt."""
+    run = tmp_path / "runs" / "p1-legacy-repro-s0"
+    write_log(run, list(range(1, 11)))          # best logged val_loss: 0.1 at epoch 10
+    (run / "best.pt").write_bytes(b"")
+
+    def fake_sh(cmd, cwd=None):
+        if "src/eval_accuracy.py" in cmd:
+            (run / "accuracy_report.json").write_text(json.dumps({}), encoding="utf-8")
+        if "scripts/baseline_a.py" in cmd:
+            fake_baseline(pilots, best_val_loss=1 / 9)   # best.pt still holds epoch 9
+
+    monkeypatch.setattr(pilots, "sh", fake_sh)
+    with pytest.raises(RuntimeError, match="not the best logged epoch"):
+        pilots.p1()
+    assert not (pilots.ART / "p1_legacy_repro.json").exists()

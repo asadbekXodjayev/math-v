@@ -70,7 +70,15 @@ def legacy_train_done(run_dir: Path) -> bool:
     log = run_dir / "train_log.jsonl"
     if not (run_dir / "best.pt").exists() or not log.exists():
         return False
-    return [json.loads(l)["epoch"] for l in log.read_text().splitlines()] == list(range(1, P1_EPOCHS + 1))
+    try:   # a stop mid-write leaves a truncated last line
+        epochs = [json.loads(l)["epoch"] for l in log.read_text().splitlines()]
+    except json.JSONDecodeError:
+        return False
+    return epochs == list(range(1, P1_EPOCHS + 1))
+
+
+def stopped_attempts(run_dir: Path) -> list[Path]:
+    return sorted(run_dir.glob("train_log.attempt-*.jsonl"), key=lambda p: int(p.stem.rsplit("-", 1)[1]))
 
 
 def p1() -> None:
@@ -79,7 +87,8 @@ def p1() -> None:
     if not legacy_train_done(run_dir):
         log = run_dir / "train_log.jsonl"
         if log.exists():   # a stopped attempt: kept for the record, out of the way of the fresh one
-            log.rename(run_dir / f"train_log.attempt-{len(list(run_dir.glob('train_log.attempt-*.jsonl'))) + 1}.jsonl")
+            n = max((int(p.stem.rsplit("-", 1)[1]) for p in stopped_attempts(run_dir)), default=0) + 1
+            log.rename(run_dir / f"train_log.attempt-{n}.jsonl")
         sh([PY, "-B", "src/train.py", "--fresh", "--epochs", str(P1_EPOCHS), "--batch-size", "12", "--grad-accum", "4",
             "--n-per-topic", "1000", "--seed", "0", "--run-dir", str(run_dir)], cwd=worktree)
     train_h = (time.perf_counter() - start) / 3600
@@ -87,11 +96,18 @@ def p1() -> None:
         "--ckpt-dir", str(run_dir)], cwd=worktree)
     sh([PY, "-B", "scripts/baseline_a.py", "--run", "runs/p1-legacy-repro-s0"])
     log = [json.loads(l) for l in (run_dir / "train_log.jsonl").read_text().splitlines()]
+    # Legacy train.py logs an epoch before saving best.pt, so a stop in between leaves an older best.pt.
+    scored = json.loads((ART / f"baseline_a_{run_dir.name}.json").read_text(encoding="utf-8"))["val_loss"]
+    best = min(e["val_loss"] for e in log)
+    if not math.isclose(scored, best, rel_tol=1e-9):
+        raise RuntimeError(f"best.pt (val_loss {scored}) is not the best logged epoch (val_loss {best}): the attempt "
+                           f"was stopped before best.pt was saved. Rename {run_dir / 'train_log.jsonl'} to the next free "
+                           "train_log.attempt-N.jsonl and relaunch p1.")
     write("p1_legacy_repro.json", {
         "command": "legacy-repro worktree: src/train.py --fresh --epochs 10 --batch-size 12 --grad-accum 4 "
                    "--n-per-topic 1000 --seed 0",
         "train_log": log, "wall_h_this_session": train_h,
-        "stopped_attempts": sorted(p.name for p in run_dir.glob("train_log.attempt-*.jsonl")),
+        "stopped_attempts": [p.name for p in stopped_attempts(run_dir)],
         "self_consistency": json.loads((run_dir / "accuracy_report.json").read_text()),
         "original_final_run": {"val_loss": 0.1331, "corrected_train_loss": 0.1328, "self_consistency": "238/300 = 79.3%"},
     })

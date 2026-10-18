@@ -70,17 +70,18 @@ The full projection table is in `pilot_tables.md`. Interim projection, from P3 s
 
 For comparison: the pre-registration's plan estimate for the same 36 core runs was ≈ 13.5 GPU-h (§8). That estimate assumed the 15K-step draft budget; S came out at 27,500.
 
-**Wall-clock risk: system RAM, not the GPU.** The pilot chain has been stopped four times by Claude Code's low-memory guard (`lab_log.md`). A training process holds ~1.4 GB working set, leaving ~0.9 GB free on this 7.6 GB laptop. Every run resumes from its last checkpoint, so a stop costs at most one checkpoint interval (2.5K steps, ~2.5 min) plus the time until relaunch. The relaunch is the expensive part, because the session does not restart stopped work on its own. For the core grid, running `scripts/` from a separate terminal avoids the guard.
+**Wall-clock risk: system RAM, not the GPU.** The pilot chain has been stopped four times by Claude Code's low-memory guard (`lab_log.md`). A training process holds ~1.4 GB working set, leaving ~0.9 GB free on this 7.6 GB laptop. Every study run resumes from its last checkpoint, so a stop costs at most one checkpoint interval (2.5K steps, ~2.5 min) plus the time until relaunch. P1 is the exception: the legacy reproduction always restarts from epoch 1, so a stop there loses the whole attempt. The relaunch is the expensive part, because the session does not restart stopped work on its own. For the core grid, running `scripts/` from a separate terminal avoids the guard.
 
 ## 8. Bugs found and fixed during the pilots
 
-Each was fixed test-first, before it could affect a reported number.
+Each was fixed test-first. None of them affected a reported number. The P1 attempt now running loaded `pilots.py` before 58084fa; any relaunch uses the fixed code, and the generated P1 table repeats the `best.pt` check for this attempt.
 
 | Commit | Bug | Would have caused |
 |---|---|---|
 | ee2bffa | Checkpoints loaded with `map_location=cuda` moved the CPU RNG state to the GPU | Every GPU resume crashed (`RNG state must be a torch.ByteTensor`) |
 | 003dd9d (I-010) | The cost projection read eval time from file timestamps | Re-evaluation on relaunch inflated the G3 projection (a test reproduced 300 min of eval per run instead of 1) |
 | 58084fa | P1 treated ≥ 10 lines of the legacy train log as a finished run, but the legacy `--fresh` run appends to that log | Two stopped attempts (e.g. 6 + 5 epochs) would have skipped training and scored an unfinished model as Baseline A |
+| (this branch) | Follow-ups from code review: a half-written last log line crashed the P1 check; archive names could collide; P1 did not check that `best.pt` is the best logged epoch (legacy logs an epoch before saving `best.pt`) | A crash on relaunch, or Baseline A scored with an older checkpoint after a stop in a ~1 s window |
 
 ## 9. Limitations that come from the pilots
 

@@ -126,7 +126,7 @@ def p0_artifacts(mod) -> None:
                                                "mean_tok_s": tok, "final_train_loss": loss}
     write_json(mod.ART / "p0_determinism_followup.json", {
         "runs": {"A": run("69d08bd", False, 0.352052, 13793.0, 0.076289), "B": run("118709d", False, 0.05939, 81894.8, 0.076689),
-                 "D": run("118709d", True, 0.06343, 76564.4, 0.06838), "D2": run("118709d", True, 0.06343, 76552.7, 0.06838)},
+                 "D": run("118709d", True, 0.06343, 76564.4, 0.06838), "D2": {**run("118709d", True, 0.06343, 76552.7, 0.06838), "git_dirty": True}},
         "notes": {"A": "battery", "B": "AC", "D/D2": "deterministic"},
         "comparisons": {"A_vs_B": {"weights_bitwise_identical": False, "max_abs_weight_diff": 0.011551,
                                    "first_logged_step_that_differs": 800},
@@ -141,7 +141,7 @@ def test_p0_section_reports_each_run_and_each_determinism_comparison(report):
     pilot_artifacts(report)
     p0_artifacts(report)
     assert row(report, "| A |") == "| A | 69d08bd | no | 0.3521 | 13,793 | 0.07629 | battery |"
-    assert row(report, "| D2 |") == "| D2 | 118709d | yes | 0.0634 | 76,553 | 0.06838 | deterministic |"
+    assert row(report, "| D2 |") == "| D2 | 118709d (dirty tree) | yes | 0.0634 | 76,553 | 0.06838 | deterministic |"
     assert row(report, "| A vs B |") == "| A vs B | no | 0.0116 | 800 |"
     assert row(report, "| D vs D2 |") == "| D vs D2 | yes | 0 | none |"
     text = "\n".join(rows(report))
@@ -149,7 +149,7 @@ def test_p0_section_reports_each_run_and_each_determinism_comparison(report):
     assert "training peak VRAM 796 MB" in text
 
 
-def p1_artifacts(mod, stopped=()) -> None:
+def p1_artifacts(mod, stopped=(), best_pt_is_best=True) -> None:
     epoch = lambda e: {"epoch": e, "train_loss": 1.0 / e, "val_loss": 0.5 / e, "epoch_wall_s": 600.0, "oom_skips": 0}
     write_json(mod.ART / "p1_legacy_repro.json", {
         "command": "legacy-repro worktree: src/train.py --fresh --epochs 10",
@@ -157,6 +157,7 @@ def p1_artifacts(mod, stopped=()) -> None:
         "self_consistency": {"generator": {"correct": 300, "total": 300}, "model": {"correct": 231, "total": 300}},
         "original_final_run": {"val_loss": 0.1331, "self_consistency": "238/300 = 79.3%"}})
     write_json(mod.ART / "baseline_a_p1-legacy-repro-s0.json", {
+        "val_loss": 0.05 if best_pt_is_best else 0.5 / 9,
         "splits": {"test_id_unseen": {"n": 2672, "acc": 0.25}, "ood_longer": {"n": 2189, "acc": 0.0}}})
 
 
@@ -177,3 +178,28 @@ def test_p1_section_reports_training_self_consistency_and_forced_prefix_scores(r
     assert "original legacy final run (M1 audit): val loss 0.1331, self-consistency 238/300 = 79.3%" in text
     assert "| test_id_unseen | 2,672 | 25.0% |" in text and "| ood_longer | 2,189 | 0.0% |" in text
     assert "not comparable to the study's arms" in text
+
+
+def test_p0_waits_for_both_p0_artifacts(report):
+    p0_artifacts(report)
+    (report.ART / "p0_report.json").unlink()
+    assert "## P0: pending" in rows(report)
+
+
+def test_p1_from_the_chain_launched_before_stopped_attempts_were_recorded(report):
+    """The P1 run in progress loaded the old p1(), whose artifact has no 'stopped_attempts' key."""
+    pilot_artifacts(report)
+    p1_artifacts(report)
+    art = json.loads((report.ART / "p1_legacy_repro.json").read_text(encoding="utf-8"))
+    del art["stopped_attempts"]
+    write_json(report.ART / "p1_legacy_repro.json", art)
+    assert any("Stopped attempts archived: none" in l for l in rows(report))
+
+
+def test_p1_section_checks_that_the_scored_best_pt_is_the_best_logged_epoch(report):
+    """The P1 run in progress predates the check in pilots.p1, so the report repeats it."""
+    pilot_artifacts(report)
+    p1_artifacts(report)
+    assert any("`best.pt` (val loss 0.0500) is the best logged epoch: yes" in l for l in rows(report))
+    p1_artifacts(report, best_pt_is_best=False)
+    assert any("`best.pt` (val loss 0.0556) is the best logged epoch: **NO**" in l for l in rows(report))
