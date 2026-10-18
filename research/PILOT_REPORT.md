@@ -81,7 +81,7 @@ Each was fixed test-first. None of them affected a reported number. The P1 attem
 | ee2bffa | Checkpoints loaded with `map_location=cuda` moved the CPU RNG state to the GPU | Every GPU resume crashed (`RNG state must be a torch.ByteTensor`) |
 | 003dd9d (I-010) | The cost projection read eval time from file timestamps | Re-evaluation on relaunch inflated the G3 projection (a test reproduced 300 min of eval per run instead of 1) |
 | 58084fa | P1 treated ≥ 10 lines of the legacy train log as a finished run, but the legacy `--fresh` run appends to that log | Two stopped attempts (e.g. 6 + 5 epochs) would have skipped training and scored an unfinished model as Baseline A |
-| (this branch) | Follow-ups from code review: a half-written last log line crashed the P1 check; archive names could collide; P1 did not check that `best.pt` is the best logged epoch (legacy logs an epoch before saving `best.pt`) | A crash on relaunch, or Baseline A scored with an older checkpoint after a stop in a ~1 s window |
+| 47f3f17 | Follow-ups from code review: a half-written last log line crashed the P1 check; archive names could collide; P1 did not check that `best.pt` is the best logged epoch (legacy logs an epoch before saving `best.pt`) | A crash on relaunch, or Baseline A scored with an older checkpoint after a stop in a ~1 s window |
 
 ## 9. Limitations that come from the pilots
 
