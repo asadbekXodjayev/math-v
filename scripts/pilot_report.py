@@ -133,6 +133,10 @@ def p4_section(p4: dict) -> list[str]:
            "|---:|---:|" + "---:|" * len(splits)]
     for seed, v in p4["per_seed"].items():
         out.append(f"| {seed} | {pct(v['primary'])} | " + " | ".join(pct(v[s]) for s in splits) + " |")
+    cols = ["primary", *splits]
+    values = {c: [v[c] for v in p4["per_seed"].values()] for c in cols}
+    out.append("| mean | " + " | ".join(pct(statistics.fmean(values[c])) for c in cols) + " |")
+    out.append("| SD (pp) | " + " | ".join(f"{100 * statistics.stdev(values[c]):.2f}" for c in cols) + " |")
     out += ["", f"- Mean primary {pct(p4['mean_primary'])}; seed SD {100 * p4['sd_primary']:.2f} pp.",
             f"- **SESOI = max(2 pp, 2 × SD) = {100 * p4['sesoi']:.2f} pp.**",
             f"- OOD-longer seed SD {100 * p4['sd_ood_longer']:.2f} pp → P4 gate (> 5 pp cuts arms): "

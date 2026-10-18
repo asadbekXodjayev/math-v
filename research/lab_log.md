@@ -231,3 +231,14 @@ Append-only, newest entries last. Record only what was actually run, with the co
 - Not restarted automatically. To resume, run `scripts/pilots.py p4 p1`; finished seeds are re-evaluated (~1 min each) and seed 3 resumes from its checkpoint.
 
 - 20:04: the user asked to continue. Free RAM was 1.9 GB, on AC power. Relaunched `scripts/pilots.py p4 p1` in this session; seed 3 resumes from step 22,500.
+
+---
+
+## 2026-10-18 — P4 complete; P1 started
+
+- P4 seeds 3 (resumed from step 22,500) and 4 finished. Seeds 0–2 were re-evaluated on relaunch and gave the same primary scores as before (0.9304, 0.9139, 0.9263).
+- **P4 result** (`research/artifacts/p4_seed_variance.json`): primary endpoint mean 92.0%, seed SD 0.84 pp → **SESOI = 2.00 pp** (the floor binds; 2 × SD = 1.67 pp). OOD-longer SD 0.13 pp → **P4 gate not triggered**, but only because all seeds are at a floor (0.1–0.4%).
+- Seed SD of the other endpoints, now generated in the P4 table (test-first): val 0.87, block 3.07, OOD-same 2.93, train-recall 0.23 pp. Block and OOD-same exceed the SESOI. Recorded for G3 in `PILOT_REPORT.md` §5 and limitations 6–7; no rule is changed.
+- Projection with REF measured at S: **36 core runs ≈ 17.9 GPU-h**.
+- SESOI entered in `decisions.md` Part C as computed, to be frozen on G3 approval.
+- P1 (legacy 34M reproduction) started after P4 in the same chain. It uses the `p1()` loaded at launch, which is the post-47f3f17 code because this chain was launched after that commit.

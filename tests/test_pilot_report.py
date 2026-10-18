@@ -203,3 +203,15 @@ def test_p1_section_checks_that_the_scored_best_pt_is_the_best_logged_epoch(repo
     assert any("`best.pt` (val loss 0.0500) is the best logged epoch: yes" in l for l in rows(report))
     p1_artifacts(report, best_pt_is_best=False)
     assert any("`best.pt` (val loss 0.0556) is the best logged epoch: **NO**" in l for l in rows(report))
+
+
+def test_p4_table_gives_every_split_its_seed_mean_and_sd(report):
+    """SESOI comes from the primary endpoint only; G3 also needs the seed SD of the other endpoints."""
+    pilot_artifacts(report)
+    p4_artifacts(report)
+    art = json.loads((report.ART / "p4_seed_variance.json").read_text(encoding="utf-8"))
+    for seed, acc in zip(art["per_seed"], (0.90, 0.92, 0.94, 0.91, 0.93)):
+        art["per_seed"][seed]["test_id_unseen"] = acc
+    write_json(report.ART / "p4_seed_variance.json", art)
+    assert row(report, "| mean |") == "| mean | 50.0% | 92.0% | 40.0% |"
+    assert row(report, "| SD (pp) |") == "| SD (pp) | 0.00 | 1.58 | 0.00 |"
