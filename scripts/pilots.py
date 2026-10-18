@@ -15,6 +15,7 @@ Usage (from mathvis-model/):
 
 import json
 import math
+import os
 import statistics
 import subprocess
 import sys
@@ -36,7 +37,9 @@ P1_EPOCHS = 10
 
 def sh(cmd: list[str], cwd: Path = ROOT) -> None:
     print("$", " ".join(cmd), flush=True)
-    subprocess.run(cmd, cwd=cwd, check=True)
+    # With stdout redirected to a file, Windows encodes a child's stdio as the locale code page, which cannot
+    # print legacy train.py's box-drawing lines. Only stdio changes; open() keeps its default encoding.
+    subprocess.run(cmd, cwd=cwd, check=True, env={**os.environ, "PYTHONIOENCODING": "utf-8"})
 
 
 def write(name: str, obj: dict) -> None:

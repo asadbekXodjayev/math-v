@@ -147,3 +147,11 @@ def test_p1_fails_when_best_pt_is_not_the_best_logged_epoch(pilots, tmp_path, mo
     with pytest.raises(RuntimeError, match="not the best logged epoch"):
         pilots.p1()
     assert not (pilots.ART / "p1_legacy_repro.json").exists()
+
+
+def test_children_can_print_non_ascii_when_stdout_is_a_file(pilots, capfd):
+    """Legacy train.py prints a box-drawing line at the end of each epoch. Redirected to a file, Windows
+    encodes stdout as the locale code page (cp1251 here), and P1 crashed with UnicodeEncodeError after
+    epoch 1. capfd makes the child's inherited stdout a file, as `pilots.py >> pilots.log` does."""
+    pilots.sh([sys.executable, "-c", "print(chr(0x2500) * 3)"])
+    assert chr(0x2500) * 3 in capfd.readouterr().out
