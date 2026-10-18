@@ -192,3 +192,16 @@ Append-only, newest entries last. Record only what was actually run, with the co
   - S comes from the P4 artifact, and run names come from `pilots.py`.
   - Hand-typed facts are now read from the artifacts.
 - Only the touched tests were run (eval wall time and determinism, 5 report tests: all pass). The full suite reads the training set and uses the GPU, so it waits until the pilot chain has finished, to avoid another low-memory stop.
+
+---
+
+## 2026-10-18 — P3 complete; P4 seed 0 done; fourth memory stop at ~18:25
+
+- **P3 finished** (18 runs). Chosen LRs: ref, char, bpe_num and none 5e-4 (the lowest in the grid); learned and gelu 1e-3 (interior optima). They are written into `configs/arms/*.yaml` and decisions.md Part C.
+- **P4 seed 0** (`ref-s0-n128000-st27500`) trained and was evaluated:
+  - 1,739 s of training (0.0632 s/step); eval 61 s, now recorded by `eval_run` (I-010).
+  - One seed only, so this is not the P4 result. test-ID-unseen 93.0% (primary, G-set), val 93.3%, train-recall 99.97%, block 38.4%, OOD-same 22.4%, OOD-longer 0.4%.
+- **Fourth stop:** at ~18:25 Claude Code stopped the chain because system memory was critically low. P4 seed 1 has a checkpoint at step 5,000. Free RAM after the stop was 2.7 GB and no other large app was open, so the trigger is unclear. Not restarted automatically.
+- Interim G3 projection from the P3 speeds and P0's eval time: **36 runs ≈ 18.1 GPU-h**. P4 will replace the REF numbers.
+- Full suite while nothing was training: **300 passed, 10 skipped**.
+- P4 runs record `git_dirty = true`: P3 writes the chosen LRs into `configs/arms/*.yaml` just before P4 starts. Those LR lines are the only difference, and this commit records them.

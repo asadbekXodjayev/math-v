@@ -1,4 +1,4 @@
 tok_arm: digit
 arch_arm: gelu
 order: hints_first
-lr: 1.0e-3
+lr: 0.001   # chosen by pilot P3

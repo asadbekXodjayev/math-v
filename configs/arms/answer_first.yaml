@@ -2,4 +2,4 @@
 tok_arm: digit
 arch_arm: ref
 order: answer_first
-lr: 1.0e-3
+lr: 0.0005   # parent arm ref (P3)
