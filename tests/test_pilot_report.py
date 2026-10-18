@@ -117,3 +117,63 @@ def test_p4_table_labels_the_primary_endpoint_apart_from_split_accuracy(report):
     p4_artifacts(report)
     header = row(report, "| seed |")
     assert header == "| seed | primary: test_id_unseen, G-set | test_id_unseen (all) | ood_longer (all) |"
+
+
+def p0_artifacts(mod) -> None:
+    write_json(mod.ART / "p0_report.json", {"eval": {"wall_s": 67.2, "n_items": 11_195},
+                                            "runs": {"b": {"peak_vram_mb": 796.45}}})
+    run = lambda commit, det, sps, tok, loss: {"git_commit": commit, "deterministic_mode": det, "s_per_step": sps,
+                                               "mean_tok_s": tok, "final_train_loss": loss}
+    write_json(mod.ART / "p0_determinism_followup.json", {
+        "runs": {"A": run("69d08bd", False, 0.352052, 13793.0, 0.076289), "B": run("118709d", False, 0.05939, 81894.8, 0.076689),
+                 "D": run("118709d", True, 0.06343, 76564.4, 0.06838), "D2": run("118709d", True, 0.06343, 76552.7, 0.06838)},
+        "notes": {"A": "battery", "B": "AC", "D/D2": "deterministic"},
+        "comparisons": {"A_vs_B": {"weights_bitwise_identical": False, "max_abs_weight_diff": 0.011551,
+                                   "first_logged_step_that_differs": 800},
+                        "D_vs_D2": {"weights_bitwise_identical": True, "max_abs_weight_diff": 0.0,
+                                    "first_logged_step_that_differs": None}},
+        "eval_deterministic_mode": {"run": "D", "n_items": 11_195, "wall_s": [57.97, 58.72],
+                                    "records_identical_across_2_evals": True, "peak_vram_mb": 593.4},
+        "conclusion": "Same code + same conditions is bitwise reproducible."})
+
+
+def test_p0_section_reports_each_run_and_each_determinism_comparison(report):
+    pilot_artifacts(report)
+    p0_artifacts(report)
+    assert row(report, "| A |") == "| A | 69d08bd | no | 0.3521 | 13,793 | 0.07629 | battery |"
+    assert row(report, "| D2 |") == "| D2 | 118709d | yes | 0.0634 | 76,553 | 0.06838 | deterministic |"
+    assert row(report, "| A vs B |") == "| A vs B | no | 0.0116 | 800 |"
+    assert row(report, "| D vs D2 |") == "| D vs D2 | yes | 0 | none |"
+    text = "\n".join(rows(report))
+    assert "11,195 items in 58–59 s; records identical across 2 evaluations: yes; peak VRAM 593 MB" in text
+    assert "training peak VRAM 796 MB" in text
+
+
+def p1_artifacts(mod, stopped=()) -> None:
+    epoch = lambda e: {"epoch": e, "train_loss": 1.0 / e, "val_loss": 0.5 / e, "epoch_wall_s": 600.0, "oom_skips": 0}
+    write_json(mod.ART / "p1_legacy_repro.json", {
+        "command": "legacy-repro worktree: src/train.py --fresh --epochs 10",
+        "train_log": [epoch(e) for e in range(1, 11)], "wall_h_this_session": 0.0, "stopped_attempts": list(stopped),
+        "self_consistency": {"generator": {"correct": 300, "total": 300}, "model": {"correct": 231, "total": 300}},
+        "original_final_run": {"val_loss": 0.1331, "self_consistency": "238/300 = 79.3%"}})
+    write_json(mod.ART / "baseline_a_p1-legacy-repro-s0.json", {
+        "splits": {"test_id_unseen": {"n": 2672, "acc": 0.25}, "ood_longer": {"n": 2189, "acc": 0.0}}})
+
+
+def test_p1_is_pending_until_its_artifact_exists(report):
+    pilot_artifacts(report)
+    assert "## P1: pending" in rows(report)
+
+
+def test_p1_section_reports_training_self_consistency_and_forced_prefix_scores(report):
+    pilot_artifacts(report)
+    p1_artifacts(report, stopped=["train_log.attempt-1.jsonl"])
+    assert row(report, "| 10 |") == "| 10 | 0.1000 | 0.0500 | 10.0 | 0 |"
+    text = "\n".join(rows(report))
+    # the wall time comes from the epoch log, not from wall_h_this_session (0 when a relaunch skips training)
+    assert "Training wall time 100 min (sum over the 10 logged epochs)" in text
+    assert "Stopped attempts archived: train_log.attempt-1.jsonl" in text
+    assert "model 231/300 = 77.0%; generator control 300/300 = 100.0%" in text
+    assert "original legacy final run (M1 audit): val loss 0.1331, self-consistency 238/300 = 79.3%" in text
+    assert "| test_id_unseen | 2,672 | 25.0% |" in text and "| ood_longer | 2,189 | 0.0% |" in text
+    assert "not comparable to the study's arms" in text
