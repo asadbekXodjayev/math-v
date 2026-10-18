@@ -1,6 +1,6 @@
 # MathGen — Pilot Report (Milestone 6)
 
-**Status: draft.** P0, P2, P3 and P4 are complete. P1 (legacy reproduction) is still running, and its section is marked *pending*. Gate G3 has not been requested yet.
+**Status: ready for G3.** P0, P2, P3 and P4 are complete. P1 (legacy reproduction, provenance only) is not: two attempts were lost (§6). P1 is not an input to any G3 decision.
 
 All tables are generated from the run directories and pilot artifacts by `scripts/pilot_report.py` into `research/artifacts/pilot_tables.md`. This file adds the narrative and the decisions G3 needs. Numbers quoted here come from those artifacts; where they disagree, the artifact is right.
 
@@ -71,9 +71,13 @@ REF × 5 seeds at S = 27,500, LR 5e-4, full eval. These are also REF's final run
 - *Descriptive, not a test:* REF's pooled block accuracy (39.4%) is far below its test-ID-unseen accuracy (92.0%), and train-recall is 99.7%. The pooled numbers are not matched by template; the pre-registered C12 test runs in M9.
 - Training wall time per seed: 0.48 h (0.0632 s/step). Eval: 63 s per run.
 
-## 6. P1: legacy reproduction (Baseline A) — *pending*
+## 6. P1: legacy reproduction (Baseline A) — *not complete*
 
 The legacy 34M pipeline is retrained from the `legacy-repro` worktree (seeding and logging fixes only; F3 kept on purpose). It is then scored by the legacy self-consistency eval and by forced-prefix scoring on data v1. Baseline A is provenance only: the legacy pipeline saw most ID instances in training, so its numbers are not comparable to the study's arms.
+
+- Attempt 1 crashed at the end of epoch 1: the legacy epoch summary prints U+2500, which the cp1251 stdout of a redirected child cannot encode. Fixed in 72caf6c (children run with `PYTHONIOENCODING=utf-8`; stdio only).
+- Attempt 2 was stopped by the low-memory guard at step ~875 of epoch 1's 901 steps.
+- The legacy run cannot resume, so each stop loses the attempt. A full run is ~1 h 50 min of training (0.70 s/step × 9,010 steps), plus a few minutes of eval. Settings match the audited legacy run: 47,000 samples, 9,010 steps, effective batch 48.
 
 ---
 
@@ -83,7 +87,7 @@ The full projection table is in `pilot_tables.md`. Every arm's P3 speed is scale
 
 For comparison: the pre-registration's plan estimate for the same 36 core runs was ≈ 13.5 GPU-h (§8). That estimate assumed the 15K-step draft budget; S came out at 27,500.
 
-**Wall-clock risk: system RAM, not the GPU.** The pilot chain has been stopped five times by Claude Code's low-memory guard (`lab_log.md`). A training process holds ~1.4 GB working set, leaving ~0.9 GB free on this 7.6 GB laptop. Every study run resumes from its last checkpoint, so a stop costs at most one checkpoint interval (2.5K steps, ~2.5 min) plus the time until relaunch. P1 is the exception: the legacy reproduction always restarts from epoch 1, so a stop there loses the whole attempt. The relaunch is the expensive part, because the session does not restart stopped work on its own. For the core grid, running `scripts/` from a separate terminal avoids the guard.
+**Wall-clock risk: system RAM, not the GPU.** The pilot chain has been stopped six times by Claude Code's low-memory guard (`lab_log.md`). A training process holds ~1.4 GB working set, leaving ~0.9 GB free on this 7.6 GB laptop. Every study run resumes from its last checkpoint, so a stop costs at most one checkpoint interval (2.5K steps, ~2.5 min) plus the time until relaunch. P1 is the exception: the legacy reproduction always restarts from epoch 1, so a stop there loses the whole attempt. The relaunch is the expensive part, because the session does not restart stopped work on its own. For the core grid, running `scripts/` from a separate terminal avoids the guard.
 
 ## 8. Bugs found and fixed during the pilots
 
@@ -94,6 +98,7 @@ Each was fixed test-first. None of them affected a reported number. The P1 attem
 | ee2bffa | Checkpoints loaded with `map_location=cuda` moved the CPU RNG state to the GPU | Every GPU resume crashed (`RNG state must be a torch.ByteTensor`) |
 | 003dd9d (I-010) | The cost projection read eval time from file timestamps | Re-evaluation on relaunch inflated the G3 projection (a test reproduced 300 min of eval per run instead of 1) |
 | 58084fa | P1 treated ≥ 10 lines of the legacy train log as a finished run, but the legacy `--fresh` run appends to that log | Two stopped attempts (e.g. 6 + 5 epochs) would have skipped training and scored an unfinished model as Baseline A |
+| 72caf6c | Children inherited a cp1251 stdout when `pilots.py` was redirected to a log | P1 crashed after legacy epoch 1 (attempt 1; nothing was written) |
 | 47f3f17 | Follow-ups from code review: a half-written last log line crashed the P1 check; archive names could collide; P1 did not check that `best.pt` is the best logged epoch (legacy logs an epoch before saving `best.pt`) | A crash on relaunch, or Baseline A scored with an older checkpoint after a stop in a ~1 s window |
 
 ## 9. Limitations that come from the pilots
@@ -106,7 +111,7 @@ Each was fixed test-first. None of them affected a reported number. The P1 attem
 6. The P4 gate passes at a floor (§5), and C7 can only detect an effect if NoPE lifts OOD-longer above roughly 2.3%.
 7. With 3 seeds per arm, contrasts on endpoints whose seed SD exceeds the SESOI (block, for C12) are more likely to end inconclusive under the same-sign rule.
 
-## 10. Decisions requested at G3 — *draft; final once P1 is in*
+## 10. Decisions requested at G3
 
 1. **Approve the core grid**: 36 runs, ≈ 17.9 GPU-h, in the pre-registered order C-tok → C-dec → C-arch → C-af → C-data → C-dtok.
 2. **D-006 (flagged at G2):** keep or cut C-dtok (T-bpe-num at N = 8K × 3, ≈ 1.4 GPU-h). Without it H5-tok (C11) cannot be tested. Recommendation: keep it.
@@ -114,3 +119,4 @@ Each was fixed test-first. None of them affected a reported number. The P1 attem
 4. **SESOI = 2.00 pp**, by the pre-registered rule. Frozen into `decisions.md` Part C on G3 approval.
 5. **LR grid edge (§4):** recommendation is to keep the pre-registered LRs. Optionally, add one sensitivity run labelled exploratory (REF at 2.5e-4, 0.3·S, seed 0, ≈ 10 min) to show how much the grid edge costs. It would not change any selected LR.
 6. **Seed noise on block (§5, limitation 7):** recommendation is to keep 3 seeds per arm as pre-registered. The plan's stretch item S2 (+2 seeds on borderline contrasts, separate approval) is the pre-registered remedy if contrasts end near the threshold.
+7. **How to run.** Recommendation: run P1 and then the core grid from a separate terminal, where the low-memory guard does not apply. In this session, a 36-run grid would need a relaunch after every stop (six so far, at intervals of about 1–2 h).
