@@ -43,6 +43,18 @@ def write(name: str, obj: dict) -> None:
     print(json.dumps(obj, indent=2), flush=True)
 
 
+def p2_exp() -> str:
+    return f"p2-ref-s0-st{P2_STEPS}"
+
+
+def p3_exp(arm: str, steps: int, lr: float) -> str:
+    return f"p3-{arm}-s0-st{steps}-lr{lr:g}"
+
+
+def p4_exp(seed: int, S: int) -> str:
+    return f"ref-s{seed}-n128000-st{S}"
+
+
 def read_metrics(run: Path) -> list[dict]:
     return [json.loads(l) for l in (run / "metrics.jsonl").read_text(encoding="utf-8").splitlines()]
 
@@ -73,7 +85,7 @@ def p1() -> None:
 
 
 def p2() -> int:
-    run = ROOT / "runs" / f"p2-ref-s0-st{P2_STEPS}"
+    run = ROOT / "runs" / p2_exp()
     sh([PY, "-B", "scripts/train.py", "--config", "configs/arms/ref.yaml", "--seed", "0", "--steps", str(P2_STEPS),
         "--eval-every", str(P2_EVAL_EVERY), "--exp-id", run.name])
     curve = [(m["step"], m["val_acc"]) for m in read_metrics(run) if "val_acc" in m]
@@ -121,7 +133,7 @@ def p3() -> dict:
     results, chosen = {}, {}
     for arm in SWEEP_ARMS:
         for lr in LR_GRID:
-            exp = f"p3-{arm}-s0-st{steps}-lr{lr:g}"
+            exp = p3_exp(arm, steps, lr)
             sh([PY, "-B", "scripts/train.py", "--config", f"configs/arms/{arm}.yaml", "--seed", "0",
                 "--steps", str(steps), "--lr", str(lr), "--exp-id", exp])
             run = ROOT / "runs" / exp
@@ -154,7 +166,7 @@ def p4() -> dict:
     lr = yaml.safe_load((ROOT / "configs" / "arms" / "ref.yaml").read_text())["lr"]
     per_seed = {}
     for seed in range(5):
-        exp = f"ref-s{seed}-n128000-st{S}"
+        exp = p4_exp(seed, S)
         sh([PY, "-B", "scripts/train.py", "--config", "configs/arms/ref.yaml", "--seed", str(seed),
             "--steps", str(S), "--exp-id", exp, "--then-eval"])
         run = ROOT / "runs" / exp

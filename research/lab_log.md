@@ -165,3 +165,30 @@ Append-only, newest entries last. Record only what was actually run, with the co
   - run `scripts/pilots.py p2 p3 p4 p1` from a separate terminal (every run resumes from its checkpoint).
 
   Closing other memory-heavy apps also helps.
+
+---
+
+## 2026-10-18 — Pilot chain: resume crash fixed, then a third memory stop
+
+- **First relaunch failed at once:** resuming P2 raised `RNG state must be a torch.ByteTensor`. The checkpoint had been loaded with `map_location=cuda`, which moved the CPU RNG state onto the GPU. Fixed test-first (commit ee2bffa): checkpoints now load on the CPU, and a CUDA resume test checks bitwise equality with an uninterrupted run.
+- **Second relaunch:**
+  - P2 resumed from step 5,000 and finished: val accuracy rose to 93.3% at 30K → **S = 27,500**.
+  - P3 completed 9 of 18 runs (REF, T-char and T-bpe-num at all three LRs).
+- At ~12:55 Claude Code stopped the chain because system memory was critically low. The 10th run, `p3-learned-s0-st8200-lr0.0005`, has a checkpoint at step 2,500. Not restarted automatically.
+- Observation for the report: **all three tokenizer arms chose the lowest LR in the pre-registered grid (5e-4)**, so their optimum may lie below it. The grid is kept as pre-registered; this will be reported as a limitation.
+
+---
+
+## 2026-10-18 — Pilot chain relaunched; core grid is 36 runs
+
+- The user closed the other apps (free RAM 3.1 GB) and asked to continue. Relaunched `scripts/pilots.py p3 p4 p1`; P3 resumes `p3-learned-s0-st8200-lr0.0005` from step 2,500 and skips the 9 finished runs.
+- **Correction to my earlier notes:** the core grid after G3 is **36 runs** (RESEARCH_DESIGN.md §8: C-tok 6, C-dec 6, C-arch 9, C-af 3, C-data 9, C-dtok 3), not 42. The 61 runs "through the core" also count P1–P4. A new test pins the 36 in `scripts/pilot_report.py`.
+- `scripts/pilot_report.py` now writes `research/artifacts/pilot_tables.md` (UTF-8) instead of printing, and once P4 exists it projects REF's training time from the P4 runs at S rather than the shorter P3 runs.
+- Note for the report: the P2 val curve was still rising at 30K (92.4% at 27.5K, 93.3% at 30K). S = 27,500 comes from the 98% rule near the upper clamp, not from a plateau.
+- A code review of `pilot_report.py` found that it read eval time from file timestamps. Re-evaluating a run (which every relaunch of `pilots.py p4` does) would have inflated the G3 projection, and a test reproduced it: 300 min of eval per run instead of 1. Fixed test-first:
+  - `eval_run` now records `eval_wall_s` in `eval.json`. P4 runs start in fresh processes, so they pick this up.
+  - Every arm's speed is scaled by REF's speed at S over its P3 speed, so all rows share one measurement condition.
+  - Per-run overhead outside the step loop is now included.
+  - S comes from the P4 artifact, and run names come from `pilots.py`.
+  - Hand-typed facts are now read from the artifacts.
+- Only the touched tests were run (eval wall time and determinism, 5 report tests: all pass). The full suite reads the training set and uses the GPU, so it waits until the pilot chain has finished, to avoid another low-memory stop.

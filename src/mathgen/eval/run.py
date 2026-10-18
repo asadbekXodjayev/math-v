@@ -18,6 +18,7 @@ import json
 import math
 import random
 import re
+import time
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -184,6 +185,7 @@ def eval_run(run_dir: str | Path, data_dir: str | Path | None = None, device: st
 
 
 def _eval_run(run_dir, data_dir, device, splits, batch_size, recall_per_template, limit) -> dict:
+    start = time.perf_counter()
     run_dir = Path(run_dir)
     repo = Path(__file__).resolve().parents[3]
     final = torch.load(run_dir / "final.pt", map_location=device, weights_only=False)
@@ -213,6 +215,7 @@ def _eval_run(run_dir, data_dir, device, splits, batch_size, recall_per_template
             f.writelines(json.dumps(r, ensure_ascii=False) + "\n" for r in records)
         summary["splits"][split] = summarize(records)
     summary["primary_endpoint"] = summary["splits"].get("test_id_unseen", {}).get("acc_gset")
+    summary["eval_wall_s"] = time.perf_counter() - start   # model + data loading included (G3 cost projection)
     (run_dir / "eval.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n")
     return summary
 

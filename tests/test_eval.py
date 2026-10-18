@@ -113,6 +113,25 @@ def test_eval_run_writes_every_split_and_a_summary(tmp_path):
 
 
 @pytest.mark.skipif(not (ROOT / "data" / "tokenizers" / "digit.json").exists(), reason="data/ not built")
+def test_eval_run_records_its_own_wall_time(tmp_path):
+    """The G3 cost projection needs eval time; eval.json's mtime is rewritten by every re-evaluation."""
+    import json
+    from dataclasses import asdict
+    from mathgen.eval.run import eval_run
+    from mathgen.training import RunConfig, load_tokenizer
+    from mathgen.training.loop import build_model
+    cfg = RunConfig(exp_id="clock", device="cpu", runs_dir=str(tmp_path),
+                    model_overrides={"n_layers": 1, "d_model": 32, "n_heads": 2, "d_ff": 64})
+    model = build_model(cfg, len(load_tokenizer("digit").vocab))   # no training: keeps this test light
+    run = tmp_path / "clock"
+    run.mkdir()
+    torch.save({"model": model.state_dict(), "model_config": asdict(model.cfg), "run": asdict(cfg)}, run / "final.pt")
+    summary = eval_run(run, device="cpu", splits=("val",), limit=4)
+    assert summary["eval_wall_s"] > 0
+    assert json.loads((run / "eval.json").read_text(encoding="utf-8"))["eval_wall_s"] == summary["eval_wall_s"]
+
+
+@pytest.mark.skipif(not (ROOT / "data" / "tokenizers" / "digit.json").exists(), reason="data/ not built")
 def test_eval_run_decodes_in_deterministic_mode_and_restores_the_flag(tmp_path, monkeypatch):
     """Eval numerics must not depend on whether it runs after training (--then-eval) or alone."""
     import mathgen.eval.run as er
