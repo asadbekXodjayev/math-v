@@ -31,6 +31,7 @@ PY = sys.executable
 LR_GRID = (5e-4, 1e-3, 2e-3)
 SWEEP_ARMS = ("ref", "char", "bpe_num", "learned", "none", "gelu")
 P2_STEPS, P2_EVAL_EVERY = 30_000, 2_500
+P1_EPOCHS = 10
 
 
 def sh(cmd: list[str], cwd: Path = ROOT) -> None:
@@ -63,12 +64,23 @@ def train_wall_h(run: Path) -> float:
     return sum(m.get("elapsed_s", 0) for m in read_metrics(run)) / 3600
 
 
+def legacy_train_done(run_dir: Path) -> bool:
+    """One complete legacy attempt: epochs 1..P1_EPOCHS, once each, plus best.pt. The legacy --fresh run
+    appends to train_log.jsonl, so stopped attempts would otherwise add up to a "complete" line count."""
+    log = run_dir / "train_log.jsonl"
+    if not (run_dir / "best.pt").exists() or not log.exists():
+        return False
+    return [json.loads(l)["epoch"] for l in log.read_text().splitlines()] == list(range(1, P1_EPOCHS + 1))
+
+
 def p1() -> None:
     worktree, run_dir = ROOT / ".worktrees" / "legacy-repro", ROOT / "runs" / "p1-legacy-repro-s0"
     start = time.perf_counter()
-    if not (run_dir / "best.pt").exists() or not (run_dir / "train_log.jsonl").exists() or \
-            len((run_dir / "train_log.jsonl").read_text().splitlines()) < 10:
-        sh([PY, "-B", "src/train.py", "--fresh", "--epochs", "10", "--batch-size", "12", "--grad-accum", "4",
+    if not legacy_train_done(run_dir):
+        log = run_dir / "train_log.jsonl"
+        if log.exists():   # a stopped attempt: kept for the record, out of the way of the fresh one
+            log.rename(run_dir / f"train_log.attempt-{len(list(run_dir.glob('train_log.attempt-*.jsonl'))) + 1}.jsonl")
+        sh([PY, "-B", "src/train.py", "--fresh", "--epochs", str(P1_EPOCHS), "--batch-size", "12", "--grad-accum", "4",
             "--n-per-topic", "1000", "--seed", "0", "--run-dir", str(run_dir)], cwd=worktree)
     train_h = (time.perf_counter() - start) / 3600
     sh([PY, "-B", "src/eval_accuracy.py", "--source", "both", "--n", "10", "--cuda", "--seed", "0",
@@ -79,6 +91,7 @@ def p1() -> None:
         "command": "legacy-repro worktree: src/train.py --fresh --epochs 10 --batch-size 12 --grad-accum 4 "
                    "--n-per-topic 1000 --seed 0",
         "train_log": log, "wall_h_this_session": train_h,
+        "stopped_attempts": sorted(p.name for p in run_dir.glob("train_log.attempt-*.jsonl")),
         "self_consistency": json.loads((run_dir / "accuracy_report.json").read_text()),
         "original_final_run": {"val_loss": 0.1331, "corrected_train_loss": 0.1328, "self_consistency": "238/300 = 79.3%"},
     })
