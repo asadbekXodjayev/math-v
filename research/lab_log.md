@@ -205,3 +205,13 @@ Append-only, newest entries last. Record only what was actually run, with the co
 - Interim G3 projection from the P3 speeds and P0's eval time: **36 runs ≈ 18.1 GPU-h**. P4 will replace the REF numbers.
 - Full suite while nothing was training: **300 passed, 10 skipped**.
 - P4 runs record `git_dirty = true`: P3 writes the chosen LRs into `configs/arms/*.yaml` just before P4 starts. Those LR lines are the only difference, and this commit records them.
+
+---
+
+## 2026-10-18 — Pilot chain relaunched for P4 seeds 1–4, then P1
+
+- The user asked to continue. Free RAM was 2.1 GB of 7.6 GB, on AC power, with no Python process running.
+- Relaunched `scripts/pilots.py p4 p1`, appending to `runs/logs/pilots.log`. Seed 0 is re-evaluated (~1 min); seed 1 resumes from its step-5,000 checkpoint.
+- Seed 1 resumed correctly: metrics past step 5,000 were dropped on resume, and training continued from step 5,000. Seed 0's re-evaluation gave the same primary score, 0.9304.
+- RAM during seed 1: the training process holds a 1.4 GB working set (3.4 GB private), leaving ~0.9 GB free. Earlier I measured ~0.9 GB before the model was built.
+- **Bug fixed while P4 ran** (58084fa, test-first): `pilots.p1` treated ≥ 10 lines in the legacy `train_log.jsonl` plus `best.pt` as a finished run. The legacy `--fresh` run appends to that log, so two stopped attempts (e.g. 6 + 5 epochs) would have skipped training and scored an unfinished model. Training now counts as done only when the log holds epochs 1..10 exactly once and `best.pt` exists. A stopped attempt's log is archived as `train_log.attempt-N.jsonl` and listed in `p1_legacy_repro.json`. The running chain loaded the old `p1` at launch; that is safe for an uninterrupted first attempt, and any relaunch uses the fix. Training code is unchanged, so seeds 2–4 record a newer commit than seeds 0–1 but train identically.
