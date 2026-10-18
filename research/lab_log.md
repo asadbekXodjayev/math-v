@@ -132,3 +132,23 @@ Append-only, newest entries last. Record only what was actually run, with the co
   - P0 is therefore incomplete: the determinism comparison and eval timing have not been measured.
   - Not restarted automatically.
 - **Before resuming pilots:** connect AC power and free RAM (close other apps).
+
+---
+
+## 2026-10-18 — P0 complete (on AC power)
+
+- The user resumed the task and left the session to run unattended ("you have permission"). The scope is unchanged: pilots P0–P4, then **stop at G3**.
+- **Memory:** free RAM was 0.9 GB with nothing of ours running. I measured a training process at ~0.9 GB working set before the model, of which ~0.2 GB was raw item dicts. Cuts (commit 118709d):
+  - training drops the item dicts after encoding;
+  - eval drops the train list after sampling recall items;
+  - P3's orchestrator no longer initialises CUDA (~0.6 GB).
+  - Code review of that commit: no blocking defects. Its two robustness points (atomic `final.pt` and `p3_val.json`) are applied (I-009).
+- **Throughput on AC: 0.059 s/step (82K tok/s)**, ~6× faster than on battery (0.35 s/step). The plan's 13–25 min per 15K-step run now holds (~15 min).
+- **Determinism, the main P0 finding:**
+  - Runs A and B were **not** bitwise identical: A matched B through step 700, then drifted (max |Δw| 0.012).
+  - Their training code is the same; the commits differ only by two `del` lines. A ran on battery with very little free RAM in the earlier session. I could not identify the cause.
+  - Follow-up runs: B = C bitwise (default kernels, same conditions) and D = D2 bitwise (deterministic mode). B ≠ D, because deterministic mode picks other kernels; it costs ~7%.
+  - **Decision I-008:** every study run, and every evaluation, uses torch's deterministic mode. It is the only mode PyTorch guarantees, and no study run had started yet.
+- **Eval timing:** all 11,195 eval items in ~58–67 s per run. Two evaluations of the same run gave byte-identical records. Peak VRAM: 796 MB training, 593 MB eval.
+- **Added (I-009):** each run writes `train_stats.json` (wall clock and peak VRAM, as §4.3 requires).
+- Full suite: 293 passed, 10 skipped.

@@ -99,17 +99,21 @@ def p3_val(exp: str) -> None:
     from mathgen.eval.run import evaluate_items
     from mathgen.model import ModelConfig, Transformer
     from mathgen.training import load_tokenizer
+    from mathgen.training.loop import deterministic_algorithms
 
     run = ROOT / "runs" / exp
     final = torch.load(run / "final.pt", map_location="cuda", weights_only=False)
     model = Transformer(ModelConfig(**final["model_config"])).cuda()
     model.load_state_dict(final["model"])
     tok_arm = final["run"]["tok_arm"]
-    recs = evaluate_items(model, load_tokenizer(tok_arm), tok_arm, final["run"]["order"],
-                          read_jsonl(ROOT / "data" / "eval" / "val.jsonl"), model.cfg.context_len, "cuda")
+    with deterministic_algorithms():
+        recs = evaluate_items(model, load_tokenizer(tok_arm), tok_arm, final["run"]["order"],
+                              read_jsonl(ROOT / "data" / "eval" / "val.jsonl"), model.cfg.context_len, "cuda")
     out = {"val_loss": statistics.fmean(r["gold_nll"] / r["target_tokens"] for r in recs),
            "val_acc": statistics.fmean(r["correct"] for r in recs), "val_n": len(recs)}
-    (run / "p3_val.json").write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8", newline="\n")
+    tmp = run / "p3_val.json.tmp"   # atomic: an interrupted write never leaves a half file that resume trusts
+    tmp.write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8", newline="\n")
+    tmp.replace(run / "p3_val.json")
 
 
 def p3() -> dict:

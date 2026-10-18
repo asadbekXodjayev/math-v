@@ -2,6 +2,7 @@
 
 import json
 import math
+import os
 from pathlib import Path
 
 import pytest
@@ -136,6 +137,35 @@ def test_existing_run_with_a_different_config_is_refused(tmp_path):
     train(tiny(tmp_path, steps=10))
     with pytest.raises(ValueError, match="config"):
         train(tiny(tmp_path, steps=10, lr=5e-4))
+
+
+@needs_data
+def test_training_uses_deterministic_algorithms_and_restores_the_flag(tmp_path):
+    """P0 follow-up (decisions.md I-008): bitwise-reproducible GPU training is guaranteed only in
+    torch's deterministic mode, which also needs a fixed cuBLAS workspace."""
+    seen = []
+    def on_eval(model, tok, step):
+        seen.append(torch.are_deterministic_algorithms_enabled())
+        return {}
+    assert not torch.are_deterministic_algorithms_enabled()
+    train(tiny(tmp_path, steps=10, eval_every=10), on_eval=on_eval)
+    assert seen == [True]
+    assert not torch.are_deterministic_algorithms_enabled()
+    assert os.environ["CUBLAS_WORKSPACE_CONFIG"] == ":4096:8"
+
+
+@needs_data
+def test_finished_run_records_wall_clock_and_peak_vram(tmp_path):
+    """RESEARCH_DESIGN.md §4.3 lists wall clock and peak VRAM in the run record."""
+    interrupted = tiny(tmp_path, steps=20)
+    train(interrupted, stop_after=10)
+    run = train(interrupted)
+    stats = json.loads((run / "train_stats.json").read_text())
+    elapsed = sum(json.loads(l)["elapsed_s"] for l in (run / "metrics.jsonl").read_text().splitlines())
+    assert stats["train_wall_s"] == pytest.approx(elapsed)
+    assert stats["resumed_from_step"] == 10
+    assert stats["last_session_wall_s"] > 0
+    assert stats["peak_vram_mb_last_session"] is None   # CPU run
 
 
 @needs_data

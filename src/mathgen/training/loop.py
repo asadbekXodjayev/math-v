@@ -16,6 +16,7 @@ import random
 import subprocess
 import sys
 import time
+from contextlib import contextmanager
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
@@ -51,6 +52,7 @@ class RunConfig:
     beta2: float = 0.95
     grad_clip: float = 1.0
     precision: str = "bf16"      # bf16 | fp32
+    deterministic: bool = True   # torch deterministic algorithms (decisions.md I-008)
     device: str = "cuda"
     log_every: int = 100
     ckpt_every: int = 2500
@@ -139,15 +141,34 @@ def _save_ckpt(path: Path, step: int, model, opt, sched, interval: dict) -> None
     tmp.replace(path)   # atomic: a crash mid-save never leaves a corrupt checkpoint
 
 
+@contextmanager
+def deterministic_algorithms(enabled: bool = True):
+    """torch's deterministic mode inside the block; the previous setting is restored after it."""
+    previous = torch.are_deterministic_algorithms_enabled()
+    torch.use_deterministic_algorithms(enabled)
+    try:
+        yield
+    finally:
+        torch.use_deterministic_algorithms(previous)
+
+
 def train(cfg: RunConfig, stop_after: int | None = None, on_eval=None) -> Path:
     """Run (or resume) to completion. `stop_after`: stop at that global step after checkpointing
     (used to test resume). `on_eval(model, tok, step) -> dict` is called every `eval_every` steps."""
+    with deterministic_algorithms(cfg.deterministic):
+        return _train(cfg, stop_after, on_eval)
+
+
+def _train(cfg: RunConfig, stop_after: int | None, on_eval) -> Path:
     run_dir = _resolve(cfg.runs_dir) / cfg.exp_id
     _check_same_config(cfg, run_dir)
     if (run_dir / "final.pt").exists():
         return run_dir
     run_dir.mkdir(parents=True, exist_ok=True)
+    session_start = time.perf_counter()
     device = torch.device(cfg.device)
+    if device.type == "cuda":
+        torch.cuda.reset_peak_memory_stats(device)
     data_dir = _resolve(cfg.data_dir)
 
     tok = load_tokenizer(cfg.tok_arm, data_dir)
@@ -230,6 +251,15 @@ def train(cfg: RunConfig, stop_after: int | None = None, on_eval=None) -> Path:
                 _save_ckpt(ckpt_path, done, model, opt, sched,
                            {"loss_sum": loss_acc.item(), "steps": n_steps, "tokens": tokens})
 
-    torch.save({"model": model.state_dict(), "model_config": asdict(model.cfg), "run": asdict(cfg)},
-               run_dir / "final.pt")
+    logged = [json.loads(l) for l in metrics_path.read_text(encoding="utf-8").splitlines()]
+    stats = {   # §4.3: wall clock and peak VRAM. train_wall_s sums the logged intervals over every session
+        "train_wall_s": sum(m.get("elapsed_s", 0) for m in logged),
+        "resumed_from_step": start,
+        "last_session_wall_s": time.perf_counter() - session_start,
+        "peak_vram_mb_last_session": torch.cuda.max_memory_allocated(device) / 2**20 if device.type == "cuda" else None,
+    }
+    (run_dir / "train_stats.json").write_text(json.dumps(stats, indent=2) + "\n", encoding="utf-8", newline="\n")
+    tmp = run_dir / "final.pt.tmp"   # atomic, like checkpoints: final.pt existing means the run is complete
+    torch.save({"model": model.state_dict(), "model_config": asdict(model.cfg), "run": asdict(cfg)}, tmp)
+    tmp.replace(run_dir / "final.pt")
     return run_dir

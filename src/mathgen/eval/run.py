@@ -30,6 +30,7 @@ from ..data.config import load_config
 from ..data.formats import prompt_text, target_text, tchar_len
 from ..model import ModelConfig, Transformer
 from ..training.data import TOK_ARMS, collate, encode_example, load_tokenizer
+from ..training.loop import deterministic_algorithms
 from .decode import greedy_decode
 from .oracle import exact_match, math_correct, parses
 
@@ -176,7 +177,13 @@ def eval_run(run_dir: str | Path, data_dir: str | Path | None = None, device: st
              splits: tuple[str, ...] = EVAL_SPLITS + ("train_recall",), batch_size: int = 256,
              recall_per_template: int = 200, limit: int | None = None) -> dict:
     """`data_dir` defaults to the run's own data directory. `limit`: evaluate only the first
-    `limit` items of each split (smoke tests)."""
+    `limit` items of each split (smoke tests). Decoding runs in torch's deterministic mode, as
+    training does, whether or not it follows training in the same process."""
+    with deterministic_algorithms():
+        return _eval_run(run_dir, data_dir, device, splits, batch_size, recall_per_template, limit)
+
+
+def _eval_run(run_dir, data_dir, device, splits, batch_size, recall_per_template, limit) -> dict:
     run_dir = Path(run_dir)
     repo = Path(__file__).resolve().parents[3]
     final = torch.load(run_dir / "final.pt", map_location=device, weights_only=False)

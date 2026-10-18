@@ -113,6 +113,24 @@ def test_eval_run_writes_every_split_and_a_summary(tmp_path):
 
 
 @pytest.mark.skipif(not (ROOT / "data" / "tokenizers" / "digit.json").exists(), reason="data/ not built")
+def test_eval_run_decodes_in_deterministic_mode_and_restores_the_flag(tmp_path, monkeypatch):
+    """Eval numerics must not depend on whether it runs after training (--then-eval) or alone."""
+    import mathgen.eval.run as er
+    from mathgen.training import RunConfig, train
+    cfg = RunConfig(exp_id="det", n_train=64, steps=10, batch_size=8, device="cpu", precision="fp32",
+                    log_every=10, ckpt_every=10, runs_dir=str(tmp_path),
+                    model_overrides={"n_layers": 1, "d_model": 32, "n_heads": 2, "d_ff": 64})
+    run = train(cfg)
+    seen, real = [], er.evaluate_items
+    def spy(*a, **k):
+        seen.append(torch.are_deterministic_algorithms_enabled())
+        return real(*a, **k)
+    monkeypatch.setattr(er, "evaluate_items", spy)
+    er.eval_run(run, device="cpu", splits=("val",), limit=4)
+    assert seen == [True] and not torch.are_deterministic_algorithms_enabled()
+
+
+@pytest.mark.skipif(not (ROOT / "data" / "tokenizers" / "digit.json").exists(), reason="data/ not built")
 def test_val_callback_logs_val_accuracy_during_training(tmp_path):
     import json
     from mathgen.eval.run import val_callback

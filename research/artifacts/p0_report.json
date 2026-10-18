@@ -1,0 +1,35 @@
+{
+  "power": "AC",
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "torch": "2.11.0+cu128",
+  "runs": {
+    "a": {
+      "trained_in_this_invocation": false,
+      "wall_s": null,
+      "mean_tok_s": 13793.013737840887,
+      "s_per_step": 0.3520519839999979,
+      "final_train_loss": 0.07628877639770508,
+      "peak_vram_mb": null
+    },
+    "b": {
+      "trained_in_this_invocation": true,
+      "wall_s": 67.48064769999473,
+      "mean_tok_s": 81894.76840545963,
+      "s_per_step": 0.05938651820002997,
+      "final_train_loss": 0.07668939590454102,
+      "peak_vram_mb": 796.45458984375
+    }
+  },
+  "determinism": {
+    "metrics_identical": false,
+    "weights_bitwise_identical": false,
+    "max_abs_weight_diff": 0.011551529169082642,
+    "max_abs_train_loss_diff": 0.00040061950683593917
+  },
+  "eval": {
+    "wall_s": 67.15761210001074,
+    "n_items": 11195,
+    "primary_endpoint_after_1k_steps": 0.27095808383233533
+  },
+  "power_after": "AC"
+}

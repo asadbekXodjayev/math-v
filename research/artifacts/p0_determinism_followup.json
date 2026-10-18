@@ -1,0 +1,95 @@
+{
+  "purpose": "P0 found runs A and B not bitwise identical; this follow-up separates code, environment and kernel effects",
+  "runs": {
+    "A": {
+      "exp_id": "p0-ref-s0-st1000-a",
+      "git_commit": "69d08bd",
+      "git_dirty": false,
+      "deterministic_mode": false,
+      "s_per_step": 0.3520519839999979,
+      "mean_tok_s": 13793.013737840887,
+      "final_train_loss": 0.07628877639770508
+    },
+    "B": {
+      "exp_id": "p0-ref-s0-st1000-b",
+      "git_commit": "118709d",
+      "git_dirty": false,
+      "deterministic_mode": false,
+      "s_per_step": 0.05938651820002997,
+      "mean_tok_s": 81894.76840545963,
+      "final_train_loss": 0.07668939590454102
+    },
+    "C": {
+      "exp_id": "p0x-ref-s0-st1000-c",
+      "git_commit": "118709d",
+      "git_dirty": true,
+      "deterministic_mode": false,
+      "s_per_step": 0.05935828110000875,
+      "mean_tok_s": 81866.12718168437,
+      "final_train_loss": 0.07668939590454102
+    },
+    "D": {
+      "exp_id": "p0x-ref-s0-st1000-d",
+      "git_commit": "118709d",
+      "git_dirty": true,
+      "deterministic_mode": true,
+      "s_per_step": 0.06342824540003494,
+      "mean_tok_s": 76564.44286884481,
+      "final_train_loss": 0.06837974548339844
+    },
+    "D2": {
+      "exp_id": "p0x-ref-s0-st1000-d2",
+      "git_commit": "118709d",
+      "git_dirty": true,
+      "deterministic_mode": true,
+      "s_per_step": 0.06343436650000513,
+      "mean_tok_s": 76552.67934579386,
+      "final_train_loss": 0.06837974548339844
+    }
+  },
+  "notes": {
+    "A": "earlier session, on battery, low free RAM; same training code as B (commits differ only by two `del` lines)",
+    "B": "pilot_p0.py, AC",
+    "C": "fresh process, AC, default kernels",
+    "D/D2": "fresh processes, AC, torch.use_deterministic_algorithms(True) + CUBLAS_WORKSPACE_CONFIG=:4096:8",
+    "dirty_tree": "C, D, D2 ran with uncommitted edits that only add train_stats.json at the end of training (no numerical effect)"
+  },
+  "comparisons": {
+    "A_vs_B": {
+      "weights_bitwise_identical": false,
+      "max_abs_weight_diff": 0.011551529169082642,
+      "metrics_identical": false,
+      "first_logged_step_that_differs": 800
+    },
+    "B_vs_C": {
+      "weights_bitwise_identical": true,
+      "max_abs_weight_diff": 0.0,
+      "metrics_identical": true,
+      "first_logged_step_that_differs": null
+    },
+    "D_vs_D2": {
+      "weights_bitwise_identical": true,
+      "max_abs_weight_diff": 0.0,
+      "metrics_identical": true,
+      "first_logged_step_that_differs": null
+    },
+    "B_vs_D": {
+      "weights_bitwise_identical": false,
+      "max_abs_weight_diff": 0.18430344760417938,
+      "metrics_identical": false,
+      "first_logged_step_that_differs": 100
+    }
+  },
+  "eval_deterministic_mode": {
+    "run": "D",
+    "n_items": 11195,
+    "wall_s": [
+      57.97,
+      58.72
+    ],
+    "records_identical_across_2_evals": true,
+    "peak_vram_mb": 593.4,
+    "primary_endpoint_after_1k_steps": 0.3024
+  },
+  "conclusion": "Same code + same conditions is bitwise reproducible in both modes (B=C, D=D2). A matched B exactly through step 700 and then diverged slightly; the cause was not identified. Deterministic mode selects different kernels (B != D) at ~7% lower throughput. Adopted for every study run: decisions.md I-008."
+}

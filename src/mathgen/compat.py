@@ -1,10 +1,17 @@
 """
-Python 3.14 on Windows: `import torch` calls platform.uname(), which can stall in a WMI query
-on this machine (M1 audit; legacy src/server.py has the same workaround). Import this module
-before torch; it pre-fills the platform cache.
+Import this module before torch.
+
+- Python 3.14 on Windows: `import torch` calls platform.uname(), which can stall in a WMI query
+  on this machine (M1 audit; legacy src/server.py has the same workaround). This module
+  pre-fills the platform cache.
+- torch's deterministic mode (decisions.md I-008) needs a fixed cuBLAS workspace, set before
+  cuBLAS initialises.
 """
 
+import os
 import platform
+
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
 
 
 def patch_platform_for_torch() -> None:
