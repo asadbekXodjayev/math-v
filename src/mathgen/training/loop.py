@@ -190,7 +190,8 @@ def _train(cfg: RunConfig, stop_after: int | None, on_eval) -> Path:
     ckpt_path, metrics_path = run_dir / "ckpt.pt", run_dir / "metrics.jsonl"
     start, interval = 0, {"loss_sum": 0.0, "steps": 0, "tokens": 0}
     if ckpt_path.exists():
-        state = torch.load(ckpt_path, map_location=device, weights_only=False)
+        # On the CPU: the RNG states must stay CPU ByteTensors; load_state_dict moves the rest to the device.
+        state = torch.load(ckpt_path, map_location="cpu", weights_only=False)
         model.load_state_dict(state["model"])
         opt.load_state_dict(state["opt"])
         sched.load_state_dict(state["sched"])

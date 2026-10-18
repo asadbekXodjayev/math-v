@@ -122,6 +122,20 @@ def test_resume_matches_an_uninterrupted_run(tmp_path):
 
 
 @needs_data
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="needs CUDA")
+def test_resume_on_cuda_matches_an_uninterrupted_run(tmp_path):
+    """P2 crashed on resume: the checkpoint's CPU RNG state was loaded onto the GPU."""
+    cuda = dict(device="cuda", precision="bf16")
+    full = train(tiny(tmp_path / "a", **cuda))
+    interrupted = tiny(tmp_path / "b", **cuda)
+    train(interrupted, stop_after=20)
+    resumed = train(interrupted)
+    w_full = torch.load(full / "final.pt", weights_only=True)["model"]
+    w_res = torch.load(resumed / "final.pt", weights_only=True)["model"]
+    assert all(torch.equal(w_full[k], w_res[k]) for k in w_full)
+
+
+@needs_data
 def test_resume_mid_log_interval_keeps_the_loss_log_exact(tmp_path):
     """stop_after inside a logging interval must not drop or mis-average the interval's losses."""
     full = train(tiny(tmp_path / "a", steps=30))
