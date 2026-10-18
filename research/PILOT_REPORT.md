@@ -85,6 +85,8 @@ The legacy 34M pipeline is retrained from the `legacy-repro` worktree (seeding a
 
 The full projection table is in `pilot_tables.md`. Every arm's P3 speed is scaled to REF's measured speed at S (P4, 0.0632 s/step; scale 0.993), and eval time comes from the P4 runs (63 s). Projection: **36 runs ≈ 17.9 GPU-h**. The largest items are C-data (9 runs, 4.5 h) and T-char (3 runs, 2.2 h; 0.092 s/step).
 
+Wall-clock: the runs go in series on one GPU, so GPU-h ≈ wall-clock hours. With P1 (~2 h), the total is **≈ 20 h** on AC power without interruptions: about two ~10 h overnights. C-tok, the central contrast, finishes in the first ~6 h. Python/CUDA start-up (~15 min over 36 runs) is not included; borrowed speeds and overstated small-N eval roughly offset it.
+
 For comparison: the pre-registration's plan estimate for the same 36 core runs was ≈ 13.5 GPU-h (§8). That estimate assumed the 15K-step draft budget; S came out at 27,500.
 
 **Wall-clock risk: system RAM, not the GPU.** The pilot chain has been stopped six times by Claude Code's low-memory guard (`lab_log.md`). A training process holds ~1.4 GB working set, leaving ~0.9 GB free on this 7.6 GB laptop. Every study run resumes from its last checkpoint, so a stop costs at most one checkpoint interval (2.5K steps, ~2.5 min) plus the time until relaunch. P1 is the exception: the legacy reproduction always restarts from epoch 1, so a stop there loses the whole attempt. The relaunch is the expensive part, because the session does not restart stopped work on its own. For the core grid, running `scripts/` from a separate terminal avoids the guard.

@@ -247,3 +247,39 @@ Append-only, newest entries last. Record only what was actually run, with the co
 - **Sixth memory stop, ~21:02:** P1 attempt 2 (with the encoding fix) was stopped by Claude Code's low-memory guard at legacy step ~875 of 901 in epoch 1, before its first epoch summary. Its log and checkpoints had not been written, so nothing was archived. Free RAM after the stop: 2.3 GB. The encoding fix is covered by its test but not yet proven in a full legacy run. Not restarted automatically.
 - Full suite while idle: **316 passed, 10 skipped** (71 s).
 - P1 cannot resume (legacy `--fresh`; a stop loses the attempt, ~1 h 50 min of training at ~0.70 s/step). P1 is provenance only and is not an input to the G3 decision, so G3 is requested now with P1 outstanding. Recommended: run P1 from a separate terminal, where the guard does not apply.
+
+---
+
+## 2026-10-18 — Session paused at G3 (resume plan)
+
+**State.** M6 is done except P1. `research/PILOT_REPORT.md` is ready for G3 (commit e170ce2 and later). **G3 is requested and not yet approved; nothing in the core grid has started.** No process is running.
+
+**Open G3 decisions** (`PILOT_REPORT.md` §10):
+1. Approve the core grid: 36 runs, ≈ 17.9 GPU-h, pre-registered order.
+2. Keep C-dtok (D-006)? Recommended: keep.
+3. LR grid edge: keep the pre-registered LRs. Optionally add one exploratory run (REF, LR 2.5e-4, 0.3·S, seed 0, ≈ 10 min).
+4. Seeds: keep 3 per arm (stretch S2 is the remedy if contrasts end borderline).
+5. Where to run: a separate terminal (recommended; the low-memory guard stopped this session six times).
+
+On approval: mark SESOI = 2.00 pp as frozen in `decisions.md` Part C, then run.
+
+**Time estimate** (answered for the user; AC power, uninterrupted, runs in series on one GPU):
+
+| Stage | Runs | GPU-h | Cumulative |
+|---|---:|---:|---:|
+| P1 (legacy reproduction) | 1 | ~2.0 | 2.0 |
+| C-tok | 6 | 3.6 | 5.6 |
+| C-dec | 6 | 2.9 | 8.5 |
+| C-arch | 9 | 4.0 | 12.5 |
+| C-af | 3 | 1.5 | 14.0 |
+| C-data | 9 | 4.5 | 18.5 |
+| C-dtok | 3 | 1.4 | 19.9 |
+
+≈ 20 h in total (expected within about ±1 h), i.e. two ~10 h overnights or one continuous stretch. On battery it would be ~6× slower.
+
+**To resume:**
+1. Plug in AC power and close memory-heavy apps.
+2. P1 (not resumable; a stop restarts it from epoch 1), from a separate terminal:
+   `cmd /c ".venv\Scripts\python.exe -B scripts\pilots.py p1 >> runs\logs\pilots.log 2>&1"`
+   Then regenerate the tables (`scripts/pilot_report.py`) and fill `PILOT_REPORT.md` §6. Check the generated line "`best.pt` … is the best logged epoch: yes".
+3. Core grid: only after an explicit G3 go. There is no core-grid orchestrator yet; `scripts/pilots.py` covers P1–P4 only, so one needs writing (test-first) for the order C-tok → C-dec → C-arch → C-af → C-data → C-dtok.
